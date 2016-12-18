@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="instructorRanks">
+        <item>Baju</item>
+        <item>Balik 2</item>
+        <item>Balik 3</item>
+        <item>Kombinasi 1</item>
+        <item>Kombinasi 2</item>
+        <item>Khusus 1</item>
+        <item>Khusus 2</item>
+    </string-array>
+    <string-array name="childRanks">
+        <item>White Belt</item>
+        <item>Yellow Belt</item>
+        <item>Orange Belt</item>
+        <item>Purple Belt</item>
+        <item>Blue Belt</item>
+        <item>Green Belt</item>
+        <item>Brown Belt</item>
+        <item>Brown Belt 2nd</item>
+        <item>Red Belt</item>
+        <item>Baju</item>
+    </string-array>
+    <string-array name="AAPRanks">
+        <item>Dasar 1</item>
+        <item>Dasar 2</item>
+        <item>Balik 1</item>
+        <item>Balik 2</item>
+        <item>Balik 3</item>
+        <item>Kombinasi 1</item>
+        <item>Kombinasi 2</item>
+    </string-array>
+    <string-array name="WOHRanks">
+        <item>WOH 1</item>
+        <item>WOH 1.5</item>
+        <item>WOH 2</item>
+        <item>WOH 2.5</item>
+        <item>WOH 3</item>
+        <item>WOH 3.5</item>
+        <item>WOH 4</item>
+        <item>WOH 4.5</item>
+        <item>WOH 5</item>
+    </string-array>
+    <string-array name="VVRanks">
+        <item>VV 1</item>
+        <item>VV 2</item>
+        <item>VV 3</item>
+        <item>VV 4</item>
+        <item>VV 5</item>
+    </string-array>
+    <string-array name="phoneTypes">
+        <item>Home</item>
+        <item>Cell</item>
+        <item>Work</item>
+    </string-array>
+    <string-array name="parentTypes">
+        <item>Mother</item>
+        <item>Father</item>
+        <item>Grand-Mother</item>
+        <item>Grand-Father</item>
+    </string-array>
+    <string-array name="enrollmentTypes">
+        <item>Persilat Kids</item>
+        <item>Athletic Adventure Program</item>
+        <item>Wealth of Health</item>
+        <item>VibraVision</item>
+    </string-array>
+</resources>
