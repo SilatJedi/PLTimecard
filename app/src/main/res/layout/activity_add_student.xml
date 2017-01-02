@@ -148,23 +148,28 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:background="#dddddd"
+                    android:background="@drawable/rounded_corners"
                     android:maxLines="1"
                     android:hint="First Name"
                     android:paddingLeft="5dp"
                     android:layout_marginRight="5dp"
-                    android:id="@+id/studentFirstNameEditText"/>
+                    android:id="@+id/studentFirstNameEditText"
+                    android:inputType="textCapWords|textNoSuggestions"
+                    android:imeOptions="actionNext"
+                    android:nextFocusForward="@+id/studentLastNameEditText" />
 
                 <EditText
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:background="#dddddd"
+                    android:background="@drawable/rounded_corners"
                     android:hint="Last Name"
                     android:layout_marginLeft="5dp"
                     android:maxLines="1"
                     android:paddingLeft="5dp"
-                    android:id="@+id/studentLastNameEditText"/>
+                    android:id="@+id/studentLastNameEditText"
+                    android:inputType="textCapWords|textNoSuggestions"
+                    android:imeOptions="actionDone"/>
             </LinearLayout>
 
 
@@ -180,12 +185,13 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="25dp"
-                android:background="#dddddd"
+                android:background="@drawable/rounded_corners"
                 android:textSize="17sp"
                 android:paddingLeft="5dp"
                 android:layout_marginRight="10dp"
                 android:layout_marginLeft="10dp"
                 android:inputType="none"
+                android:text="Persilat Kids"
                 android:onClick="selectEnrollmentType"
                 android:id="@+id/studentEnrollmentTypeSpinner"
                 android:hint="Tap for list" />
@@ -201,7 +207,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="25dp"
-                android:background="#dddddd"
+                android:background="@drawable/rounded_corners"
                 android:textSize="17sp"
                 android:paddingLeft="5dp"
                 android:layout_marginLeft="10dp"
@@ -231,14 +237,15 @@
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#dddddd"
+                android:background="@drawable/rounded_corners"
                 android:maxLines="1"
-                android:inputType="textWebEmailAddress"
+                android:inputType="textNoSuggestions|textWebEmailAddress"
                 android:hint="no.mail@none.com"
                 android:paddingLeft="5dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:id="@+id/studentEmailEditText"/>
+                android:id="@+id/studentEmailEditText"
+                android:imeOptions="actionDone"/>
 
 
             <!--parent 1 heading-->
@@ -289,23 +296,29 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:background="#dddddd"
+                    android:background="@drawable/rounded_corners"
                     android:maxLines="1"
                     android:hint="First Name"
                     android:layout_marginRight="5dp"
                     android:paddingLeft="5dp"
-                    android:id="@+id/studentParent1FirstNameEditText"/>
+                    android:id="@+id/studentParent1FirstNameEditText"
+                    android:inputType="textCapWords|textNoSuggestions"
+                    android:imeOptions="actionNext"
+                    android:nextFocusForward="@+id/studentParent1LastNameEditText" />
 
                 <EditText
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:background="#dddddd"
+                    android:background="@drawable/rounded_corners"
                     android:hint="Last Name"
                     android:layout_marginLeft="5dp"
                     android:paddingLeft="5dp"
                     android:maxLines="1"
-                    android:id="@+id/studentParent1LastNameEditText"/>
+                    android:id="@+id/studentParent1LastNameEditText"
+                    android:inputType="textCapWords|textNoSuggestions"
+                    android:imeOptions="actionNext"
+                    android:nextFocusForward="@+id/studentPrimaryPhoneNumEditText"  />
             </LinearLayout>
 
             <!--Primary Phone Number-->
@@ -344,18 +357,20 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:background="#dddddd"
+                    android:background="@drawable/rounded_corners"
                     android:hint="555-555-5555"
                     android:maxLines="1"
                     android:layout_marginRight="5dp"
                     android:paddingLeft="5dp"
-                    android:id="@+id/studentPrimaryPhoneNumEditText"/>
+                    android:id="@+id/studentPrimaryPhoneNumEditText"
+                    android:inputType="number"
+                    android:imeOptions="actionDone"/>
 
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:background="#dddddd"
+                    android:background="@drawable/rounded_corners"
                     android:layout_marginLeft="5dp"
                     android:textSize="17sp"
                     android:paddingLeft="5dp"
@@ -376,13 +391,16 @@
                 android:layout_marginRight="10dp"
                 android:id="@+id/studentParent1TypeTextView"/>
 
-            <Spinner
+            <TextView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="#dddddd"
+                android:layout_height="25dp"
+                android:textSize="17sp"
+                android:hint="Tap for list"
+                android:paddingLeft="5dp"
+                android:background="@drawable/rounded_corners"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:spinnerMode="dialog"
+                android:onClick="selectParent1Type"
                 android:id="@+id/studentParent1TypeSpinner"/>
 
 
@@ -434,23 +452,29 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:background="#dddddd"
+                    android:background="@drawable/rounded_corners"
                     android:maxLines="1"
                     android:hint="First Name"
                     android:layout_marginRight="5dp"
                     android:paddingLeft="5dp"
-                    android:id="@+id/studentParent2FirstNameEditText"/>
+                    android:id="@+id/studentParent2FirstNameEditText"
+                    android:inputType="textCapWords|textNoSuggestions"
+                    android:imeOptions="actionNext"
+                    android:nextFocusForward="@+id/studentParent2LastNameEditText" />
 
                 <EditText
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:background="#dddddd"
+                    android:background="@drawable/rounded_corners"
                     android:hint="Last Name"
                     android:layout_marginLeft="5dp"
                     android:paddingLeft="5dp"
                     android:maxLines="1"
-                    android:id="@+id/studentParent2LastNameEditText"/>
+                    android:id="@+id/studentParent2LastNameEditText"
+                    android:inputType="textCapWords|textNoSuggestions"
+                    android:imeOptions="actionNext"
+                    android:nextFocusForward="@+id/studentSecondaryPhoneNumEditText" />
             </LinearLayout>
 
             <!--Secondary Phone Number-->
@@ -489,18 +513,20 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:background="#dddddd"
+                    android:background="@drawable/rounded_corners"
                     android:hint="555-555-5555"
                     android:maxLines="1"
                     android:layout_marginRight="5dp"
                     android:paddingLeft="5dp"
-                    android:id="@+id/studentSecondaryPhoneNumEditText"/>
+                    android:id="@+id/studentSecondaryPhoneNumEditText"
+                    android:inputType="number"
+                    android:imeOptions="actionDone" />
 
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:background="#dddddd"
+                    android:background="@drawable/rounded_corners"
                     android:layout_marginLeft="5dp"
                     android:textSize="17sp"
                     android:paddingLeft="5dp"
@@ -519,14 +545,17 @@
                 android:layout_marginRight="10dp"
                 android:id="@+id/studentParent2TypeTextView"/>
 
-            <Spinner
+            <TextView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="#dddddd"
+                android:layout_height="25dp"
+                android:textSize="17sp"
+                android:hint="Tap for list"
+                android:paddingLeft="5dp"
+                android:background="@drawable/rounded_corners"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:layout_marginBottom="100dp"
-                android:spinnerMode="dialog"
+                android:onClick="selectParent2Type"
                 android:id="@+id/studentParent2TypeSpinner"/>
 
 

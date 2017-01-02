@@ -76,7 +76,7 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Search by name or phone number"
+        android:hint="Search by name or rank"
         android:maxLines="1"
         android:imeOptions="actionSearch|flagNoExtractUi"
         android:id="@+id/searchEditText"
