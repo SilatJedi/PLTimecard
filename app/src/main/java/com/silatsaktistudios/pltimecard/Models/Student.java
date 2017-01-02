@@ -14,6 +14,7 @@ public class Student extends RealmObject {
     private String firstName, lastName, primaryPhone, primaryPhoneType, secondaryPhone,
             secondaryPhoneType, email, rank, studentType, enrollmentType, parent1FirstName, parent1LastName, parent1type,
             parent2FirstName, parent2LastName, parent2Type;
+    private boolean isActive;
     private RealmList<Lesson> lessons;
 
     public Student() {}
@@ -39,6 +40,7 @@ public class Student extends RealmObject {
         setParent2FirstName("");
         setParent2LastName("");
         setParent2Type("");
+        isActive = true;
     }
 
     //for child students
@@ -63,6 +65,7 @@ public class Student extends RealmObject {
         setParent2FirstName(parent2FirstName);
         setParent2LastName(parent2LastName);
         setParent2Type(parent2Type);
+        isActive = true;
     }
 
     public void setId() {
@@ -222,4 +225,11 @@ public class Student extends RealmObject {
         lessons.add(lesson);
     }
 
+    public void setActive(boolean isActive) {
+        this.isActive = isActive;
+    }
+
+    public boolean isActive() {
+        return this.isActive;
+    }
 }
