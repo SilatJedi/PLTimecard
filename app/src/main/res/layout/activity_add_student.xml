@@ -176,32 +176,38 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:text="Enrollment Type" />
-            <Spinner
+
+            <TextView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_height="25dp"
                 android:background="#dddddd"
+                android:textSize="17sp"
+                android:paddingLeft="5dp"
                 android:layout_marginRight="10dp"
                 android:layout_marginLeft="10dp"
-                android:spinnerMode="dialog"
-                android:id="@+id/studentEnrollmentTypeSpinner" />
+                android:inputType="none"
+                android:onClick="selectEnrollmentType"
+                android:id="@+id/studentEnrollmentTypeSpinner"
+                android:hint="Tap for list" />
 
             <!--rank-->
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:textColor="#000000"
                 android:text="Rank"/>
-            <Spinner
+            <TextView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="25dp"
                 android:background="#dddddd"
+                android:textSize="17sp"
+                android:paddingLeft="5dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:spinnerMode="dialog"
+                android:hint="Tap for list"
+                android:onClick="selectRank"
                 android:id="@+id/studentRankSpinner"/>
 
 
@@ -345,13 +351,16 @@
                     android:paddingLeft="5dp"
                     android:id="@+id/studentPrimaryPhoneNumEditText"/>
 
-                <Spinner
+                <TextView
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:background="#dddddd"
                     android:layout_marginLeft="5dp"
-                    android:spinnerMode="dialog"
+                    android:textSize="17sp"
+                    android:paddingLeft="5dp"
+                    android:hint="Tap for list"
+                    android:onClick="selectPrimaryPhoneType"
                     android:id="@+id/studentPrimaryPhoneTypeSpinner"/>
             </LinearLayout>
 
@@ -487,13 +496,16 @@
                     android:paddingLeft="5dp"
                     android:id="@+id/studentSecondaryPhoneNumEditText"/>
 
-                <Spinner
+                <TextView
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:background="#dddddd"
                     android:layout_marginLeft="5dp"
-                    android:spinnerMode="dialog"
+                    android:textSize="17sp"
+                    android:paddingLeft="5dp"
+                    android:hint="Tap for list"
+                    android:onClick="selectSecondaryPhoneType"
                     android:id="@+id/studentSecondaryPhoneTypeSpinner"/>
             </LinearLayout>
 

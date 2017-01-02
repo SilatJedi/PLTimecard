@@ -24,7 +24,6 @@ public class MainActivity extends AppCompatActivity {
 
     private Realm realm;
     private TextView timecardTextView, studentsTextView;
-    private EditText searchEditText;
     private ListView timecardListView, studentsListView;
 
 
@@ -89,9 +88,9 @@ public class MainActivity extends AppCompatActivity {
     public void summonMenu(View view) {
 
         String[] menuItems = {"Submit Timecard", "Timecard History", "Edit User Info"};
-        AlertDialog.Builder menu = new AlertDialog.Builder(this);
-        menu.setTitle("Menu");
-        menu.setSingleChoiceItems(menuItems, -1, new DialogInterface.OnClickListener() {
+        AlertDialog.Builder menu = new AlertDialog.Builder(this)
+                .setTitle("Menu")
+                .setSingleChoiceItems(menuItems, -1, new DialogInterface.OnClickListener() {
 
             @Override
             public void onClick(DialogInterface dialogInterface, int selection) {
@@ -103,12 +102,16 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     case 2 : //Todo: create edit user info stuff
                         break;
-                    default : break;
+                    default :
+                        break;
                 }
+
+                dialogInterface.dismiss();
             }
         })
-        .setNegativeButton("Cancel", null)
-        .create();
+        .setNegativeButton("Cancel", null);
+
+        menu.show();
     }
 
     public void showTimecard(View view) {
@@ -195,7 +198,7 @@ public class MainActivity extends AppCompatActivity {
         studentsTextView = (TextView)findViewById(R.id.studentsTextView);
         studentsListView = (ListView)findViewById(R.id.studentsListView);
 
-        searchEditText = (EditText)findViewById(R.id.searchEditText);
+        EditText searchEditText = (EditText) findViewById(R.id.searchEditText);
 
         searchEditText.addTextChangedListener(new TextWatcher() {
             @Override

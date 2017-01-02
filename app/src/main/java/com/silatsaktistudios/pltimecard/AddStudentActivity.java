@@ -5,12 +5,12 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.silatsaktistudios.pltimecard.Models.Student;
 
@@ -19,7 +19,7 @@ import io.realm.Realm;
 public class AddStudentActivity extends AppCompatActivity {
 
     //constants
-    private final int ADULT_STUDENT = 0, CHILD_STUDENT = 1;
+    private final int ADULT_STUDENT = 1, CHILD_STUDENT = 0;
 
 
 
@@ -32,12 +32,10 @@ public class AddStudentActivity extends AppCompatActivity {
     private TextView childTextView, adultTextView, parent1HeadingTextView,
             primaryPhoneNumTextView, primaryPhoneTypeTextView, parent1TypeTextView,
             parent2HeadingTextView, secondaryPhoneNumTextView, secondaryPhoneTypeTextView,
-            parent2TypeTextView;
+            parent2TypeTextView, enrollmentTypeTextView, rankTextView, primaryPhoneTypeValueTextView,
+            secondaryPhoneTypeValueTextView;
 
-    private Spinner enrollmentTypeSpinner, rankSpinner, primaryPhoneTypeSpinner, parent1TypeSpinner,
-            secondaryPhoneTypeSpinner, parent2TypeSpinner;
-
-    private ArrayAdapter<CharSequence> rankArrayAdapter;
+    private Spinner parent1TypeSpinner, parent2TypeSpinner;
 
     private LinearLayout parent1FirstAndLastNameTextViewLayout, parent1FirstAndLastNameEditTextLayout,
             parent2FirstAndLastNameTextViewLayout, parent2FirstAndLastNameEditTextLayout;
@@ -58,6 +56,7 @@ public class AddStudentActivity extends AppCompatActivity {
         realm = Realm.getDefaultInstance();
 
         setUpUI();
+
     }
 
     @Override
@@ -66,6 +65,12 @@ public class AddStudentActivity extends AppCompatActivity {
         if(!realm.isClosed()) {
             realm.close();
         }
+    }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
     }
 
     @Override
@@ -120,7 +125,8 @@ public class AddStudentActivity extends AppCompatActivity {
                 adultTextView.setTextColor(getResources().getColor(R.color.white));
             }
 
-            enrollmentTypeSpinner.setSelection(0);
+            enrollmentTypeTextView.setText(getResources().getStringArray(R.array.enrollmentTypes)[CHILD_STUDENT]);
+            rankTextView.setText("");
 
             studentType = CHILD_STUDENT;
         }
@@ -157,7 +163,8 @@ public class AddStudentActivity extends AppCompatActivity {
                 adultTextView.setTextColor(getResources().getColor(R.color.blue));
             }
 
-            enrollmentTypeSpinner.setSelection(1);
+            enrollmentTypeTextView.setText(getResources().getStringArray(R.array.enrollmentTypes)[ADULT_STUDENT]);
+            rankTextView.setText("");
 
             studentType = ADULT_STUDENT;
         }
@@ -179,12 +186,12 @@ public class AddStudentActivity extends AppCompatActivity {
                     firstNameEditText.getText().toString(),
                     lastNameEditText.getText().toString(),
                     primaryPhoneEditText.getText().toString(),
-                    primaryPhoneTypeSpinner.getSelectedItem().toString(),
+                    primaryPhoneTypeValueTextView.getText().toString(),
                     secondaryPhoneEditText.getText().toString(),
-                    secondaryPhoneTypeSpinner.getSelectedItem().toString(),
+                    secondaryPhoneTypeValueTextView.getText().toString(),
                     emailEditText.getText().toString(),
-                    rankSpinner.getSelectedItem().toString(),
-                    enrollmentTypeSpinner.getSelectedItem().toString(),
+                    rankTextView.getText().toString(),
+                    enrollmentTypeTextView.getText().toString(),
                     parent1FirstNameEditText.getText().toString(),
                     parent1LastNameEditText.getText().toString(),
                     parent1TypeSpinner.getSelectedItem().toString(),
@@ -204,12 +211,12 @@ public class AddStudentActivity extends AppCompatActivity {
                     firstNameEditText.getText().toString(),
                     lastNameEditText.getText().toString(),
                     primaryPhoneEditText.getText().toString(),
-                    primaryPhoneTypeSpinner.getSelectedItem().toString(),
+                    primaryPhoneTypeValueTextView.getText().toString(),
                     secondaryPhoneEditText.getText().toString(),
-                    secondaryPhoneTypeSpinner.getSelectedItem().toString(),
+                    secondaryPhoneTypeValueTextView.getText().toString(),
                     emailEditText.getText().toString(),
-                    rankSpinner.getSelectedItem().toString(),
-                    enrollmentTypeSpinner.getSelectedItem().toString());
+                    rankTextView.getText().toString(),
+                    enrollmentTypeTextView.getText().toString());
 
             realm.executeTransaction(new Realm.Transaction() {
                 @Override
@@ -223,13 +230,105 @@ public class AddStudentActivity extends AppCompatActivity {
     }
 
 
+    public void selectEnrollmentType(View view) {
+
+        AlertDialog.Builder menu = new AlertDialog.Builder(this)
+                .setTitle("Select Enrollment Type")
+                .setSingleChoiceItems(getResources().getStringArray(R.array.enrollmentTypes), -1, new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int selection) {
+
+                        enrollmentTypeTextView.setText(getResources().getStringArray(R.array.enrollmentTypes)[selection]);
+                        rankTextView.setText("");
+                        dialogInterface.dismiss();
+                    }
+                })
+                .setNegativeButton("Cancel", null);
+
+        menu.show();
+    }
 
 
+    public void selectRank(View view) {
+
+        if(enrollmentTypeTextView.getText().toString().isEmpty()) {
+            Toast.makeText(this, "Choose an enrollment type first.", Toast.LENGTH_SHORT).show();
+        }
+        else {
+            String[] rankArray;
+
+            switch (enrollmentTypeTextView.getText().toString()) {
+                case "Persilat Kids":
+                    rankArray = getResources().getStringArray(R.array.childRanks);
+                    break;
+                case "Athletic Adventure Program":
+                    rankArray = getResources().getStringArray(R.array.AAPRanks);
+                    break;
+                case "Wealth of Health":
+                    rankArray = getResources().getStringArray(R.array.WOHRanks);
+                    break;
+                case "VibraVision":
+                    rankArray = getResources().getStringArray(R.array.VVRanks);
+                    break;
+                default:
+                    rankArray = new String[1];
+                    break;
+            }
+
+            final String[] forTheDialog = rankArray;
+
+            AlertDialog.Builder menu = new AlertDialog.Builder(this)
+                    .setTitle("Select Enrollment Type")
+                    .setSingleChoiceItems(rankArray, -1, new DialogInterface.OnClickListener() {
+
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int selection) {
+
+                            rankTextView.setText(forTheDialog[selection]);
+                            dialogInterface.dismiss();
+                        }
+                    })
+                    .setNegativeButton("Cancel", null);
+
+            menu.show();
+        }
+    }
 
 
+    public void selectPrimaryPhoneType(View view) {
+        AlertDialog.Builder menu = new AlertDialog.Builder(this)
+                .setTitle("Select Enrollment Type")
+                .setSingleChoiceItems(getResources().getStringArray(R.array.phoneTypes), -1, new DialogInterface.OnClickListener() {
 
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int selection) {
 
+                        primaryPhoneTypeValueTextView.setText(getResources().getStringArray(R.array.phoneTypes)[selection]);
+                        dialogInterface.dismiss();
+                    }
+                })
+                .setNegativeButton("Cancel", null);
 
+        menu.show();
+    }
+
+    public void selectSecondaryPhoneType(View view) {
+        AlertDialog.Builder menu = new AlertDialog.Builder(this)
+                .setTitle("Select Enrollment Type")
+                .setSingleChoiceItems(getResources().getStringArray(R.array.phoneTypes), -1, new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int selection) {
+
+                        secondaryPhoneTypeValueTextView.setText(getResources().getStringArray(R.array.phoneTypes)[selection]);
+                        dialogInterface.dismiss();
+                    }
+                })
+                .setNegativeButton("Cancel", null);
+
+        menu.show();
+    }
 
 
 
@@ -255,7 +354,6 @@ public class AddStudentActivity extends AppCompatActivity {
     }
 
     private void setUpUI() {
-
         firstNameEditText = (EditText)findViewById(R.id.studentFirstNameEditText);
         lastNameEditText = (EditText)findViewById(R.id.studentLastNameEditText);
         emailEditText = (EditText)findViewById(R.id.studentEmailEditText);
@@ -265,6 +363,7 @@ public class AddStudentActivity extends AppCompatActivity {
         parent2FirstNameEditText = (EditText)findViewById(R.id.studentParent2FirstNameEditText);
         parent2LastNameEditText = (EditText)findViewById(R.id.studentParent2LastNameEditText);
         secondaryPhoneEditText = (EditText)findViewById(R.id.studentSecondaryPhoneNumEditText);
+
 
 
         childTextView = (TextView)findViewById(R.id.studentChildTextView);
@@ -277,68 +376,15 @@ public class AddStudentActivity extends AppCompatActivity {
         secondaryPhoneNumTextView = (TextView)findViewById(R.id.studentSecondaryPhoneNumTextView);
         secondaryPhoneTypeTextView = (TextView)findViewById(R.id.studentSecondaryPhoneTypeTextView);
         parent2TypeTextView = (TextView)findViewById(R.id.studentParent2TypeTextView);
+        enrollmentTypeTextView = (TextView) findViewById(R.id.studentEnrollmentTypeSpinner);
+        rankTextView = (TextView) findViewById(R.id.studentRankSpinner);
 
 
-        // Bind Spinner to View
-        enrollmentTypeSpinner = (Spinner)findViewById(R.id.studentEnrollmentTypeSpinner);
-        // Create an ArrayAdapter using the string array and a default spinner layout
-        ArrayAdapter<CharSequence> enrollmentTypeArrayAdapter = ArrayAdapter.createFromResource(this, R.array.enrollmentTypes,
-                android.R.layout.simple_spinner_item);
-        // Apply the adapter to the spinner
-        enrollmentTypeSpinner.setAdapter(enrollmentTypeArrayAdapter);
-        enrollmentTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int choice, long l) {
-                //                0 = Persilat Kids
-                //                1 = Athletic Adventure Program
-                //                2 = Wealth of Health
-                //                3 = VibraVision
 
-                switch (choice) {
-                    case 0 :
-                        rankArrayAdapter = ArrayAdapter.createFromResource(AddStudentActivity.this, R.array.childRanks,
-                                android.R.layout.simple_spinner_item);
-                        break;
-                    case 1 :
-                        rankArrayAdapter = ArrayAdapter.createFromResource(AddStudentActivity.this, R.array.AAPRanks,
-                                android.R.layout.simple_spinner_item);
-                        break;
-                    case 2 :
-                        rankArrayAdapter = ArrayAdapter.createFromResource(AddStudentActivity.this, R.array.WOHRanks,
-                                android.R.layout.simple_spinner_item);
-                        break;
-                    case 3 :
-                        rankArrayAdapter = ArrayAdapter.createFromResource(AddStudentActivity.this, R.array.VVRanks,
-                                android.R.layout.simple_spinner_item);
-                        break;
-                }
-
-                rankSpinner.setAdapter(rankArrayAdapter);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-            // do nothing
-            }
-        });
-
-
-        //Bind the spinner to View
-        rankSpinner = (Spinner) findViewById(R.id.studentRankSpinner);
-        // Create an ArrayAdapter using the string array and a default spinner layout
-        rankArrayAdapter = ArrayAdapter.createFromResource(this, R.array.childRanks,
-                android.R.layout.simple_spinner_item);
-        // Apply the adapter to the spinner
-        rankSpinner.setAdapter(rankArrayAdapter);
 
 
         // Bind Spinner to View
-        primaryPhoneTypeSpinner = (Spinner)findViewById(R.id.studentPrimaryPhoneTypeSpinner);
-        // Create an ArrayAdapter using the string array and a default spinner layout
-        ArrayAdapter<CharSequence> primaryPhoneTypeArrayAdapter = ArrayAdapter.createFromResource(this, R.array.phoneTypes,
-                android.R.layout.simple_spinner_item);
-        // Apply the adapter to the spinner
-        primaryPhoneTypeSpinner.setAdapter(primaryPhoneTypeArrayAdapter);
+        primaryPhoneTypeValueTextView = (TextView)findViewById(R.id.studentPrimaryPhoneTypeSpinner);
 
 
 
@@ -352,12 +398,7 @@ public class AddStudentActivity extends AppCompatActivity {
 
 
         // Bind Spinner to View
-        secondaryPhoneTypeSpinner = (Spinner)findViewById(R.id.studentSecondaryPhoneTypeSpinner);
-        // Create an ArrayAdapter using the string array and a default spinner layout
-        ArrayAdapter<CharSequence> secondaryPhoneTypeArrayAdapter = ArrayAdapter.createFromResource(this, R.array.phoneTypes,
-                android.R.layout.simple_spinner_item);
-        // Apply the adapter to the spinner
-        secondaryPhoneTypeSpinner.setAdapter(secondaryPhoneTypeArrayAdapter);
+        secondaryPhoneTypeValueTextView = (TextView)findViewById(R.id.studentSecondaryPhoneTypeSpinner);
 
 
         // Bind Spinner to View
@@ -374,4 +415,5 @@ public class AddStudentActivity extends AppCompatActivity {
         parent2FirstAndLastNameTextViewLayout = (LinearLayout)findViewById(R.id.parent2FirstAndlastNameTextViews);
         parent2FirstAndLastNameEditTextLayout = (LinearLayout)findViewById(R.id.parent2FirstAndlastNameEditTexts);
     }
+
 }
