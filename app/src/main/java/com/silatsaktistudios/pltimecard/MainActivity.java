@@ -13,13 +13,17 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.silatsaktistudios.pltimecard.ListViewArrayAdapters.MainActivity.StudentListViewArrayAdapter;
+import com.silatsaktistudios.pltimecard.Models.Student;
+
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
+import io.realm.RealmResults;
 
 public class MainActivity extends AppCompatActivity {
 
     private Realm realm;
-    private TextView timecardTextView, studentsTextview;
+    private TextView timecardTextView, studentsTextView;
     private EditText searchEditText;
     private ListView timecardListView, studentsListView;
 
@@ -36,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
                         .build();
         Realm.setDefaultConfiguration(realmConfiguration);
 
+        realm = Realm.getDefaultInstance();
         setUpUI();
     }
 
@@ -48,13 +53,34 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+
+        if(realm.isClosed()) {
+            realm = Realm.getDefaultInstance();
+        }
+
+        setUpStudentList();
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
         if(!realm.isClosed()) {
             realm.close();
         }
     }
-//==============================End Activity Methods================================================
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+    }
+
+
+
+
+
+
 
 
 
@@ -91,7 +117,7 @@ public class MainActivity extends AppCompatActivity {
             timecardListView.setVisibility(View.VISIBLE);
             timecardTextView.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.blue));
             studentsListView.setVisibility(View.INVISIBLE);
-            studentsTextview.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.white));
+            studentsTextView.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.white));
         }
     }
 
@@ -99,7 +125,7 @@ public class MainActivity extends AppCompatActivity {
 
         if(studentsListView.getVisibility() != View.VISIBLE) {
             studentsListView.setVisibility(View.VISIBLE);
-            studentsTextview.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.blue));
+            studentsTextView.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.blue));
             timecardListView.setVisibility(View.INVISIBLE);
             timecardTextView.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.white));
         }
@@ -115,7 +141,14 @@ public class MainActivity extends AppCompatActivity {
             startActivity(addStudentIntent);
         }
     }
-//==========================================End On Click Methods====================================
+
+
+
+
+
+
+
+
 
 
 
@@ -124,11 +157,44 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+
+
+
+
+    private void setUpStudentList() {
+
+        RealmResults<Student> students = realm.where(Student.class).findAll();
+
+        if(students.size() > 0) {
+            String[] names = new String[students.size()];
+            String[] enrollmentTypes = new String[students.size()];
+            String[] ranks = new String[students.size()];
+
+            for (int i = 0; i < students.size(); i++) {
+                Student student = students.get(i);
+
+                names[i] = student.getFullName();
+                enrollmentTypes[i] = student.getEnrollmentType();
+                ranks[i] = student.getRank();
+            }
+
+            StudentListViewArrayAdapter studentListViewArrayAdapter = new StudentListViewArrayAdapter(MainActivity.this, names, enrollmentTypes, ranks);
+            studentsListView.setAdapter(studentListViewArrayAdapter);
+        }
+    }
+
+
+
+
     private void setUpUI() {
+
         timecardTextView = (TextView)findViewById(R.id.timecardTextView);
-        studentsTextview = (TextView)findViewById(R.id.studentsTextView);
         timecardListView = (ListView)findViewById(R.id.timecardListView);
+        setUpTimecardList();
+
+        studentsTextView = (TextView)findViewById(R.id.studentsTextView);
         studentsListView = (ListView)findViewById(R.id.studentsListView);
+
         searchEditText = (EditText)findViewById(R.id.searchEditText);
 
         searchEditText.addTextChangedListener(new TextWatcher() {

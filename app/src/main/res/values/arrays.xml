@@ -49,15 +49,19 @@
         <item>VV 5</item>
     </string-array>
     <string-array name="phoneTypes">
-        <item>Home</item>
         <item>Cell</item>
+        <item>Home</item>
         <item>Work</item>
     </string-array>
     <string-array name="parentTypes">
         <item>Mother</item>
         <item>Father</item>
+        <item>Step-Mother</item>
+        <item>Step-Father</item>
         <item>Grand-Mother</item>
         <item>Grand-Father</item>
+        <item>Aunt</item>
+        <item>Uncle</item>
     </string-array>
     <string-array name="enrollmentTypes">
         <item>Persilat Kids</item>

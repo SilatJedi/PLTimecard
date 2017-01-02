@@ -69,11 +69,14 @@ public class Student extends RealmObject {
         int id;
         Realm realm = Realm.getDefaultInstance();
 
+
         try {
             id = realm.where(Student.class).max("id").intValue() + 1;
-        } catch(ArrayIndexOutOfBoundsException ex) {
+        } catch (NullPointerException e) {
+            e.printStackTrace();
             id = 0;
         }
+
 
         this.id = id;
         realm.close();
@@ -93,6 +96,10 @@ public class Student extends RealmObject {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public String getFullName() {
+      return getFirstName() + " " +getLastName();
     }
 
     public String getPrimaryPhone() {
