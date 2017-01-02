@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">PL Time Card</string>
+    <string name="primaryPhoneNumber">Primary Phone #</string>
+    <string name="primaryPhoneType">Primary Phone Type</string>
+    <string name="secondaryPhoneNumber">Secondary Phone #</string>
+    <string name="secondaryPhoneType">Secondary Phone Type</string>
+    <string name="parent1PhoneNumber">Parent 1 Phone #</string>
+    <string name="parent1PhoneType">Parent 1 Phone Type</string>
+    <string name="parent2PhoneNumber">Parent 2 Phone #</string>
+    <string name="parent2PhoneType">Parent 2 Phone Type</string>
 </resources>

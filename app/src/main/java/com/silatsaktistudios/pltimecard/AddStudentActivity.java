@@ -90,6 +90,7 @@ public class AddStudentActivity extends AppCompatActivity {
 
 
     //===========================ON CLICK METHODS==================================
+    @SuppressWarnings("deprecation")
     public void changeToChild(View view) {
 
         if(studentType == ADULT_STUDENT) {
@@ -99,8 +100,8 @@ public class AddStudentActivity extends AppCompatActivity {
             parent1TypeTextView.setVisibility(View.VISIBLE);
             parent1TypeSpinner.setVisibility(View.VISIBLE);
 
-            primaryPhoneNumTextView.setText("Parent 1 Phone #");
-            primaryPhoneTypeTextView.setText("Parent 1 Phone Type");
+            primaryPhoneNumTextView.setText(getResources().getString(R.string.parent1PhoneNumber));
+            primaryPhoneTypeTextView.setText(getResources().getString(R.string.parent1PhoneType));
 
             parent2HeadingTextView.setVisibility(View.VISIBLE);
             parent2FirstAndLastNameTextViewLayout.setVisibility(View.VISIBLE);
@@ -108,8 +109,8 @@ public class AddStudentActivity extends AppCompatActivity {
             parent2TypeTextView.setVisibility(View.VISIBLE);
             parent2TypeSpinner.setVisibility(View.VISIBLE);
 
-            secondaryPhoneNumTextView.setText("Parent 2 Phone #");
-            secondaryPhoneTypeTextView.setText("Parent 2 Phone Type");
+            secondaryPhoneNumTextView.setText(getResources().getString(R.string.parent2PhoneNumber));
+            secondaryPhoneTypeTextView.setText(getResources().getString(R.string.parent2PhoneType));
 
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M){
                 childTextView.setTextColor(getResources().getColor(R.color.blue, null));
@@ -126,7 +127,7 @@ public class AddStudentActivity extends AppCompatActivity {
     }
 
 
-
+    @SuppressWarnings("deprecation")
     public void changeToAdult(View view) {
 
         if(studentType == CHILD_STUDENT) {
@@ -136,8 +137,8 @@ public class AddStudentActivity extends AppCompatActivity {
             parent1TypeTextView.setVisibility(View.GONE);
             parent1TypeSpinner.setVisibility(View.GONE);
 
-            primaryPhoneNumTextView.setText("Primary Phone #");
-            primaryPhoneTypeTextView.setText("Primary Phone Type");
+            primaryPhoneNumTextView.setText(getResources().getString(R.string.primaryPhoneNumber));
+            primaryPhoneTypeTextView.setText(getResources().getString(R.string.primaryPhoneType));
 
             parent2HeadingTextView.setVisibility(View.GONE);
             parent2FirstAndLastNameTextViewLayout.setVisibility(View.GONE);
@@ -145,8 +146,8 @@ public class AddStudentActivity extends AppCompatActivity {
             parent2TypeTextView.setVisibility(View.GONE);
             parent2TypeSpinner.setVisibility(View.GONE);
 
-            secondaryPhoneNumTextView.setText("Secondary Phone #");
-            secondaryPhoneTypeTextView.setText("Secondary Phone Type");
+            secondaryPhoneNumTextView.setText(getResources().getString(R.string.secondaryPhoneNumber));
+            secondaryPhoneTypeTextView.setText(getResources().getString(R.string.secondaryPhoneType));
 
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M){
                 childTextView.setTextColor(getResources().getColor(R.color.white, null));
@@ -288,10 +289,11 @@ public class AddStudentActivity extends AppCompatActivity {
         enrollmentTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int choice, long l) {
-//                <item>Persilat Kids</item>
-//                <item>Athletic Adventure Program</item>
-//                <item>Wealth of Health</item>
-//                <item>VibraVision</item>
+                //                0 = Persilat Kids
+                //                1 = Athletic Adventure Program
+                //                2 = Wealth of Health
+                //                3 = VibraVision
+
                 switch (choice) {
                     case 0 :
                         rankArrayAdapter = ArrayAdapter.createFromResource(AddStudentActivity.this, R.array.childRanks,
