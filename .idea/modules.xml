@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/PLTimeCard.iml" filepath="$PROJECT_DIR$/PLTimeCard.iml" />
+      <module fileurl="file://$PROJECT_DIR$/PLTimecard.iml" filepath="$PROJECT_DIR$/PLTimecard.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>

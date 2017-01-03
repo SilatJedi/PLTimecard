@@ -19,18 +19,19 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Add Student"
+            android:text="@string/add_student"
             android:textColor="#ffffff"
             android:textStyle="bold"
             android:textSize="18sp"
-            android:layout_marginLeft="15dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="15dp"
             android:layout_gravity="center_vertical"
             android:id="@+id/addStudentActivityTitle"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="Cancel"
+            android:text="@string/cancel"
             android:textColor="#ffffff"
             android:textStyle="bold"
             android:textSize="18sp"
@@ -41,7 +42,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="Submit"
+            android:text="@string/submit"
             android:textColor="#ffffff"
             android:textStyle="bold"
             android:textSize="18sp"
@@ -63,7 +64,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Select student type"
+                android:text="@string/select_student_type"
                 android:layout_marginTop="10dp"
                 android:textSize="17sp"
                 android:textColor="#000000"
@@ -81,7 +82,7 @@
                     android:layout_weight="1"
                     android:textColor="#010db1"
                     android:background="#999999"
-                    android:text="Child"
+                    android:text="@string/child"
                     android:gravity="center"
                     android:textStyle="bold"
                     android:textSize="15sp"
@@ -95,7 +96,7 @@
                     android:layout_weight="1"
                     android:textColor="#ffffff"
                     android:background="#999999"
-                    android:text="Adult"
+                    android:text="@string/adult"
                     android:gravity="center"
                     android:textStyle="bold"
                     android:textSize="15sp"
@@ -112,7 +113,7 @@
                 android:textSize="17sp"
                 android:textColor="#000000"
                 android:gravity="center"
-                android:text="Basic Info"/>
+                android:text="@string/basic_info"/>
 
             <!--first and last name-->
             <LinearLayout
@@ -127,15 +128,16 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:textColor="#000000"
-                    android:text="First Name"/>
+                    android:paddingLeft="5dp"
+                    android:text="@string/first_name"/>
 
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:paddingLeft="5dp"
+                    android:paddingLeft="10dp"
                     android:textColor="#000000"
-                    android:text="Last Name"/>
+                    android:text="@string/last_name"/>
 
             </LinearLayout>
             <LinearLayout
@@ -146,11 +148,11 @@
 
                 <EditText
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="25dp"
                     android:layout_weight="1"
                     android:background="@drawable/rounded_corners"
                     android:maxLines="1"
-                    android:hint="First Name"
+                    android:hint="@string/first_name"
                     android:paddingLeft="5dp"
                     android:layout_marginRight="5dp"
                     android:id="@+id/studentFirstNameEditText"
@@ -160,10 +162,10 @@
 
                 <EditText
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="25dp"
                     android:layout_weight="1"
                     android:background="@drawable/rounded_corners"
-                    android:hint="Last Name"
+                    android:hint="@string/last_name"
                     android:layout_marginLeft="5dp"
                     android:maxLines="1"
                     android:paddingLeft="5dp"
@@ -180,7 +182,9 @@
                 android:textColor="#000000"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:text="Enrollment Type" />
+                android:layout_marginTop="10dp"
+                android:paddingLeft="5dp"
+                android:text="@string/enrollment_type" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -191,10 +195,10 @@
                 android:layout_marginRight="10dp"
                 android:layout_marginLeft="10dp"
                 android:inputType="none"
-                android:text="Persilat Kids"
+                android:text="@string/persilat_kids"
                 android:onClick="selectEnrollmentType"
                 android:id="@+id/studentEnrollmentTypeSpinner"
-                android:hint="Tap for list" />
+                android:hint="@string/tap_for_list" />
 
             <!--rank-->
             <TextView
@@ -202,17 +206,20 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                android:paddingLeft="5dp"
                 android:textColor="#000000"
-                android:text="Rank"/>
+                android:text="@string/rank"/>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="25dp"
                 android:background="@drawable/rounded_corners"
                 android:textSize="17sp"
                 android:paddingLeft="5dp"
+                android:gravity="center_vertical"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:hint="Tap for list"
+                android:hint="@string/tap_for_list"
                 android:onClick="selectRank"
                 android:id="@+id/studentRankSpinner"/>
 
@@ -225,22 +232,23 @@
                 android:textSize="17sp"
                 android:textColor="#000000"
                 android:gravity="center"
-                android:text="Contact Info"/>
+                android:text="@string/contact_info"/>
 
             <!--email-->
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
+                android:paddingLeft="5dp"
                 android:textColor="#000000"
-                android:text="E-mail Address"/>
+                android:text="@string/e_mail_address"/>
             <EditText
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="25dp"
                 android:background="@drawable/rounded_corners"
                 android:maxLines="1"
                 android:inputType="textNoSuggestions|textWebEmailAddress"
-                android:hint="no.mail@none.com"
+                android:hint="@string/no_mail"
                 android:paddingLeft="5dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
@@ -257,7 +265,7 @@
                 android:gravity="center"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="20dp"
-                android:text="Parent 1"
+                android:text="@string/parent_1"
                 android:id="@+id/studentParent1HeadingTextView"/>
 
             <!--parent 1 first and last name-->
@@ -274,7 +282,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:textColor="#000000"
-                    android:text="Parent 1 First Name"/>
+                    android:text="@string/parent_1_first_name"/>
 
                 <TextView
                     android:layout_width="0dp"
@@ -282,7 +290,7 @@
                     android:layout_weight="1"
                     android:paddingLeft="5dp"
                     android:textColor="#000000"
-                    android:text="Parent 1 Last Name"/>
+                    android:text="@string/parent_1_last_name"/>
 
             </LinearLayout>
             <LinearLayout
@@ -294,11 +302,11 @@
 
                 <EditText
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="25dp"
                     android:layout_weight="1"
                     android:background="@drawable/rounded_corners"
                     android:maxLines="1"
-                    android:hint="First Name"
+                    android:hint="@string/first_name"
                     android:layout_marginRight="5dp"
                     android:paddingLeft="5dp"
                     android:id="@+id/studentParent1FirstNameEditText"
@@ -308,10 +316,10 @@
 
                 <EditText
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="25dp"
                     android:layout_weight="1"
                     android:background="@drawable/rounded_corners"
-                    android:hint="Last Name"
+                    android:hint="@string/last_name"
                     android:layout_marginLeft="5dp"
                     android:paddingLeft="5dp"
                     android:maxLines="1"
@@ -334,7 +342,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:textColor="#000000"
-                    android:text="Parent 1 Phone #"
+                    android:text="@string/parent_1_phone_number"
                     android:id="@+id/studentPrimaryPhoneNumTextView"/>
 
                 <TextView
@@ -343,7 +351,7 @@
                     android:layout_weight="1"
                     android:paddingLeft="5dp"
                     android:textColor="#000000"
-                    android:text="Parent 1 Phone Type"
+                    android:text="@string/parent_1_phone_type"
                     android:id="@+id/studentPrimaryPhoneTypeTextView"/>
 
             </LinearLayout>
@@ -355,26 +363,28 @@
 
                 <EditText
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="25dp"
                     android:layout_weight="1"
                     android:background="@drawable/rounded_corners"
-                    android:hint="555-555-5555"
+                    android:hint="@string/fake_phone_number"
                     android:maxLines="1"
                     android:layout_marginRight="5dp"
                     android:paddingLeft="5dp"
                     android:id="@+id/studentPrimaryPhoneNumEditText"
                     android:inputType="number"
-                    android:imeOptions="actionDone"/>
+                    android:imeOptions="actionDone"
+                    tools:ignore="TextFields" />
 
                 <TextView
                     android:layout_width="0dp"
-                    android:layout_height="match_parent"
+                    android:layout_height="25dp"
                     android:layout_weight="1"
                     android:background="@drawable/rounded_corners"
                     android:layout_marginLeft="5dp"
                     android:textSize="17sp"
                     android:paddingLeft="5dp"
-                    android:hint="Tap for list"
+                    android:gravity="center_vertical"
+                    android:hint="@string/tap_for_list"
                     android:onClick="selectPrimaryPhoneType"
                     android:id="@+id/studentPrimaryPhoneTypeSpinner"/>
             </LinearLayout>
@@ -385,7 +395,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="#000000"
-                android:text="Parent 1 Type"
+                android:text="@string/parent_1_type"
                 android:layout_marginTop="10dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
@@ -395,8 +405,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="25dp"
                 android:textSize="17sp"
-                android:hint="Tap for list"
+                android:hint="@string/tap_for_list"
                 android:paddingLeft="5dp"
+                android:gravity="center_vertical"
                 android:background="@drawable/rounded_corners"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
@@ -413,7 +424,7 @@
                 android:gravity="center"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="20dp"
-                android:text="Parent 2"
+                android:text="@string/parent_2"
                 android:id="@+id/studentParent2HeadingTextView"/>
 
             <!--parent 2 first and last name-->
@@ -430,7 +441,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:textColor="#000000"
-                    android:text="Parent 2 First Name"/>
+                    android:text="@string/parent_2_first_name"/>
 
                 <TextView
                     android:layout_width="0dp"
@@ -438,7 +449,7 @@
                     android:layout_weight="1"
                     android:paddingLeft="5dp"
                     android:textColor="#000000"
-                    android:text="Parent 2 Last Name"/>
+                    android:text="@string/parent_2_last_name"/>
 
             </LinearLayout>
             <LinearLayout
@@ -450,11 +461,11 @@
 
                 <EditText
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="25dp"
                     android:layout_weight="1"
                     android:background="@drawable/rounded_corners"
                     android:maxLines="1"
-                    android:hint="First Name"
+                    android:hint="@string/first_name"
                     android:layout_marginRight="5dp"
                     android:paddingLeft="5dp"
                     android:id="@+id/studentParent2FirstNameEditText"
@@ -464,10 +475,10 @@
 
                 <EditText
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="25dp"
                     android:layout_weight="1"
                     android:background="@drawable/rounded_corners"
-                    android:hint="Last Name"
+                    android:hint="@string/last_name"
                     android:layout_marginLeft="5dp"
                     android:paddingLeft="5dp"
                     android:maxLines="1"
@@ -490,7 +501,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:textColor="#000000"
-                    android:text="Parent 2 Phone #"
+                    android:text="@string/parent_2_phone_number"
                     android:id="@+id/studentSecondaryPhoneNumTextView"/>
 
                 <TextView
@@ -499,7 +510,7 @@
                     android:layout_weight="1"
                     android:paddingLeft="5dp"
                     android:textColor="#000000"
-                    android:text="Parent 2 Phone Type"
+                    android:text="@string/parent_2_phone_type"
                     android:id="@+id/studentSecondaryPhoneTypeTextView"/>
 
             </LinearLayout>
@@ -511,26 +522,28 @@
 
                 <EditText
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="25dp"
                     android:layout_weight="1"
                     android:background="@drawable/rounded_corners"
-                    android:hint="555-555-5555"
+                    android:hint="@string/fake_phone_number"
                     android:maxLines="1"
                     android:layout_marginRight="5dp"
                     android:paddingLeft="5dp"
                     android:id="@+id/studentSecondaryPhoneNumEditText"
                     android:inputType="number"
-                    android:imeOptions="actionDone" />
+                    android:imeOptions="actionDone"
+                    tools:ignore="TextFields" />
 
                 <TextView
                     android:layout_width="0dp"
-                    android:layout_height="match_parent"
+                    android:layout_height="25dp"
                     android:layout_weight="1"
                     android:background="@drawable/rounded_corners"
                     android:layout_marginLeft="5dp"
                     android:textSize="17sp"
+                    android:gravity="center_vertical"
                     android:paddingLeft="5dp"
-                    android:hint="Tap for list"
+                    android:hint="@string/tap_for_list"
                     android:onClick="selectSecondaryPhoneType"
                     android:id="@+id/studentSecondaryPhoneTypeSpinner"/>
             </LinearLayout>
@@ -539,7 +552,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="#000000"
-                android:text="Parent 2 Type"
+                android:text="@string/parent_2_type"
                 android:layout_marginTop="10dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
@@ -549,7 +562,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="25dp"
                 android:textSize="17sp"
-                android:hint="Tap for list"
+                android:hint="@string/tap_for_list"
+                android:gravity="center_vertical"
                 android:paddingLeft="5dp"
                 android:background="@drawable/rounded_corners"
                 android:layout_marginLeft="10dp"
