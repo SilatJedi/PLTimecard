@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
@@ -91,7 +92,11 @@ public class AddLessonActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        warnBeforeCanceling();
+        if(isValid()) {
+            warnBeforeCanceling();
+        } else {
+            finish();
+        }
     }
 
 
@@ -99,10 +104,15 @@ public class AddLessonActivity extends AppCompatActivity {
 
     //=====================================on click methods=========================================
     public void cancel(View view) {
-        warnBeforeCanceling();
+        if(isValid()) {
+            warnBeforeCanceling();
+        } else {
+            finish();
+        }
     }
 
     public void submit(View view) {
+
 
         if(isValid()) {
             final Lesson lesson = new Lesson(
@@ -115,6 +125,8 @@ public class AddLessonActivity extends AppCompatActivity {
                     eligibleCheckBox.isChecked(),
                     makeUpLessonCheckBox.isChecked()
             );
+
+            Log.d("final lesson date", lesson.getDate().toString());
 
             final RealmResults<Timecard> timecards = realm.where(Timecard.class).findAll();
 
@@ -242,15 +254,24 @@ public class AddLessonActivity extends AppCompatActivity {
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.DAY_OF_MONTH, datePicker.getDayOfMonth());
         calendar.set(Calendar.MONTH, datePicker.getMonth());
+        Log.d("datePicker.getYear()", String.valueOf(datePicker.getYear()));
         calendar.set(Calendar.YEAR, datePicker.getYear());
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M){
+            Log.d("timePicker.getHour()", String.valueOf(timePicker.getHour()));
+            Log.d("timePicker.getMinute()", String.valueOf(timePicker.getMinute()));
+
             calendar.set(Calendar.HOUR_OF_DAY, timePicker.getHour());
             calendar.set(Calendar.MINUTE, timePicker.getMinute());
         } else {
             calendar.set(Calendar.HOUR_OF_DAY, timePicker.getCurrentHour());
             calendar.set(Calendar.MINUTE, timePicker.getCurrentMinute());
         }
+
+        calendar.set(Calendar.SECOND, 0);
+
+        Log.d("calendar.getTime()", calendar.getTime().toString());
+
 
         return calendar.getTime();
     }

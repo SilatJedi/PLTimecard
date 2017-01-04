@@ -1,6 +1,7 @@
 package com.silatsaktistudios.pltimecard.ListViewArrayAdapters.MainActivity;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,6 +34,11 @@ public class StudentListViewArrayAdapter extends ArrayAdapter<String> {
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         View rowView = inflater.inflate(R.layout.student_list_item, parent, false);
+
+        if (position % 2 == 1) {
+            rowView.setBackgroundColor(Color.LTGRAY);
+        }
+
         TextView studentName = (TextView) rowView.findViewById(R.id.studentListName);
         studentName.setText(names[position]);
         TextView enrollmentType = (TextView)rowView.findViewById(R.id.studentListEnrollmentType);

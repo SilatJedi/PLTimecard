@@ -117,4 +117,5 @@ public class Lesson extends RealmObject {
     public void setMakeUp(boolean makeUp) {
         isMakeUp = makeUp;
     }
+
 }

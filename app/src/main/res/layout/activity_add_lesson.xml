@@ -136,7 +136,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="@string/make_up_lesson"
-                    android:checked="true"
+                    android:checked="false"
                     android:layout_marginTop="10dp"
                     android:id="@+id/lessonMakeUpCheckBox"/>
 

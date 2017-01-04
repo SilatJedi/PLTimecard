@@ -1,10 +1,12 @@
 package com.silatsaktistudios.pltimecard.ListViewArrayAdapters.MainActivity;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.silatsaktistudios.pltimecard.R;
@@ -40,11 +42,15 @@ public class TimeCardListViewArrayAdapter extends ArrayAdapter<String> {
 
         View rowView = inflater.inflate(R.layout.timecard_list_item, parent, false);
 
+        if (position % 2 == 1) {
+            rowView.setBackgroundColor(Color.LTGRAY);
+        }
+
         TextView studentName = (TextView) rowView.findViewById(R.id.timecardItemStudentName);
         studentName.setText(names[position]);
 
         TextView dateTime = (TextView) rowView.findViewById(R.id.timecardItemDateTime);
-        dateTime.setText(android.text.format.DateFormat.format("EEE dd MMM, YYYY h:mm a", dates[position]));
+        dateTime.setText(android.text.format.DateFormat.format("EEE d MMM, yyyy h:mm a", dates[position]));
 
         TextView showedUp = (TextView)rowView.findViewById(R.id.timecardShowedStatus);
         TextView eligible = (TextView)rowView.findViewById(R.id.timecardEligibleStatus);
@@ -55,6 +61,7 @@ public class TimeCardListViewArrayAdapter extends ArrayAdapter<String> {
             eligible.setText("");
         } else {
             showedUp.setText("No Show");
+            eligible.setVisibility(View.VISIBLE);
 
             if(eligibles[position]) {
                 eligible.setText("Eligible");

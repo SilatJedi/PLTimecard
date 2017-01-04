@@ -15,15 +15,19 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.silatsaktistudios.pltimecard.ListViewArrayAdapters.MainActivity.StudentListViewArrayAdapter;
+import com.silatsaktistudios.pltimecard.ListViewArrayAdapters.MainActivity.TimeCardListViewArrayAdapter;
 import com.silatsaktistudios.pltimecard.Models.Lesson;
 import com.silatsaktistudios.pltimecard.Models.Student;
 import com.silatsaktistudios.pltimecard.Models.Timecard;
 
 import java.util.Calendar;
+import java.util.Date;
 
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
+import io.realm.RealmList;
 import io.realm.RealmResults;
+import io.realm.Sort;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -65,6 +69,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         setUpStudentList();
+        setUpTimecardList();
     }
 
     @Override
@@ -169,9 +174,7 @@ public class MainActivity extends AppCompatActivity {
 
         Calendar now = Calendar.getInstance();
 
-        RealmResults<Timecard> timecards = realm.where(Timecard.class).findAll();
-
-        if(timecards.size() == 0) {
+        if(realm.where(Timecard.class).findAll().size() == 0) {
             Log.d("timecard list", "is empty");
             final Timecard newTimecard = new Timecard(firstOfMonth.getTime());
 
@@ -183,29 +186,68 @@ public class MainActivity extends AppCompatActivity {
             });
         }
 
+        RealmResults<Timecard> timecards = realm.where(Timecard.class).findAll();
 
-        Log.d("timecard month int", String.valueOf(timecards.get(timecards.size() - 1).getStartDate().getMonth()));
-        Log.d("firstOfMonth month int", String.valueOf(firstOfMonth.get(Calendar.MONTH)));
+        Calendar calFromDate = Calendar.getInstance();
+        calFromDate.setTimeInMillis(timecards.get(timecards.size() - 1).getStartDate().getTime());
+
+        int timeCardMonth = calFromDate.get(Calendar.MONTH);
+        int currentMonth = now.get(Calendar.MONTH);
+
+        Log.d("timecard month int", String.valueOf(timeCardMonth));
+        Log.d("current month int", String.valueOf(currentMonth));
         Log.d("calendar.january", String.valueOf(Calendar.JANUARY));
         Log.d("calendar.december", String.valueOf(Calendar.DECEMBER));
 
-        // http://stackoverflow.com/questions/21285161/android-difference-between-two-dates
-//        if(timecards.get(timecards.size() - 1).getStartDate().getMonth() > firstOfMonth.get(Calendar.MONTH) ||
-//                (timecards.get(timecards.size() - 1).getStartDate().getMonth() == Calendar.JANUARY &&
-//                        firstOfMonth.get(Calendar.MONTH) == Calendar.DECEMBER) ) {
-//
-//            final Timecard newTimecard = new Timecard(firstOfMonth.getTime());
-//
-//            realm.executeTransaction(new Realm.Transaction() {
-//                @Override
-//                public void execute(Realm realm) {
-//                    realm.insertOrUpdate(newTimecard);
-//                }
-//            });
-//        }
+        if(currentMonth > timeCardMonth ||
+                (currentMonth == Calendar.JANUARY &&
+                        timeCardMonth == Calendar.DECEMBER) ) {
+
+            final Timecard newTimecard = new Timecard(firstOfMonth.getTime());
+
+            realm.executeTransaction(new Realm.Transaction() {
+                @Override
+                public void execute(Realm realm) {
+                    realm.insertOrUpdate(newTimecard);
+                }
+            });
 
 
+            //Todo:: notify user that a new timecard has been created and give them the option to submit previous timecard
+        }
 
+        timecards = realm.where(Timecard.class).findAll();
+        Timecard timecard = timecards.get(timecards.size() - 1);
+
+        RealmResults<Lesson> lessons = timecard.getLessons().sort("date", Sort.DESCENDING);
+
+        if(timecard.getLessons().size() > 0) {
+
+            String[] names = new String[lessons.size()];
+            Date[] dates = new Date[lessons.size()];
+            boolean[] showedUps = new boolean[lessons.size()];
+            boolean[] eligibles = new boolean[lessons.size()];
+            boolean[] makeUps = new boolean[lessons.size()];
+
+            for(int i = 0; i < timecard.getLessons().size(); i++) {
+                Lesson lesson = lessons.get(i);
+
+                names[i] = lesson.getStudentName();
+                dates[i] = lesson.getDate();
+                showedUps[i] = lesson.didShowUp();
+                eligibles[i] = lesson.isEligible();
+                makeUps[i] = lesson.isMakeUp();
+            }
+            TimeCardListViewArrayAdapter timeCardListViewArrayAdapter = new TimeCardListViewArrayAdapter(
+                    MainActivity.this,
+                    names,
+                    dates,
+                    showedUps,
+                    eligibles,
+                    makeUps);
+
+            timecardListView.setAdapter(timeCardListViewArrayAdapter);
+        }
     }
 
 
@@ -229,7 +271,11 @@ public class MainActivity extends AppCompatActivity {
                 ranks[i] = student.getRank();
             }
 
-            StudentListViewArrayAdapter studentListViewArrayAdapter = new StudentListViewArrayAdapter(MainActivity.this, names, enrollmentTypes, ranks);
+            StudentListViewArrayAdapter studentListViewArrayAdapter = new StudentListViewArrayAdapter(
+                    MainActivity.this,
+                    names,
+                    enrollmentTypes,
+                    ranks);
             studentsListView.setAdapter(studentListViewArrayAdapter);
         }
     }
