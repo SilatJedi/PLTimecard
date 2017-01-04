@@ -1,22 +1,50 @@
 # PLTimecard
 Private lesson management utility for MP USA instructors
 
+
                           /\     Forge me a sword, and I want you to try
                          / |\    To sharpen it well when you're done.
                         / /\ \   For I learned yesterday that I cannot die,
                        / /  \ \  And they say THERE CAN BE ONLY ONE!!!
                       / /    \ \
                      /_/      \_\
-                     \    '`    /Forge me a sword, for I need to defend
-                      )   ||   ( Against those who'll come seeking my head.
+                     \    '`    /
+                      )   ||   (
+                      |   ||   |
+                      |   ||   |
+                      |   ||   |
+                      |   ||   |
+                      |   ||   |
+                      |   ||   |
+                      |   ||   |
+                      |   ||   |
+                      |   ||   |
+                      |   ||   |
+                      |   ||   |
+                      |   ||   |
+                      |   ||   | Forge me a sword, for I need to defend
+                      |   ||   | Against those who'll come seeking my head.
                       |   ||   | And we'll fight 'till the inescapable end,
                       |   ||   | That leaves one alive, and one dead.
+                      |   ||   |
+                      |   ||   |
+                      |   ||   |
+                      |   ||   |
+                      |   ||   |
+                      |   ||   |
+                      |   ||   |
+                      |   ||   |
+                      |   ||   |
+                      |   ||   |
+                      |   ||   |
+                      |   ||   |
                       |   ||   |
                       |   ||   |
                       |   ||   | Forge me a sword, THERE CAN BE ONLY ONE!!!,
                       |   ||   | And too much time already has passed.
                       |   ||   | For though we all must fall, ere the Game can be done
                       |   ||   | I'll be damned if I won't be the last.
+                      |   ||   |
                       |   ||   |
           /           |   ||   |           \
          /(           |   ||   |           )\
