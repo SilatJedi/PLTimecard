@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -171,7 +172,7 @@ public class MainActivity extends AppCompatActivity {
         RealmResults<Timecard> timecards = realm.where(Timecard.class).findAll();
 
         if(timecards.size() == 0) {
-
+            Log.d("timecard list", "is empty");
             final Timecard newTimecard = new Timecard(firstOfMonth.getTime());
 
             realm.executeTransaction(new Realm.Transaction() {
@@ -182,19 +183,26 @@ public class MainActivity extends AppCompatActivity {
             });
         }
 
-        if(timecards.get(timecards.size() - 1).getStartDate().getMonth() > firstOfMonth.get(Calendar.MONTH) ||
-                (now.get(Calendar.MONTH) == Calendar.JANUARY &&
-                        firstOfMonth.get(Calendar.MONTH) == Calendar.DECEMBER) ) {
 
-            final Timecard newTimecard = new Timecard(firstOfMonth.getTime());
+        Log.d("timecard month int", String.valueOf(timecards.get(timecards.size() - 1).getStartDate().getMonth()));
+        Log.d("firstOfMonth month int", String.valueOf(firstOfMonth.get(Calendar.MONTH)));
+        Log.d("calendar.january", String.valueOf(Calendar.JANUARY));
+        Log.d("calendar.december", String.valueOf(Calendar.DECEMBER));
 
-            realm.executeTransaction(new Realm.Transaction() {
-                @Override
-                public void execute(Realm realm) {
-                    realm.insertOrUpdate(newTimecard);
-                }
-            });
-        }
+        // http://stackoverflow.com/questions/21285161/android-difference-between-two-dates
+//        if(timecards.get(timecards.size() - 1).getStartDate().getMonth() > firstOfMonth.get(Calendar.MONTH) ||
+//                (timecards.get(timecards.size() - 1).getStartDate().getMonth() == Calendar.JANUARY &&
+//                        firstOfMonth.get(Calendar.MONTH) == Calendar.DECEMBER) ) {
+//
+//            final Timecard newTimecard = new Timecard(firstOfMonth.getTime());
+//
+//            realm.executeTransaction(new Realm.Transaction() {
+//                @Override
+//                public void execute(Realm realm) {
+//                    realm.insertOrUpdate(newTimecard);
+//                }
+//            });
+//        }
 
 
 
