@@ -69,4 +69,11 @@
         <item>Wealth of Health</item>
         <item>VibraVision</item>
     </string-array>
+    <string-array name="grades">
+        <item>A</item>
+        <item>B</item>
+        <item>C</item>
+        <item>D</item>
+        <item>F</item>
+    </string-array>
 </resources>

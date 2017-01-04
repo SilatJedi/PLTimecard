@@ -9,23 +9,28 @@ import android.widget.TextView;
 
 import com.silatsaktistudios.pltimecard.R;
 
+import java.util.Date;
+
 /**
  * Created by james on 1/1/17.
  */
 
 public class TimeCardListViewArrayAdapter extends ArrayAdapter<String> {
+    private Context context;
+    private String[] names;
+    private Date[] dates;
+    private boolean[] showedUps, eligibles, makeUps;
 
-    private final Context context;
-    private final String[] names, enrollmentTypes, ranks;
 
-
-    public TimeCardListViewArrayAdapter(Context context, String[] names, String[] enrollmentTypes,
-                                       String[] ranks) {
+    public TimeCardListViewArrayAdapter(Context context, String[] names, Date[] dates,
+                                        boolean[] showedUps, boolean[] eligibles, boolean[] makeUps) {
         super(context, R.layout.timecard_list_item, names);
         this.context = context;
         this.names = names;
-        this.enrollmentTypes = enrollmentTypes;
-        this.ranks = ranks;
+        this.dates = dates;
+        this.showedUps = showedUps;
+        this.eligibles = eligibles;
+        this.makeUps = makeUps;
     }
 
     @Override
@@ -34,12 +39,34 @@ public class TimeCardListViewArrayAdapter extends ArrayAdapter<String> {
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         View rowView = inflater.inflate(R.layout.timecard_list_item, parent, false);
-        TextView studentName = (TextView) rowView.findViewById(R.id.studentListName);
+
+        TextView studentName = (TextView) rowView.findViewById(R.id.timecardItemStudentName);
         studentName.setText(names[position]);
-        TextView enrollmentType = (TextView)rowView.findViewById(R.id.studentListEnrollmentType);
-        enrollmentType.setText(enrollmentTypes[position]);
-        TextView rank = (TextView)rowView.findViewById(R.id.studentListRank);
-        rank.setText(ranks[position]);
+
+        TextView dateTime = (TextView) rowView.findViewById(R.id.timecardItemDateTime);
+        dateTime.setText(android.text.format.DateFormat.format("EEE dd MMM, YYYY h:mm a", dates[position]));
+
+        TextView showedUp = (TextView)rowView.findViewById(R.id.timecardShowedStatus);
+        TextView eligible = (TextView)rowView.findViewById(R.id.timecardEligibleStatus);
+        TextView makeUp = (TextView)rowView.findViewById(R.id.makeUpStatus);
+
+        if(showedUps[position]) {
+            showedUp.setText("Showed Up");
+            eligible.setText("");
+        } else {
+            showedUp.setText("No Show");
+
+            if(eligibles[position]) {
+                eligible.setText("Eligible");
+            } else {
+                eligible.setText("Not Eligible");
+            }
+        }
+
+        if(makeUps[position]) {
+            makeUp.setVisibility(View.VISIBLE);
+            makeUp.setText("Make Up Lesson");
+        }
 
         return rowView;
     }

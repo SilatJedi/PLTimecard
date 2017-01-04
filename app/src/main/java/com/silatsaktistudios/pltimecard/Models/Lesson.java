@@ -12,21 +12,32 @@ import io.realm.annotations.PrimaryKey;
 public class Lesson extends RealmObject {
     @PrimaryKey
     private int id;
+
+    private int studentID;
+    private String studentName;
     private int grade;
     private String note;
     private Date date;
     private boolean showedUp;
     private boolean isEligible;
+    private boolean isMakeUp;
 
     public Lesson() {}
 
-    public Lesson(Date date, int grade, boolean showedUp, boolean eligible, String note) {
+    public Lesson(int studentID, String studentName, Date date, int grade, String note, boolean showedUp, boolean eligible, boolean isMakeUp) {
         setId();
         setDate(date);
         setGrade(grade);
         setShowedUp(showedUp);
         setEligible(eligible);
         setNote(note);
+        setMakeUp(isMakeUp);
+        setStudentID(studentID);
+        setStudentName(studentName);
+    }
+
+    public int getId() {
+        return id;
     }
 
     public void setId() {
@@ -35,12 +46,28 @@ public class Lesson extends RealmObject {
 
         try {
             id = realm.where(Lesson.class).max("id").intValue() + 1;
-        } catch(ArrayIndexOutOfBoundsException ex) {
+        } catch(NullPointerException ex) {
             id = 0;
         }
 
         this.id = id;
         realm.close();
+    }
+
+    public int getStudentID() {
+        return studentID;
+    }
+
+    public void setStudentID(int studentID) {
+        this.studentID = studentID;
+    }
+
+    public String getStudentName() {
+        return studentName;
+    }
+
+    public void setStudentName(String studentName) {
+        this.studentName = studentName;
     }
 
     public int getGrade() {
@@ -81,5 +108,13 @@ public class Lesson extends RealmObject {
 
     public void setEligible(boolean eligible) {
         isEligible = eligible;
+    }
+
+    public boolean isMakeUp() {
+        return isMakeUp;
+    }
+
+    public void setMakeUp(boolean makeUp) {
+        isMakeUp = makeUp;
     }
 }

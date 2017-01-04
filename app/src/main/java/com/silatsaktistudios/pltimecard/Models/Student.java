@@ -68,6 +68,10 @@ public class Student extends RealmObject {
         isActive = true;
     }
 
+    public int getId() {
+        return id;
+    }
+
     public void setId() {
         int id;
         Realm realm = Realm.getDefaultInstance();

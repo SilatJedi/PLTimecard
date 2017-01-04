@@ -69,6 +69,9 @@ public class AddStudentActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        if(realm.isClosed()) {
+            realm = Realm.getDefaultInstance();
+        }
     }
 
     @Override

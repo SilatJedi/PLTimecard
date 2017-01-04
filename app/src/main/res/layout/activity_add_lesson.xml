@@ -77,6 +77,7 @@
                 android:paddingLeft="5dp"
                 android:hint="@string/tap_for_list"
                 android:gravity="center_vertical"
+                android:onClick="selectStudent"
                 android:textSize="17sp"
                 android:id="@+id/lessonStudentNameTextView"/>
 
@@ -126,6 +127,7 @@
                     android:layout_weight="1"
                     android:text="@string/student_showed_up"
                     android:checked="true"
+                    android:onClick="toggleShowedUp"
                     android:layout_marginTop="10dp"
                     android:id="@+id/lessonShowedUpCheckBox"/>
 
@@ -147,7 +149,8 @@
                 android:text="@string/eligible_for_make_up"
                 android:checked="true"
                 android:layout_marginTop="10dp"
-                android:id="@+id/lessonEligibleCheckBox"/>
+                android:id="@+id/lessonEligibleCheckBox"
+                android:visibility="gone"/>
 
             <TextView
                 android:layout_width="match_parent"
@@ -167,6 +170,7 @@
                 android:gravity="center_vertical"
                 android:hint="@string/tap_for_list"
                 android:textSize="17sp"
+                android:onClick="selectGrade"
                 android:id="@+id/lessonGradeTextView"/>
 
             <TextView

@@ -14,8 +14,18 @@ import io.realm.annotations.PrimaryKey;
 public class Timecard extends RealmObject {
     @PrimaryKey
     private int id;
+    private String title;
     private Date startDate, endDate;
     private RealmList<Lesson> lessons;
+    private boolean isCurrent = true;
+
+    public Timecard() {}
+
+    public Timecard(Date startDate) {
+        setId();
+        setStartDate(startDate);
+        setTitle(android.text.format.DateFormat.format("MMM YYYY", startDate).toString());
+    }
 
     public void setId() {
         int id;
@@ -23,7 +33,7 @@ public class Timecard extends RealmObject {
 
         try {
             id = realm.where(Student.class).max("id").intValue() + 1;
-        } catch(ArrayIndexOutOfBoundsException ex) {
+        } catch(NullPointerException ex) {
             id = 0;
         }
 
@@ -53,5 +63,21 @@ public class Timecard extends RealmObject {
 
     public void addLesson(Lesson lesson) {
         lessons.add(lesson);
+    }
+
+    public boolean isCurrent() {
+        return isCurrent;
+    }
+
+    public void setCurrent(boolean current) {
+        isCurrent = current;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 }

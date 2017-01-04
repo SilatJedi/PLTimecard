@@ -5,49 +5,61 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textColor="#000000"
-        android:textSize="18sp"
-        android:text="John Doe"
-        android:id="@+id/timecardItemStudentName"/>
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="#000000"
+            android:textSize="18sp"
+            android:text="John Doe"
+            android:id="@+id/timecardItemStudentName"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="#888888"
+            android:text="Thu  Jan 02, 2017 12:23 pm"
+            android:layout_marginRight="10dp"
+            android:id="@+id/timecardItemDateTime"/>
+
+    </LinearLayout>
+
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="#888888"
-            android:text="01/02/16"
-            android:layout_marginRight="10dp"
-            android:id="@+id/timecardItemDate"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="#888888"
-            android:text="12:23 pm"
-            android:layout_marginRight="20dp"
-            android:id="@+id/timecardItemTime"/>
-
-        <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:gravity="center_horizontal"
             android:textColor="#888888"
             android:text="No Show"
-            android:id="@+id/timecardItemStatus"/>
+            android:id="@+id/timecardShowedStatus"/>
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:gravity="center_horizontal"
             android:textColor="#888888"
             android:text="Not Eligible"
             android:id="@+id/timecardEligibleStatus"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center_horizontal"
+            android:textColor="#888888"
+            android:visibility="gone"
+            android:id="@+id/makeUpStatus"/>
     </LinearLayout>
 
 </LinearLayout>

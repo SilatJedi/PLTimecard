@@ -14,7 +14,11 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.silatsaktistudios.pltimecard.ListViewArrayAdapters.MainActivity.StudentListViewArrayAdapter;
+import com.silatsaktistudios.pltimecard.Models.Lesson;
 import com.silatsaktistudios.pltimecard.Models.Student;
+import com.silatsaktistudios.pltimecard.Models.Timecard;
+
+import java.util.Calendar;
 
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
@@ -157,6 +161,42 @@ public class MainActivity extends AppCompatActivity {
 
 //===========================================Helper Methods==========================================
     private void setUpTimecardList(){
+        Calendar firstOfMonth = Calendar.getInstance();
+        firstOfMonth.set(Calendar.DAY_OF_MONTH, 1);
+        firstOfMonth.set(Calendar.HOUR_OF_DAY, 0);
+        firstOfMonth.set(Calendar.MINUTE, 0);
+
+        Calendar now = Calendar.getInstance();
+
+        RealmResults<Timecard> timecards = realm.where(Timecard.class).findAll();
+
+        if(timecards.size() == 0) {
+
+            final Timecard newTimecard = new Timecard(firstOfMonth.getTime());
+
+            realm.executeTransaction(new Realm.Transaction() {
+                @Override
+                public void execute(Realm realm) {
+                    realm.insertOrUpdate(newTimecard);
+                }
+            });
+        }
+
+        if(timecards.get(timecards.size() - 1).getStartDate().getMonth() > firstOfMonth.get(Calendar.MONTH) ||
+                (now.get(Calendar.MONTH) == Calendar.JANUARY &&
+                        firstOfMonth.get(Calendar.MONTH) == Calendar.DECEMBER) ) {
+
+            final Timecard newTimecard = new Timecard(firstOfMonth.getTime());
+
+            realm.executeTransaction(new Realm.Transaction() {
+                @Override
+                public void execute(Realm realm) {
+                    realm.insertOrUpdate(newTimecard);
+                }
+            });
+        }
+
+
 
     }
 
