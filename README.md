@@ -34,12 +34,12 @@ Private lesson management utility for MP USA instructors
               _]______[_     few of us are left. Then we will battle for
               |        |     the ULTIMATE prize.
               |________|
-               ]______[#     Remember THERE CAN BE ONLY ONE!!!
+               ]______[      THERE CAN BE ONLY ONE!!!
               |        |
-              |________|     Tim McClatchey
-              _]______[_     Live Long and Prosper
-              |        |     warlord@zonk.geko.com.au
-              |________|     THERE CAN BE ONLY ONE!!!
+              |________|
+              _]______[_
+              |        |
+              |________|
               _]______[_
               |        |
               |________|
