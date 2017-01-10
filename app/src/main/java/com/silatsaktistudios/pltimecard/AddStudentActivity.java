@@ -68,9 +68,78 @@ public class AddStudentActivity extends AppCompatActivity {
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
+
+        outState.putString("studentFirstName", firstNameEditText.getText().toString());
+        outState.putString("studentLastName", lastNameEditText.getText().toString());
+        outState.putString("enrollmentType", enrollmentTypeTextView.getText().toString());
+        outState.putString("rank", rankTextView.getText().toString());
+        outState.putString("email", emailEditText.getText().toString());
+        outState.putString("primaryPhone", primaryPhoneEditText.getText().toString());
+        outState.putString("primaryPhoneType", primaryPhoneTypeValueTextView.getText().toString());
+        outState.putString("secondaryPhone", secondaryPhoneEditText.getText().toString());
+        outState.putString("secondaryPhoneType", secondaryPhoneTypeValueTextView.getText().toString());
+        outState.putInt("studentType", studentType);
+
+        if(studentType == CHILD_STUDENT) {
+            outState.putString("parent1FirstName", parent1FirstNameEditText.getText().toString());
+            outState.putString("parent1LastName",parent1LastNameEditText.getText().toString());
+            outState.putString("parent1Type", parent1TypeValueTextView.getText().toString());
+            outState.putString("parent2FirstName", parent2FirstNameEditText.getText().toString());
+            outState.putString("parent2LastName", parent2LastNameEditText.getText().toString());
+            outState.putString("parent2Type", parent2TypeValueTextView.getText().toString());
+        }
+
     }
 
     @Override
+    protected void  onRestoreInstanceState(Bundle inState) {
+        super.onRestoreInstanceState(inState);
+        firstNameEditText.setText(inState.getString("studentFirstName"));
+        lastNameEditText.setText(inState.getString("studentLastName"));
+        enrollmentTypeTextView.setText(inState.getString("enrollmentType"));
+        rankTextView.setText(inState.getString("rank"));
+        emailEditText.setText(inState.getString("email"));
+        primaryPhoneEditText.setText(inState.getString("primaryPhone"));
+        primaryPhoneTypeValueTextView.setText(inState.getString("primaryPhoneType"));
+        secondaryPhoneEditText.setText(inState.getString("secondaryPhone"));
+        secondaryPhoneTypeValueTextView.setText(inState.getString("secondaryPhoneType"));
+        studentType = inState.getInt("studentType");
+
+        if(studentType == CHILD_STUDENT) {
+            parent1FirstNameEditText.setText(inState.getString("parent1FirstName"));
+            parent1LastNameEditText.setText(inState.getString("parent1LastName"));
+            parent1TypeValueTextView.setText(inState.getString("parent1Type"));
+            parent2FirstNameEditText.setText(inState.getString("parent2FirstName"));
+            parent2LastNameEditText.setText(inState.getString("parent2LastName"));
+            parent2TypeValueTextView.setText(inState.getString("parent2Type"));
+        } else {
+            parent1HeadingTextView.setVisibility(View.GONE);
+            parent1FirstAndLastNameTextViewLayout.setVisibility(View.GONE);
+            parent1FirstAndLastNameEditTextLayout.setVisibility(View.GONE);
+            parent1TypeTextView.setVisibility(View.GONE);
+            parent1TypeValueTextView.setVisibility(View.GONE);
+
+            primaryPhoneNumTextView.setText(getResources().getString(R.string.primaryPhoneNumber));
+            primaryPhoneTypeTextView.setText(getResources().getString(R.string.primaryPhoneType));
+
+            parent2HeadingTextView.setVisibility(View.GONE);
+            parent2FirstAndLastNameTextViewLayout.setVisibility(View.GONE);
+            parent2FirstAndLastNameEditTextLayout.setVisibility(View.GONE);
+            parent2TypeTextView.setVisibility(View.GONE);
+            parent2TypeValueTextView.setVisibility(View.GONE);
+
+            secondaryPhoneNumTextView.setText(getResources().getString(R.string.secondaryPhoneNumber));
+            secondaryPhoneTypeTextView.setText(getResources().getString(R.string.secondaryPhoneType));
+
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M){
+                childTextView.setTextColor(getResources().getColor(R.color.white, null));
+                adultTextView.setTextColor(getResources().getColor(R.color.blue, null));
+            } else{
+                childTextView.setTextColor(getResources().getColor(R.color.white));
+                adultTextView.setTextColor(getResources().getColor(R.color.blue));
+            }
+        }
+    }
 
     @Override
     protected void onResume() {

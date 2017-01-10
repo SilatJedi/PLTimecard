@@ -30,11 +30,12 @@ import io.realm.RealmResults;
 import io.realm.Sort;
 
 public class MainActivity extends AppCompatActivity {
+    private final int TIMECARD = 0, STUDENT = 1;
 
     private Realm realm;
     private TextView timecardTextView, studentsTextView;
     private ListView timecardListView, studentsListView;
-
+    private int visibleListView = TIMECARD;
 
 //==================================Activity Methods================================================
     @Override
@@ -58,6 +59,20 @@ public class MainActivity extends AppCompatActivity {
         if(!realm.isClosed()) {
             realm.close();
         }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putInt("timeCardListViz", timecardListView.getVisibility());
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle inState) {
+        super.onRestoreInstanceState(inState);
+
+
     }
 
     @Override
@@ -126,21 +141,25 @@ public class MainActivity extends AppCompatActivity {
 
     public void showTimecard(View view) {
 
-        if(timecardListView.getVisibility() != View.VISIBLE) {
+        if(visibleListView == STUDENT) {
             timecardListView.setVisibility(View.VISIBLE);
             timecardTextView.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.blue));
             studentsListView.setVisibility(View.INVISIBLE);
             studentsTextView.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.white));
+
+            visibleListView = TIMECARD;
         }
     }
 
     public void showStudents(View view) {
 
-        if(studentsListView.getVisibility() != View.VISIBLE) {
+        if(visibleListView == TIMECARD) {
             studentsListView.setVisibility(View.VISIBLE);
             studentsTextView.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.blue));
             timecardListView.setVisibility(View.INVISIBLE);
             timecardTextView.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.white));
+
+            visibleListView = STUDENT;
         }
     }
 
