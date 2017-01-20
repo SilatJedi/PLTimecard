@@ -385,33 +385,34 @@ public class MainActivity extends AppCompatActivity {
                             }
 
 
-                            String[] names = new String[filteredLessons.size()];
-                            Date[] dates = new Date[filteredLessons.size()];
-                            boolean[] showedUps = new boolean[filteredLessons.size()];
-                            boolean[] eligibles = new boolean[filteredLessons.size()];
-                            boolean[] makeUps = new boolean[filteredLessons.size()];
+                                String[] names = new String[filteredLessons.size()];
+                                Date[] dates = new Date[filteredLessons.size()];
+                                boolean[] showedUps = new boolean[filteredLessons.size()];
+                                boolean[] eligibles = new boolean[filteredLessons.size()];
+                                boolean[] makeUps = new boolean[filteredLessons.size()];
 
+                                if(filteredLessons.size() > 0) {
+                                    for (int j = 0; j < filteredLessons.size(); j++) {
+                                        Lesson lesson = lessons.get(i);
 
-                            for (int j = 0; j < filteredLessons.size(); j++) {
-                                Lesson lesson = lessons.get(i);
+                                        names[j] = lesson.getStudentName();
+                                        dates[j] = lesson.getDate();
+                                        showedUps[j] = lesson.didShowUp();
+                                        eligibles[j] = lesson.isEligible();
+                                        makeUps[j] = lesson.isMakeUp();
+                                    }
+                                }
 
-                                names[j] = lesson.getStudentName();
-                                dates[j] = lesson.getDate();
-                                showedUps[j] = lesson.didShowUp();
-                                eligibles[j] = lesson.isEligible();
-                                makeUps[j] = lesson.isMakeUp();
-                            }
+                                TimeCardListViewArrayAdapter timeCardListViewArrayAdapter = new TimeCardListViewArrayAdapter(
+                                        MainActivity.this,
+                                        names,
+                                        dates,
+                                        showedUps,
+                                        eligibles,
+                                        makeUps);
 
+                                timecardListView.setAdapter(timeCardListViewArrayAdapter);
 
-                            TimeCardListViewArrayAdapter timeCardListViewArrayAdapter = new TimeCardListViewArrayAdapter(
-                                    MainActivity.this,
-                                    names,
-                                    dates,
-                                    showedUps,
-                                    eligibles,
-                                    makeUps);
-
-                            timecardListView.setAdapter(timeCardListViewArrayAdapter);
                         }
                     }
                 } else {
