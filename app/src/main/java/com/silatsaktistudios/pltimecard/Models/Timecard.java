@@ -16,7 +16,7 @@ public class Timecard extends RealmObject {
     private int id;
     private String title;
     private Date startDate, endDate;
-    private RealmList<Lesson> lessons;
+    private RealmList<Lesson> lessons = new RealmList<>();
     private boolean isCurrent = true;
 
     public Timecard() {}

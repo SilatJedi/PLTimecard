@@ -30,12 +30,19 @@ import io.realm.RealmResults;
 import io.realm.Sort;
 
 public class MainActivity extends AppCompatActivity {
+
+    //constants
     private final int TIMECARD = 0, STUDENT = 1;
 
+
+
+    //variables
     private Realm realm;
     private TextView timecardTextView, studentsTextView;
     private ListView timecardListView, studentsListView;
     private int visibleListView = TIMECARD;
+
+
 
 //==================================Activity Methods================================================
     @Override
@@ -65,14 +72,15 @@ public class MainActivity extends AppCompatActivity {
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
 
-        outState.putInt("timeCardListViz", timecardListView.getVisibility());
+        outState.putInt("visibleListView", visibleListView);
     }
 
     @Override
     protected void onRestoreInstanceState(Bundle inState) {
         super.onRestoreInstanceState(inState);
 
-
+        visibleListView = inState.getInt("visibleListView");
+        listViewChange(null);
     }
 
     @Override
@@ -139,27 +147,26 @@ public class MainActivity extends AppCompatActivity {
         menu.show();
     }
 
-    public void showTimecard(View view) {
+    public void listViewChange(View view) {
 
-        if(visibleListView == STUDENT) {
-            timecardListView.setVisibility(View.VISIBLE);
-            timecardTextView.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.blue));
-            studentsListView.setVisibility(View.INVISIBLE);
-            studentsTextView.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.white));
+        switch (visibleListView) {
+            case STUDENT:
+                timecardListView.setVisibility(View.VISIBLE);
+                timecardTextView.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.blue));
+                studentsListView.setVisibility(View.INVISIBLE);
+                studentsTextView.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.white));
 
-            visibleListView = TIMECARD;
-        }
-    }
+                visibleListView = TIMECARD;
+                break;
+            case TIMECARD:
+                studentsListView.setVisibility(View.VISIBLE);
+                studentsTextView.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.blue));
+                timecardListView.setVisibility(View.INVISIBLE);
+                timecardTextView.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.white));
 
-    public void showStudents(View view) {
-
-        if(visibleListView == TIMECARD) {
-            studentsListView.setVisibility(View.VISIBLE);
-            studentsTextView.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.blue));
-            timecardListView.setVisibility(View.INVISIBLE);
-            timecardTextView.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.white));
-
-            visibleListView = STUDENT;
+                visibleListView = STUDENT;
+                break;
+            default: break;
         }
     }
 
@@ -240,7 +247,7 @@ public class MainActivity extends AppCompatActivity {
 
         RealmResults<Lesson> lessons = timecard.getLessons().sort("date", Sort.DESCENDING);
 
-        if(timecard.getLessons().size() > 0) {
+        if(lessons.size() > 0) {
 
             String[] names = new String[lessons.size()];
             Date[] dates = new Date[lessons.size()];
@@ -269,10 +276,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
-
-
-
     private void setUpStudentList() {
 
         RealmResults<Student> students = realm.where(Student.class).findAll();
@@ -299,14 +302,10 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
-
-
     private void setUpUI() {
 
         timecardTextView = (TextView)findViewById(R.id.timecardTextView);
         timecardListView = (ListView)findViewById(R.id.timecardListView);
-        setUpTimecardList();
 
         studentsTextView = (TextView)findViewById(R.id.studentsTextView);
         studentsListView = (ListView)findViewById(R.id.studentsListView);
@@ -321,7 +320,103 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                Timecard timecard = realm
+                        .where(Timecard.class)
+                        .findAll()
+                        .get(realm.where(Timecard.class)
+                                .findAll()
+                                .size() - 1);
 
+                RealmResults<Lesson> lessons = timecard.getLessons().sort("date", Sort.DESCENDING);
+
+                if(visibleListView == TIMECARD) {
+
+                    if(charSequence.toString().isEmpty()) {
+
+                        String[] names = new String[lessons.size()];
+                        Date[] dates = new Date[lessons.size()];
+                        boolean[] showedUps = new boolean[lessons.size()];
+                        boolean[] eligibles = new boolean[lessons.size()];
+                        boolean[] makeUps = new boolean[lessons.size()];
+
+                        for(int z = 0; z < timecard.getLessons().size(); z++) {
+
+                            Lesson lesson = lessons.get(z);
+
+                            names[z] = lesson.getStudentName();
+                            dates[z] = lesson.getDate();
+                            showedUps[z] = lesson.didShowUp();
+                            eligibles[z] = lesson.isEligible();
+                            makeUps[z] = lesson.isMakeUp();
+                        }
+
+                        TimeCardListViewArrayAdapter timeCardListViewArrayAdapter = new TimeCardListViewArrayAdapter(
+                                MainActivity.this,
+                                names,
+                                dates,
+                                showedUps,
+                                eligibles,
+                                makeUps);
+
+                        timecardListView.setAdapter(timeCardListViewArrayAdapter);
+
+                    } else {
+                        if (lessons.size() > 0) {
+
+                            RealmList<Lesson> filteredLessons = new RealmList<>();
+
+
+                            for (int k = 0; k < lessons.size(); k++) {
+                                Lesson lesson = lessons.get(k);
+                                String rank = realm.where(Student.class).equalTo("id", lesson.getStudentID()).findFirst().getRank();
+                                String enrollmentType =
+                                        realm.where(Student.class)
+                                                .equalTo("id", lesson.getStudentID())
+                                                .findFirst().getEnrollmentType();
+
+                                String lowerCharSeq = charSequence.toString().toLowerCase();
+
+                                if (lesson.getStudentName().toLowerCase().contains(lowerCharSeq) ||
+                                        enrollmentType.toLowerCase().equals(lowerCharSeq) ||
+                                        rank.equals(charSequence.toString())) {
+
+                                    filteredLessons.add(lesson);
+                                }
+                            }
+
+
+                            String[] names = new String[filteredLessons.size()];
+                            Date[] dates = new Date[filteredLessons.size()];
+                            boolean[] showedUps = new boolean[filteredLessons.size()];
+                            boolean[] eligibles = new boolean[filteredLessons.size()];
+                            boolean[] makeUps = new boolean[filteredLessons.size()];
+
+
+                            for (int j = 0; j < filteredLessons.size(); j++) {
+                                Lesson lesson = lessons.get(i);
+
+                                names[j] = lesson.getStudentName();
+                                dates[j] = lesson.getDate();
+                                showedUps[j] = lesson.didShowUp();
+                                eligibles[j] = lesson.isEligible();
+                                makeUps[j] = lesson.isMakeUp();
+                            }
+
+
+                            TimeCardListViewArrayAdapter timeCardListViewArrayAdapter = new TimeCardListViewArrayAdapter(
+                                    MainActivity.this,
+                                    names,
+                                    dates,
+                                    showedUps,
+                                    eligibles,
+                                    makeUps);
+
+                            timecardListView.setAdapter(timeCardListViewArrayAdapter);
+                        }
+                    }
+                } else {
+
+                }
             }
 
             @Override

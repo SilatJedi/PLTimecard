@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string-array name="instructorTitles">
+        <item>Mas</item>
+        <item>Mbak</item>
+        <item>Dek</item>
+    </string-array>
     <string-array name="instructorRanks">
         <item>Baju</item>
         <item>Balik 2</item>

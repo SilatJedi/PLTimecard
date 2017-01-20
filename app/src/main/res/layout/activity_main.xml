@@ -56,7 +56,7 @@
             android:textStyle="bold"
             android:textSize="15sp"
             android:id="@+id/timecardTextView"
-            android:onClick="showTimecard"
+            android:onClick="listViewChange"
             android:layout_marginRight="1dp"/>
 
         <TextView
@@ -70,14 +70,14 @@
             android:textStyle="bold"
             android:textSize="15sp"
             android:id="@+id/studentsTextView"
-            android:onClick="showStudents"/>
+            android:onClick="listViewChange"/>
 
     </LinearLayout>
 
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Search by name or rank"
+        android:hint="Search by name, program, or rank"
         android:maxLines="1"
         android:imeOptions="actionSearch|flagNoExtractUi"
         android:id="@+id/searchEditText"
@@ -91,6 +91,7 @@
         android:gravity="center"
         android:textStyle="bold"
         android:textSize="18sp"
+        android:background="#dddddd"
         android:textColor="#000000"
         android:onClick="addNew"/>
 

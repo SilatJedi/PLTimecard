@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">PL Time Card</string>
+    <string name="app_name">PL Manager</string>
     <string name="primaryPhoneNumber">Primary Phone #</string>
     <string name="primaryPhoneType">Primary Phone Type</string>
     <string name="secondaryPhoneNumber">Secondary Phone #</string>
