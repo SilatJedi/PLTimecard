@@ -9,20 +9,18 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.silatsaktistudios.pltimecard.Models.Lesson;
 import com.silatsaktistudios.pltimecard.Models.Student;
-import com.silatsaktistudios.pltimecard.Models.Timecard;
+import com.silatsaktistudios.pltimecard.Models.TimeCard;
 
 import java.util.Calendar;
 import java.util.Date;
 
 import io.realm.Realm;
-import io.realm.RealmList;
 import io.realm.RealmResults;
 
 public class AddLessonActivity extends AppCompatActivity {
@@ -128,14 +126,14 @@ public class AddLessonActivity extends AppCompatActivity {
 
             Log.d("final lesson date", lesson.getDate().toString());
 
-            final RealmResults<Timecard> timecards = realm.where(Timecard.class).findAll();
+            final RealmResults<TimeCard> timecards = realm.where(TimeCard.class).findAll();
 
 
 
             realm.executeTransaction(new Realm.Transaction() {
                 @Override
                 public void execute(Realm realm) {
-                    Timecard timecard = timecards.get(timecards.size() - 1);
+                    TimeCard timecard = timecards.last();
                     timecard.addLesson(lesson);
 
                     student.addLesson(lesson);
@@ -149,8 +147,7 @@ public class AddLessonActivity extends AppCompatActivity {
     }
 
     public void selectStudent(View view) {
-
-        if(students.size() > 0) {
+        
             final String[] studentNames = new String[students.size()];
 
             for (int i = 0; i < students.size(); i++) {
@@ -172,9 +169,6 @@ public class AddLessonActivity extends AppCompatActivity {
                     .setNegativeButton("Cancel", null);
 
             menu.show();
-        } else {
-            Toast.makeText(this, "You need to add students first.", Toast.LENGTH_SHORT).show();
-        }
     }
 
 

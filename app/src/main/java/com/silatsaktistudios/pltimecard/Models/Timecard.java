@@ -11,7 +11,7 @@ import io.realm.annotations.PrimaryKey;
  * Created by james on 12/19/16.
  */
 
-public class Timecard extends RealmObject {
+public class TimeCard extends RealmObject {
     @PrimaryKey
     private int id;
     private String title;
@@ -19,9 +19,9 @@ public class Timecard extends RealmObject {
     private RealmList<Lesson> lessons = new RealmList<>();
     private boolean isCurrent = true;
 
-    public Timecard() {}
+    public TimeCard() {}
 
-    public Timecard(Date startDate) {
+    public TimeCard(Date startDate) {
         setId();
         setStartDate(startDate);
         setTitle(android.text.format.DateFormat.format("MMM YYYY", startDate).toString());

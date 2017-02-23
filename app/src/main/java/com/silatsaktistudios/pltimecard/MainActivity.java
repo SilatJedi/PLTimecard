@@ -13,12 +13,13 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.silatsaktistudios.pltimecard.ListViewArrayAdapters.MainActivity.StudentListViewArrayAdapter;
 import com.silatsaktistudios.pltimecard.ListViewArrayAdapters.MainActivity.TimeCardListViewArrayAdapter;
 import com.silatsaktistudios.pltimecard.Models.Lesson;
 import com.silatsaktistudios.pltimecard.Models.Student;
-import com.silatsaktistudios.pltimecard.Models.Timecard;
+import com.silatsaktistudios.pltimecard.Models.TimeCard;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -173,8 +174,12 @@ public class MainActivity extends AppCompatActivity {
     public void addNew(View view) {
         //add to the correct list based on the visibility of the timecard list view
         if(timecardListView.getVisibility() == View.VISIBLE) {
-            Intent addLessonIntent = new Intent(MainActivity.this, AddLessonActivity.class);
-            startActivity(addLessonIntent);
+            if(realm.where(Student.class).findAll().size() != 0) {
+                Intent addLessonIntent = new Intent(MainActivity.this, AddLessonActivity.class);
+                startActivity(addLessonIntent);
+            } else {
+                Toast.makeText(this, "You need to add students first.", Toast.LENGTH_SHORT).show();
+            }
         } else {
             Intent addStudentIntent = new Intent(MainActivity.this, AddStudentActivity.class);
             startActivity(addStudentIntent);
@@ -200,9 +205,9 @@ public class MainActivity extends AppCompatActivity {
 
         Calendar now = Calendar.getInstance();
 
-        if(realm.where(Timecard.class).findAll().size() == 0) {
+        if(realm.where(TimeCard.class).findAll().size() == 0) {
             Log.d("timecard list", "is empty");
-            final Timecard newTimecard = new Timecard(firstOfMonth.getTime());
+            final TimeCard newTimecard = new TimeCard(firstOfMonth.getTime());
 
             realm.executeTransaction(new Realm.Transaction() {
                 @Override
@@ -212,7 +217,7 @@ public class MainActivity extends AppCompatActivity {
             });
         }
 
-        RealmResults<Timecard> timecards = realm.where(Timecard.class).findAll();
+        RealmResults<TimeCard> timecards = realm.where(TimeCard.class).findAll();
 
         Calendar calFromDate = Calendar.getInstance();
         calFromDate.setTimeInMillis(timecards.get(timecards.size() - 1).getStartDate().getTime());
@@ -229,7 +234,7 @@ public class MainActivity extends AppCompatActivity {
                 (currentMonth == Calendar.JANUARY &&
                         timeCardMonth == Calendar.DECEMBER) ) {
 
-            final Timecard newTimecard = new Timecard(firstOfMonth.getTime());
+            final TimeCard newTimecard = new TimeCard(firstOfMonth.getTime());
 
             realm.executeTransaction(new Realm.Transaction() {
                 @Override
@@ -242,8 +247,8 @@ public class MainActivity extends AppCompatActivity {
             //Todo:: notify user that a new timecard has been created and give them the option to submit previous timecard
         }
 
-        timecards = realm.where(Timecard.class).findAll();
-        Timecard timecard = timecards.get(timecards.size() - 1);
+        timecards = realm.where(TimeCard.class).findAll();
+        TimeCard timecard = timecards.get(timecards.size() - 1);
 
         RealmResults<Lesson> lessons = timecard.getLessons().sort("date", Sort.DESCENDING);
 
@@ -320,10 +325,10 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                Timecard timecard = realm
-                        .where(Timecard.class)
+                TimeCard timecard = realm
+                        .where(TimeCard.class)
                         .findAll()
-                        .get(realm.where(Timecard.class)
+                        .get(realm.where(TimeCard.class)
                                 .findAll()
                                 .size() - 1);
 
