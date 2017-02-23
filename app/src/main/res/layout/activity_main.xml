@@ -20,7 +20,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Private Lesson Manager"
+            android:text="@string/app_name"
             android:textColor="#ffffff"
             android:textStyle="bold"
             android:textSize="18sp"
@@ -30,7 +30,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="Menu"
+            android:text="@string/menu"
             android:textColor="#ffffff"
             android:textStyle="bold"
             android:textSize="18sp"
@@ -42,7 +42,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="25dp"
+        android:layout_height="40dp"
         android:background="#ffffff">
 
         <TextView
@@ -51,7 +51,7 @@
             android:layout_weight="1"
             android:textColor="#010db1"
             android:background="#999999"
-            android:text="Timecard"
+            android:text="@string/timecard"
             android:gravity="center"
             android:textStyle="bold"
             android:textSize="15sp"
@@ -65,7 +65,7 @@
             android:layout_weight="1"
             android:textColor="#ffffff"
             android:background="#999999"
-            android:text="Students"
+            android:text="@string/students"
             android:gravity="center"
             android:textStyle="bold"
             android:textSize="15sp"
@@ -74,20 +74,10 @@
 
     </LinearLayout>
 
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Search by name, program, or rank"
-        android:maxLines="1"
-        android:imeOptions="actionSearch|flagNoExtractUi"
-        android:id="@+id/searchEditText"
-        android:selectAllOnFocus="true"
-        android:inputType="textNoSuggestions" />
-
     <TextView
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:text="Add New"
+        android:text="@string/add_new"
         android:gravity="center"
         android:textStyle="bold"
         android:textSize="18sp"

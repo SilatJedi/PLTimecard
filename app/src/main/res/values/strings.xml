@@ -47,4 +47,8 @@
     <string name="grade">Grade</string>
     <string name="notes">Notes</string>
     <string name="lesson_notes_go_here">Lesson notes go here...</string>
+    <string name="menu">Menu</string>
+    <string name="timecard">Timecard</string>
+    <string name="students">Students</string>
+    <string name="add_new">Add New</string>
 </resources>
