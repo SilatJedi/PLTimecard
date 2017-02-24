@@ -1,13 +1,189 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_edit_instructor_info"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.silatsaktistudios.pltimecard.EditInstructorInfoActivity">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:id="@+id/activity_edit_instructor_info"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              tools:context="com.silatsaktistudios.pltimecard.EditInstructorInfoActivity">
 
-</RelativeLayout>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="#010db1">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Edit Your Info"
+            android:textColor="#ffffff"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="15dp"
+            android:layout_gravity="center_vertical"
+            android:id="@+id/editInstructorInfoActivityTitle"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="@string/cancel"
+            android:textColor="#ffea00"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:gravity="center_vertical"
+            android:layout_marginRight="15dp"
+            android:onClick="cancel"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="@string/submit"
+            android:textColor="#ffea00"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:gravity="center_vertical"
+            android:layout_marginRight="15dp"
+            android:onClick="submit"/>
+
+    </LinearLayout>
+
+
+
+    <!--first and last name-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="#000000"
+            android:paddingLeft="5dp"
+            android:text="@string/first_name"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:paddingLeft="10dp"
+            android:textColor="#000000"
+            android:text="@string/last_name"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp">
+
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="25dp"
+            android:layout_weight="1"
+            android:background="@drawable/rounded_corners"
+            android:maxLines="1"
+            android:hint="@string/first_name"
+            android:paddingLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:id="@+id/instructorFirstNameEditText"
+            android:inputType="textCapWords|textNoSuggestions"
+            android:imeOptions="actionNext"
+            android:nextFocusForward="@+id/instructorLastNameEditText" />
+
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="25dp"
+            android:layout_weight="1"
+            android:background="@drawable/rounded_corners"
+            android:hint="@string/last_name"
+            android:layout_marginLeft="5dp"
+            android:maxLines="1"
+            android:paddingLeft="5dp"
+            android:id="@+id/instructorLastNameEditText"
+            android:inputType="textCapWords|textNoSuggestions"
+            android:imeOptions="actionNext"
+            android:nextFocusForward="@+id/instructorEmailEditText"/>
+    </LinearLayout>
+
+    <!--email-->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:paddingLeft="5dp"
+        android:textColor="#000000"
+        android:text="Google Calendar Email Address"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="25dp"
+        android:background="@drawable/rounded_corners"
+        android:maxLines="1"
+        android:inputType="textNoSuggestions|textWebEmailAddress"
+        android:hint="@string/no_mail"
+        android:paddingLeft="5dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:id="@+id/instructorEmailEditText"
+        android:imeOptions="actionNext"
+        android:nextFocusForward="@+id/instructorPhoneNumEditText"/>
+
+    <!--Primary Phone Number-->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:textColor="#000000"
+        android:text="Phone Number"
+        android:id="@+id/studentPrimaryPhoneNumTextView"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="25dp"
+        android:background="@drawable/rounded_corners"
+        android:hint="@string/fake_phone_number"
+        android:maxLines="1"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:paddingLeft="5dp"
+        android:id="@+id/instructorPhoneNumEditText"
+        android:inputType="number"
+        android:imeOptions="actionDone"
+        tools:ignore="TextFields" />
+
+    <!--rank-->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:paddingLeft="5dp"
+        android:textColor="#000000"
+        android:text="@string/rank"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="25dp"
+        android:background="@drawable/rounded_corners"
+        android:textSize="17sp"
+        android:paddingLeft="5dp"
+        android:gravity="center_vertical"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:hint="@string/tap_for_list"
+        android:onClick="selectRank"
+        android:id="@+id/instructorRankField"/>
+</LinearLayout>
