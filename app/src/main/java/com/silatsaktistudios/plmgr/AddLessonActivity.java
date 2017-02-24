@@ -1,4 +1,4 @@
-package com.silatsaktistudios.pltimecard;
+package com.silatsaktistudios.plmgr;
 
 import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
@@ -13,9 +13,9 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-import com.silatsaktistudios.pltimecard.Models.Lesson;
-import com.silatsaktistudios.pltimecard.Models.Student;
-import com.silatsaktistudios.pltimecard.Models.TimeCard;
+import com.silatsaktistudios.plmgr.Models.Lesson;
+import com.silatsaktistudios.plmgr.Models.Student;
+import com.silatsaktistudios.plmgr.Models.TimeCard;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -42,8 +42,6 @@ public class AddLessonActivity extends AppCompatActivity {
 
     private EditText notesEditText;
 
-    private Realm realm;
-
     private RealmResults<Student> students;
 
     private Student student;
@@ -55,37 +53,11 @@ public class AddLessonActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_lesson);
 
-        realm = Realm.getDefaultInstance();
-
+        Realm realm = Realm.getDefaultInstance();
         students = realm.where(Student.class).findAll();
+        realm.close();
 
         setUpUI();
-    }
-
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        if(!realm.isClosed()) {
-            realm.close();
-        }
-    }
-
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if(realm.isClosed()) {
-            realm = Realm.getDefaultInstance();
-        }
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        if(!realm.isClosed()) {
-            realm.close();
-        }
     }
 
     @Override
@@ -111,6 +83,7 @@ public class AddLessonActivity extends AppCompatActivity {
 
     public void submit(View view) {
 
+        Realm realm = Realm.getDefaultInstance();
 
         if(isValid()) {
             final Lesson lesson = new Lesson(
@@ -144,6 +117,8 @@ public class AddLessonActivity extends AppCompatActivity {
         } else {
             Toast.makeText(this, "Please choose a student before you submit a lesson.", Toast.LENGTH_SHORT).show();
         }
+
+        realm.close();
     }
 
     public void selectStudent(View view) {

@@ -1,18 +1,16 @@
-package com.silatsaktistudios.pltimecard;
+package com.silatsaktistudios.plmgr;
 
 import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.silatsaktistudios.pltimecard.Models.Student;
+import com.silatsaktistudios.plmgr.Models.Student;
 
 import io.realm.Realm;
 
@@ -38,8 +36,6 @@ public class AddStudentActivity extends AppCompatActivity {
     private LinearLayout parent1FirstAndLastNameTextViewLayout, parent1FirstAndLastNameEditTextLayout,
             parent2FirstAndLastNameTextViewLayout, parent2FirstAndLastNameEditTextLayout;
 
-    private Realm realm;
-
     private int studentType = CHILD_STUDENT;
 
 
@@ -51,18 +47,8 @@ public class AddStudentActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_student);
 
-        realm = Realm.getDefaultInstance();
-
         setUpUI();
 
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        if(!realm.isClosed()) {
-            realm.close();
-        }
     }
 
     @Override
@@ -138,22 +124,6 @@ public class AddStudentActivity extends AppCompatActivity {
                 childTextView.setTextColor(getResources().getColor(R.color.white));
                 adultTextView.setTextColor(getResources().getColor(R.color.blue));
             }
-        }
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if(realm.isClosed()) {
-            realm = Realm.getDefaultInstance();
-        }
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        if(!realm.isClosed()) {
-            realm.close();
         }
     }
 
@@ -256,6 +226,8 @@ public class AddStudentActivity extends AppCompatActivity {
 
     public void submit(View view) {
 
+        Realm realm = Realm.getDefaultInstance();
+
         if(studentType == CHILD_STUDENT){
 
             final Student student = new Student(
@@ -302,6 +274,7 @@ public class AddStudentActivity extends AppCompatActivity {
             });
         }
 
+        realm.close();
         finish();
     }
 

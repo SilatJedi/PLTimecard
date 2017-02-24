@@ -1,5 +1,7 @@
-package com.silatsaktistudios.pltimecard;
+package com.silatsaktistudios.plmgr;
 
+import android.content.DialogInterface;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -9,7 +11,7 @@ import android.widget.TextView;
 public class EditInstructorInfoActivity extends AppCompatActivity {
 
     private EditText firstNameEditText, lastNameEditText, emailEditText, phoneEditText;
-    private TextView rankTexView;
+    private TextView rankTextView;
 
 
 
@@ -31,11 +33,26 @@ public class EditInstructorInfoActivity extends AppCompatActivity {
         emailEditText = (EditText) findViewById(R.id.instructorEmailEditText);
         phoneEditText = (EditText) findViewById(R.id.instructorPhoneNumEditText);
 
-        rankTexView = (TextView) findViewById(R.id.instructorRankField);
+        rankTextView = (TextView) findViewById(R.id.instructorRankField);
     }
 
-    public void setRank(View view) {
+    public void selectRank(View view) {
 
+        AlertDialog.Builder menu = new AlertDialog.Builder(this)
+                .setTitle("Select Rank")
+                .setSingleChoiceItems(getResources().getStringArray(R.array.AAPRanks), -1,
+                        new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int selection) {
+
+                        rankTextView.setText(getResources().getStringArray(R.array.AAPRanks)[selection]);
+                        dialogInterface.dismiss();
+                    }
+                })
+                .setNegativeButton("Cancel", null);
+
+        menu.show();
     }
 
 
