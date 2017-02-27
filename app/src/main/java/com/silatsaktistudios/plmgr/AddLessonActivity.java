@@ -90,7 +90,7 @@ public class AddLessonActivity extends AppCompatActivity {
                     student.getId(),
                     lessonStudentNameTextView.getText().toString(),
                     getDateTime(),
-                    getGradeInt(gradeTextView.getText().toString()),
+                    getGradeFloat(gradeTextView.getText().toString()),
                     notesEditText.getText().toString(),
                     showedUpCheckBox.isChecked(),
                     eligibleCheckBox.isChecked(),
@@ -245,13 +245,20 @@ public class AddLessonActivity extends AppCompatActivity {
         return calendar.getTime();
     }
 
-    private int getGradeInt(String grade) {
+    private float getGradeFloat(String grade) {
         switch(grade) {
-            case "F" : return 0;
-            case "D" : return 1;
-            case "C" : return 2;
-            case "B" : return 3;
-            case "A" : return 4;
+            case "F" : return 0f;
+            case "D-" : return 0.67f;
+            case "D" : return 1f;
+            case "D+" : return 1.33f;
+            case "C-" : return 1.67f;
+            case "C" : return 2f;
+            case "C+" : return 2.33f;
+            case "B-" : return 2.67f;
+            case "B" : return 3f;
+            case "B+" : return 3.33f;
+            case "A-" : return 3.67f;
+            case "A" : return 4f;
             default : return -1;
         }
     }

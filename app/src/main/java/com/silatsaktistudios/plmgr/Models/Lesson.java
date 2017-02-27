@@ -15,7 +15,7 @@ public class Lesson extends RealmObject {
 
     private int studentID;
     private String studentName;
-    private int grade;
+    private float grade;
     private String note;
     private Date date;
     private boolean showedUp;
@@ -24,7 +24,7 @@ public class Lesson extends RealmObject {
 
     public Lesson() {}
 
-    public Lesson(int studentID, String studentName, Date date, int grade, String note, boolean showedUp, boolean eligible, boolean isMakeUp) {
+    public Lesson(int studentID, String studentName, Date date, float grade, String note, boolean showedUp, boolean eligible, boolean isMakeUp) {
         setId();
         setDate(date);
         setGrade(grade);
@@ -70,11 +70,11 @@ public class Lesson extends RealmObject {
         this.studentName = studentName;
     }
 
-    public int getGrade() {
+    public float getGrade() {
         return grade;
     }
 
-    public void setGrade(int grade) {
+    public void setGrade(float grade) {
         this.grade = grade;
     }
 

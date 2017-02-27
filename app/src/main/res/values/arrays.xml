@@ -67,6 +67,8 @@
         <item>Grand-Father</item>
         <item>Aunt</item>
         <item>Uncle</item>
+        <item>Sister</item>
+        <item>Brother</item>
     </string-array>
     <string-array name="enrollmentTypes">
         <item>Persilat Kids</item>
@@ -76,9 +78,16 @@
     </string-array>
     <string-array name="grades">
         <item>A</item>
+        <item>A-</item>
+        <item>B+</item>
         <item>B</item>
+        <item>B-</item>
+        <item>C+</item>
         <item>C</item>
+        <item>C-</item>
+        <item>D+</item>
         <item>D</item>
+        <item>D-</item>
         <item>F</item>
     </string-array>
 </resources>
