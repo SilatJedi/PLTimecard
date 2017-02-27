@@ -7,7 +7,7 @@
     android:orientation="vertical"
     android:descendantFocusability="beforeDescendants"
     android:focusableInTouchMode="true"
-    tools:context="com.silatsaktistudios.pltimecard.AddStudentActivity">
+    tools:context="com.silatsaktistudios.plmgr.AddStudentActivity">
 
     <LinearLayout
         android:orientation="horizontal"

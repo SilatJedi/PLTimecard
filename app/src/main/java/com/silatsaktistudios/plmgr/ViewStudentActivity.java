@@ -1,4 +1,4 @@
-package com.silatsaktistudios.pltimecard;
+package com.silatsaktistudios.plmgr;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;

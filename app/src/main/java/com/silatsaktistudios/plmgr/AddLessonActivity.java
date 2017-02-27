@@ -1,4 +1,4 @@
-package com.silatsaktistudios.pltimecard;
+package com.silatsaktistudios.plmgr;
 
 import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
@@ -13,9 +13,9 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-import com.silatsaktistudios.pltimecard.Models.Lesson;
-import com.silatsaktistudios.pltimecard.Models.Student;
-import com.silatsaktistudios.pltimecard.Models.TimeCard;
+import com.silatsaktistudios.plmgr.Models.Lesson;
+import com.silatsaktistudios.plmgr.Models.Student;
+import com.silatsaktistudios.plmgr.Models.TimeCard;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -42,8 +42,6 @@ public class AddLessonActivity extends AppCompatActivity {
 
     private EditText notesEditText;
 
-    private Realm realm;
-
     private RealmResults<Student> students;
 
     private Student student;
@@ -55,37 +53,11 @@ public class AddLessonActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_lesson);
 
-        realm = Realm.getDefaultInstance();
-
+        Realm realm = Realm.getDefaultInstance();
         students = realm.where(Student.class).findAll();
+        realm.close();
 
         setUpUI();
-    }
-
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        if(!realm.isClosed()) {
-            realm.close();
-        }
-    }
-
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if(realm.isClosed()) {
-            realm = Realm.getDefaultInstance();
-        }
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        if(!realm.isClosed()) {
-            realm.close();
-        }
     }
 
     @Override
@@ -111,13 +83,14 @@ public class AddLessonActivity extends AppCompatActivity {
 
     public void submit(View view) {
 
+        Realm realm = Realm.getDefaultInstance();
 
         if(isValid()) {
             final Lesson lesson = new Lesson(
                     student.getId(),
                     lessonStudentNameTextView.getText().toString(),
                     getDateTime(),
-                    getGradeInt(gradeTextView.getText().toString()),
+                    getGradeFloat(gradeTextView.getText().toString()),
                     notesEditText.getText().toString(),
                     showedUpCheckBox.isChecked(),
                     eligibleCheckBox.isChecked(),
@@ -144,6 +117,8 @@ public class AddLessonActivity extends AppCompatActivity {
         } else {
             Toast.makeText(this, "Please choose a student before you submit a lesson.", Toast.LENGTH_SHORT).show();
         }
+
+        realm.close();
     }
 
     public void selectStudent(View view) {
@@ -270,13 +245,20 @@ public class AddLessonActivity extends AppCompatActivity {
         return calendar.getTime();
     }
 
-    private int getGradeInt(String grade) {
+    private float getGradeFloat(String grade) {
         switch(grade) {
-            case "F" : return 0;
-            case "D" : return 1;
-            case "C" : return 2;
-            case "B" : return 3;
-            case "A" : return 4;
+            case "F" : return 0f;
+            case "D-" : return 0.67f;
+            case "D" : return 1f;
+            case "D+" : return 1.33f;
+            case "C-" : return 1.67f;
+            case "C" : return 2f;
+            case "C+" : return 2.33f;
+            case "B-" : return 2.67f;
+            case "B" : return 3f;
+            case "B+" : return 3.33f;
+            case "A-" : return 3.67f;
+            case "A" : return 4f;
             default : return -1;
         }
     }
