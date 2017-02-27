@@ -1,4 +1,4 @@
-package com.silatsaktistudios.pltimecard.Models;
+package com.silatsaktistudios.plmgr.Models;
 
 import io.realm.Realm;
 import io.realm.RealmList;
@@ -14,6 +14,7 @@ public class Student extends RealmObject {
     private String firstName, lastName, primaryPhone, primaryPhoneType, secondaryPhone,
             secondaryPhoneType, email, rank, studentType, enrollmentType, parent1FirstName, parent1LastName, parent1type,
             parent2FirstName, parent2LastName, parent2Type;
+    private float gpa;
     private boolean isActive;
     private RealmList<Lesson> lessons = new RealmList<>();
 

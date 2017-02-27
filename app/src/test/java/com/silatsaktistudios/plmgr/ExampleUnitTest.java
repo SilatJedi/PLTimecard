@@ -1,4 +1,4 @@
-package com.silatsaktistudios.pltimecard;
+package com.silatsaktistudios.plmgr;
 
 import org.junit.Test;
 

@@ -1,4 +1,4 @@
-package com.silatsaktistudios.pltimecard.ListViewArrayAdapters.MainActivity;
+package com.silatsaktistudios.plmgr.ListViewArrayAdapters.MainActivity;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import com.silatsaktistudios.pltimecard.R;
+import com.silatsaktistudios.plmgr.R;
 
 /**
  * Created by james on 12/18/16.
