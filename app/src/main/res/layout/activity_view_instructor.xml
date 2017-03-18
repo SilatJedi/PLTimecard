@@ -5,7 +5,7 @@
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              tools:context="com.silatsaktistudios.plmgr.EditInstructorInfoActivity">
+              tools:context="com.silatsaktistudios.plmgr.ViewInstructorActivity">
 
     <LinearLayout
         android:orientation="horizontal"
@@ -17,14 +17,14 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Edit Your Info"
+            android:text="@string/edit_your_info"
             android:textColor="#ffffff"
             android:textStyle="bold"
             android:textSize="18sp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="15dp"
             android:layout_gravity="center_vertical"
-            android:id="@+id/editInstructorInfoActivityTitle"/>
+            android:id="@+id/viewInstructorActivityTitle"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -51,6 +51,28 @@
     </LinearLayout>
 
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:paddingLeft="5dp"
+        android:text="Title"
+        android:textColor="@color/black"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="25dp"
+        android:background="@drawable/rounded_corners"
+        android:textSize="17sp"
+        android:paddingLeft="5dp"
+        android:gravity="center_vertical"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:hint="@string/tap_for_list"
+        android:onClick="selectTitle"
+        android:id="@+id/instructorTitleField"/>
 
     <!--first and last name-->
     <LinearLayout
@@ -122,7 +144,7 @@
         android:layout_marginRight="10dp"
         android:paddingLeft="5dp"
         android:textColor="#000000"
-        android:text="Google Calendar Email Address"/>
+        android:text="@string/email_address"/>
 
     <EditText
         android:layout_width="match_parent"
@@ -146,7 +168,7 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:textColor="#000000"
-        android:text="Phone Number"
+        android:text="@string/cell_phone_number"
         android:id="@+id/studentPrimaryPhoneNumTextView"/>
 
     <EditText
