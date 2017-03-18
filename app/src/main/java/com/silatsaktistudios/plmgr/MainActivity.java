@@ -1,5 +1,6 @@
 package com.silatsaktistudios.plmgr;
 
+import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v4.content.ContextCompat;
@@ -8,12 +9,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.silatsaktistudios.plmgr.ListViewArrayAdapters.MainActivity.StudentListViewArrayAdapter;
 import com.silatsaktistudios.plmgr.ListViewArrayAdapters.MainActivity.TimeCardListViewArrayAdapter;
+import com.silatsaktistudios.plmgr.Models.Instructor;
 import com.silatsaktistudios.plmgr.Models.Lesson;
 import com.silatsaktistudios.plmgr.Models.Student;
 import com.silatsaktistudios.plmgr.Models.TimeCard;
@@ -30,14 +33,14 @@ public class MainActivity extends AppCompatActivity {
 
     //constants
     private final int TIMECARD = 0, STUDENT = 1;
-
+    private final boolean DEBUG = true;
 
 
     //variables
+    private LinearLayout mainActivityLayout;
     private TextView timecardTextView, studentsTextView;
     private ListView timecardListView, studentsListView;
     private int visibleListView = TIMECARD;
-
 
 
 //==================================Activity Methods================================================
@@ -52,7 +55,39 @@ public class MainActivity extends AppCompatActivity {
                         .build();
         Realm.setDefaultConfiguration(realmConfiguration);
 
+        Realm realm = Realm.getDefaultInstance();
+
+        if (DEBUG) {
+            createDemoData();
+        }
+
         setUpUI();
+
+        if (realm.where(Instructor.class).findAll().size() == 0) {
+
+            mainActivityLayout.setVisibility(View.INVISIBLE);
+
+            new AlertDialog.Builder(this, R.style.Theme_AppCompat_Light_Dialog_Alert)
+                    .setTitle("Welcome New User!!!")
+                    .setMessage("Welcome to the MP USA Private Lesson Manager. Press OK to get started.")
+                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @SuppressLint("ApplySharedPref")
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Intent i = new Intent(MainActivity.this, ViewInstructorActivity.class);
+                            startActivity(i);
+                            finish();
+                        }
+                    })
+                    .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            finish();
+                        }
+                    })
+                    .setCancelable(false)
+                    .show();
+        }
     }
 
     @Override
@@ -300,6 +335,8 @@ public class MainActivity extends AppCompatActivity {
 
         final Realm realm = Realm.getDefaultInstance();
 
+        mainActivityLayout = (LinearLayout) findViewById(R.id.mainActivityLayout);
+
         timecardTextView = (TextView)findViewById(R.id.timecardTextView);
         timecardListView = (ListView)findViewById(R.id.timecardListView);
 
@@ -421,6 +458,88 @@ public class MainActivity extends AppCompatActivity {
 //                //do nothing
 //            }
 //        });
+
+        realm.close();
+    }
+
+    public void createDemoData() {
+
+        Realm realm = Realm.getDefaultInstance();
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                realm.deleteAll();
+            }
+        });
+
+        for (int i = 0; i < 10; i++) {
+
+            final Student adult = new Student(
+                    "Adult",
+                    "Student" + ( i + 1),
+                    "555-555-555" + i,
+                    "Cell",
+                    "555-555-55" + i + "5",
+                    "Home",
+                    "adult-student" + i + "@mail.net",
+                    "Dasar 1",
+                    "Athletic Adventure Program");
+
+            final Student child = new Student(
+                    "Child",
+                    "Student" + ( i + 1),
+                    "555-555-555" + i,
+                    "Cell",
+                    "555-555-55" + i + "5",
+                    "Cell",
+                    "child-student" + i + "@mail.net",
+                    "White Belt",
+                    "Persilat Kids",
+                    "Parent1",
+                    "Student" + ( i + 1),
+                    "Mother",
+                    "Parent2",
+                    "Student" + ( i + 1),
+                    "Father");
+
+
+            realm.executeTransaction(new Realm.Transaction() {
+                @Override
+                public void execute(Realm realm) {
+                    realm.insert(adult);
+                    realm.insert(child);
+                }
+            });
+
+
+            Calendar firstOfMonth = Calendar.getInstance();
+            firstOfMonth.set(Calendar.DAY_OF_MONTH, 1);
+            firstOfMonth.set(Calendar.HOUR_OF_DAY, 0);
+            firstOfMonth.set(Calendar.MINUTE, 0);
+            final TimeCard timeCard = new TimeCard(firstOfMonth.getTime());
+
+            final RealmResults<Student> students = realm.where(Student.class).findAll();
+
+            for (final Student student : students) {
+                final Lesson lesson = new Lesson(
+                        student.getId(),
+                        student.getFirstName() + " " + student.getLastName(),
+                        new Date(),
+                        5,
+                        "Good Job",
+                        true,true,false);
+
+                realm.executeTransaction(new Realm.Transaction() {
+                    @Override
+                    public void execute(Realm realm) {
+
+                        student.addLesson(lesson);
+                        timeCard.addLesson(lesson);
+                        realm.insert(timeCard);
+                    }
+                });
+            }
+        }
 
         realm.close();
     }
