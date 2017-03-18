@@ -4,6 +4,8 @@
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_CALENDAR" />
+    <uses-permission android:name="android.permission.WRITE_CALENDAR" />
 
     <application
         android:allowBackup="true"
@@ -20,7 +22,7 @@
         </activity>
         <activity android:name="com.silatsaktistudios.plmgr.AddStudentActivity" />
         <activity android:name="com.silatsaktistudios.plmgr.AddLessonActivity" />
-        <activity android:name="com.silatsaktistudios.plmgr.EditInstructorInfoActivity" />
+        <activity android:name="com.silatsaktistudios.plmgr.ViewInstructorActivity" />
         <activity android:name="com.silatsaktistudios.plmgr.ViewStudentActivity"/>
     </application>
 
