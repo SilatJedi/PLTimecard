@@ -15,7 +15,7 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:background="#010db1">
+        android:background="@color/blue">
 
         <TextView
             android:layout_width="0dp"
@@ -32,7 +32,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text="@string/menu"
-            android:textColor="#ffffff"
+            android:textColor="@color/yellow"
             android:textStyle="bold"
             android:textSize="18sp"
             android:gravity="center_vertical"
@@ -50,7 +50,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:textColor="#010db1"
+            android:textColor="@color/blue"
             android:background="#999999"
             android:text="@string/timecard"
             android:gravity="center"
@@ -61,17 +61,17 @@
             android:layout_marginRight="1dp"/>
 
         <TextView
+            android:id="@+id/studentsTextView"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:textColor="#ffffff"
             android:background="#999999"
-            android:text="@string/students"
             android:gravity="center"
-            android:textStyle="bold"
+            android:onClick="listViewChange"
+            android:text="@string/students"
+            android:textColor="#ffffff"
             android:textSize="15sp"
-            android:id="@+id/studentsTextView"
-            android:onClick="listViewChange"/>
+            android:textStyle="bold" />
 
     </LinearLayout>
 
