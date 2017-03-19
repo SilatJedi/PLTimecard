@@ -1,13 +1,477 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_view_student"
+    android:id="@+id/activity_add_student"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
+    android:orientation="vertical"
+    android:descendantFocusability="beforeDescendants"
+    android:focusableInTouchMode="true"
     tools:context="com.silatsaktistudios.plmgr.ViewStudentActivity">
 
-</RelativeLayout>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="#010db1">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/view_student"
+            android:textColor="#ffffff"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="15dp"
+            android:layout_gravity="center_vertical"
+            android:id="@+id/addStudentActivityTitle"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="@string/back"
+            android:textColor="@color/yellow"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:gravity="center_vertical"
+            android:layout_marginRight="15dp"
+            android:onClick="goBack"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="@string/edit"
+            android:textColor="@color/yellow"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:gravity="center_vertical"
+            android:layout_marginRight="15dp"
+            android:onClick="edit"/>
+
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!--basic info heading-->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:gravity="center"
+                android:text="@string/basic_info"
+                android:textColor="#000000"
+                android:textSize="17sp" />
+
+            <!--first and last name-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingLeft="5dp"
+                    android:text="@string/first_name"
+                    android:textColor="#000000" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingLeft="10dp"
+                    android:text="@string/last_name"
+                    android:textColor="#000000" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp">
+
+                <TextView
+                    android:id="@+id/studentFirstNameTextView"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="5dp"
+                    android:layout_weight="1"
+                    android:paddingLeft="5dp"
+                    android:textColor="#000000" />
+
+                <TextView
+                    android:id="@+id/studentLastNameTextView"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_weight="1"
+                    android:paddingLeft="5dp"
+                    android:textColor="#000000" />
+            </LinearLayout>
+
+
+            <!--enrollment type-->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                android:paddingLeft="5dp"
+                android:text="@string/enrollment_type"
+                android:textColor="#000000" />
+
+            <TextView
+                android:id="@+id/studentEnrollmentTypeTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:paddingLeft="5dp"
+                android:textColor="#000000"
+                android:textSize="17sp" />
+
+            <!--rank-->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                android:paddingLeft="5dp"
+                android:text="@string/rank"
+                android:textColor="#000000" />
+
+            <TextView
+                android:id="@+id/studentRankTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:gravity="center_vertical"
+                android:paddingLeft="5dp"
+                android:textSize="17sp" />
+
+
+            <!--contact info heading-->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:gravity="center"
+                android:text="@string/contact_info"
+                android:textColor="#000000"
+                android:textSize="17sp" />
+
+            <!--email-->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:paddingLeft="5dp"
+                android:text="@string/e_mail_address"
+                android:textColor="#000000" />
+
+            <TextView
+                android:id="@+id/studentEmailTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:paddingLeft="5dp"
+                android:onClick="emailDialog"/>
+
+
+            <!--parent 1 heading-->
+            <TextView
+                android:id="@+id/studentParent1HeadingTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="20dp"
+                android:gravity="center"
+                android:text="@string/parent_1"
+                android:textColor="#000000"
+                android:textSize="15sp" />
+
+            <!--parent 1 first and last name-->
+            <LinearLayout
+                android:id="@+id/parent1FirstAndlastNameTextViews"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/parent_1_first_name"
+                    android:textColor="#000000" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingLeft="5dp"
+                    android:text="@string/parent_1_last_name"
+                    android:textColor="#000000" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/parent1FirstAndLastNameEditTexts"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp">
+
+                <TextView
+                    android:id="@+id/studentParent1FirstName"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="5dp"
+                    android:layout_weight="1"
+                    android:paddingLeft="5dp"
+                    android:textColor="#000000" />
+
+                <TextView
+                    android:id="@+id/studentParent1LastName"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_weight="1"
+                    android:paddingLeft="5dp"
+                    android:textColor="#000000" />
+            </LinearLayout>
+
+            <!--Primary Phone Number-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp">
+
+                <TextView
+                    android:id="@+id/studentPrimaryPhoneNumTextView"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/parent_1_phone_number"
+                    android:textColor="#000000" />
+
+                <TextView
+                    android:id="@+id/studentPrimaryPhoneTypeTextView"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingLeft="5dp"
+                    android:text="@string/parent_1_phone_type"
+                    android:textColor="#000000" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp">
+
+                <TextView
+                    android:id="@+id/studentPrimaryPhoneNum"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="5dp"
+                    android:layout_weight="1"
+                    android:onClick="callDialog"
+                    android:paddingLeft="5dp"
+                    android:textColor="#000000" />
+
+                <TextView
+                    android:id="@+id/studentPrimaryPhoneType"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_weight="1"
+                    android:paddingLeft="5dp"
+                    android:textColor="#000000" />
+            </LinearLayout>
+
+
+            <TextView
+                android:id="@+id/studentParent1TypeTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                android:text="@string/parent_1_type"
+                android:textColor="#000000" />
+
+            <TextView
+                android:id="@+id/studentParent1Type"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:paddingLeft="5dp"
+                android:textColor="#000000" />
+
+
+            <!--parent 2 heading-->
+            <TextView
+                android:id="@+id/studentParent2HeadingTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="20dp"
+                android:gravity="center"
+                android:text="@string/parent_2"
+                android:textColor="#000000"
+                android:textSize="15sp" />
+
+            <!--parent 2 first and last name-->
+            <LinearLayout
+                android:id="@+id/parent2FirstAndlastNameTextViews"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/parent_2_first_name"
+                    android:textColor="#000000" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingLeft="5dp"
+                    android:text="@string/parent_2_last_name"
+                    android:textColor="#000000" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/parent2FirstAndlastNameEditTexts"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp">
+
+                <TextView
+                    android:id="@+id/studentParent2FirstName"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="5dp"
+                    android:layout_weight="1"
+                    android:paddingLeft="5dp"
+                    android:textColor="#000000" />
+
+                <TextView
+                    android:id="@+id/studentParent2LastName"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_weight="1"
+                    android:paddingLeft="5dp"
+                    android:textColor="#000000" />
+            </LinearLayout>
+
+            <!--Secondary Phone Number-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp">
+
+                <TextView
+                    android:id="@+id/studentSecondaryPhoneNumTextView"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/parent_2_phone_number"
+                    android:textColor="#000000" />
+
+                <TextView
+                    android:id="@+id/studentSecondaryPhoneTypeTextView"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingLeft="5dp"
+                    android:text="@string/parent_2_phone_type"
+                    android:textColor="#000000" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp">
+
+                <TextView
+                    android:id="@+id/studentSecondaryPhoneNum"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="5dp"
+                    android:layout_weight="1"
+                    android:onClick="callDialog"
+                    android:paddingLeft="5dp" />
+
+                <TextView
+                    android:id="@+id/studentSecondaryPhoneType"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_weight="1"
+                    android:paddingLeft="5dp"
+                    android:textColor="@color/black" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/studentParent2TypeTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                android:text="@string/parent_2_type"
+                android:textColor="#000000" />
+
+            <TextView
+                android:id="@+id/studentParent2Type"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="100dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:paddingLeft="5dp" />
+
+
+        </LinearLayout>
+    </ScrollView>
+
+
+</LinearLayout>
+

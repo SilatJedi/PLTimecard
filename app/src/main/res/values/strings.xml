@@ -55,4 +55,7 @@
     <string name="email_address">Email Address</string>
     <string name="edit_your_info">Edit Your Info</string>
     <string name="add_new_instructor">Add New Instructor</string>
+    <string name="view_student">View Student</string>
+    <string name="back">Back</string>
+    <string name="edit">Edit</string>
 </resources>

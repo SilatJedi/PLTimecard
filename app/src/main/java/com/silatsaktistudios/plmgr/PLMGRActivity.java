@@ -1,14 +1,18 @@
 package com.silatsaktistudios.plmgr;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -26,28 +30,36 @@ import java.util.Date;
 
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
+import io.realm.RealmList;
 import io.realm.RealmResults;
 import io.realm.Sort;
 
 public class PLMGRActivity extends AppCompatActivity {
 
     //constants
-    private final int TIMECARD = 0, STUDENT = 1;
-    private final boolean DEBUG = true;
+    public static final int TIMECARD = 0, STUDENT = 1;
 
 
     //variables
     private LinearLayout mainActivityLayout;
-    private TextView timecardTextView, studentsTextView;
+    private TextView timecardTextView, studentsTextView, debugDbButton;
     private ListView timecardListView, studentsListView;
     private int visibleListView = TIMECARD;
-
+    private RealmResults<Student> students;
+    private RealmResults<Lesson> lessons;
 
 //==================================Activity Methods================================================
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_plmgr);
+
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.CALL_PHONE},   //request specific permission from user
+                    10);
+        }
 
         RealmConfiguration realmConfiguration =
                 new RealmConfiguration.Builder(getApplicationContext())
@@ -57,11 +69,13 @@ public class PLMGRActivity extends AppCompatActivity {
 
         Realm realm = Realm.getDefaultInstance();
 
-        if (DEBUG) {
-            createDemoData();
-        }
-
         setUpUI();
+
+        debugDbButton.setEnabled(true);
+
+        if (getIntent().hasExtra("listView")) {
+            listViewChange(null);
+        }
 
         if (realm.where(Instructor.class).findAll().size() == 0) {
 
@@ -202,7 +216,111 @@ public class PLMGRActivity extends AppCompatActivity {
         }
     }
 
+    public void createDemoData(View view) {
 
+        Log.d("resetting DB", "blam!");
+
+        Realm realm = Realm.getDefaultInstance();
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                realm.deleteAll();
+            }
+        });
+
+        for (int i = 0; i < 10; i++) {
+
+            final Student adult = new Student(
+                    "Adult",
+                    "Student" + ( i + 1),
+                    "555555555" + i,
+                    "Cell",
+                    "55555555" + i + "5",
+                    "Home",
+                    "adult-student" + i + "@mail.net",
+                    "Dasar 1",
+                    "Athletic Adventure Program");
+
+            realm.executeTransaction(new Realm.Transaction() {
+                @Override
+                public void execute(Realm realm) {
+                    realm.insert(adult);
+                }
+            });
+
+            final Student child = new Student(
+                    "Child",
+                    "Student" + ( i + 1),
+                    "555555555" + i,
+                    "Cell",
+                    "55555555" + i + "5",
+                    "Cell",
+                    "child-student" + i + "@mail.net",
+                    "White Belt",
+                    "Persilat Kids",
+                    "Parent1",
+                    "Student" + ( i + 1),
+                    "Mother",
+                    "Parent2",
+                    "Student" + ( i + 1),
+                    "Father");
+
+            realm.executeTransaction(new Realm.Transaction() {
+                @Override
+                public void execute(Realm realm) {
+                    realm.insert(child);
+                }
+            });
+
+
+
+        }
+
+        Calendar firstOfMonth = Calendar.getInstance();
+        firstOfMonth.set(Calendar.DAY_OF_MONTH, 1);
+        firstOfMonth.set(Calendar.HOUR_OF_DAY, 0);
+        firstOfMonth.set(Calendar.MINUTE, 0);
+        final TimeCard timeCard = new TimeCard(firstOfMonth.getTime());
+
+        final RealmResults<Student> students = realm.where(Student.class).findAll();
+
+        for (final Student student : students) {
+            final Lesson lesson = new Lesson(
+                    student.getId(),
+                    student.getFirstName() + " " + student.getLastName(),
+                    new Date(),
+                    5,
+                    "Good Job",
+                    true,true,false);
+
+            realm.executeTransaction(new Realm.Transaction() {
+                @Override
+                public void execute(Realm realm) {
+
+                    student.addLesson(lesson);
+                    timeCard.addLesson(lesson);
+                    realm.insert(timeCard);
+                }
+            });
+        }
+
+        final Instructor instructor = new Instructor(
+                "Obi-wan",
+                "Kenobi",
+                "Jedi Master", "Mas", "0855378008", "sithsuckass@jediorder.org");
+
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                realm.insert(instructor);
+            }
+        });
+
+        realm.close();
+
+        setUpStudentList();
+        setUpTimecardList();
+    }
 
 
 
@@ -269,7 +387,7 @@ public class PLMGRActivity extends AppCompatActivity {
         timecards = realm.where(TimeCard.class).findAll();
         TimeCard timecard = timecards.get(timecards.size() - 1);
 
-        RealmResults<Lesson> lessons = timecard.getLessons().sort("date", Sort.DESCENDING);
+        lessons = timecard.getLessons().sort("date", Sort.ASCENDING);
 
         if(lessons.size() > 0) {
 
@@ -305,8 +423,7 @@ public class PLMGRActivity extends AppCompatActivity {
     private void setUpStudentList() {
 
         Realm realm = Realm.getDefaultInstance();
-
-        RealmResults<Student> students = realm.where(Student.class).findAll();
+        students = realm.where(Student.class).findAll();
 
         if(students.size() > 0) {
             String[] names = new String[students.size()];
@@ -336,13 +453,34 @@ public class PLMGRActivity extends AppCompatActivity {
 
         final Realm realm = Realm.getDefaultInstance();
 
+        debugDbButton = (TextView) findViewById(R.id.debugDbButton);
+
         mainActivityLayout = (LinearLayout) findViewById(R.id.mainActivityLayout);
 
         timecardTextView = (TextView)findViewById(R.id.timecardTextView);
         timecardListView = (ListView)findViewById(R.id.timecardListView);
+        timecardListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+            }
+        });
 
         studentsTextView = (TextView)findViewById(R.id.studentsTextView);
         studentsListView = (ListView)findViewById(R.id.studentsListView);
+        studentsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+//                Log.d("student select position", String.valueOf(position));
+//                Log.d("student id", String.valueOf(students.get(position).getId()));
+
+                Intent i = new Intent(PLMGRActivity.this, ViewStudentActivity.class);
+                i.putExtra("studentID", students.get(position).getId());
+                startActivity(i);
+                finish();
+            }
+        });
 
 //        EditText searchEditText = (EditText) findViewById(R.id.searchEditText);
 //
@@ -463,91 +601,6 @@ public class PLMGRActivity extends AppCompatActivity {
         realm.close();
     }
 
-    public void createDemoData() {
 
-        Realm realm = Realm.getDefaultInstance();
-        realm.executeTransaction(new Realm.Transaction() {
-            @Override
-            public void execute(Realm realm) {
-                realm.deleteAll();
-            }
-        });
-
-        for (int i = 0; i < 10; i++) {
-
-            final Student adult = new Student(
-                    "Adult",
-                    "Student" + ( i + 1),
-                    "555-555-555" + i,
-                    "Cell",
-                    "555-555-55" + i + "5",
-                    "Home",
-                    "adult-student" + i + "@mail.net",
-                    "Dasar 1",
-                    "Athletic Adventure Program");
-
-            final Student child = new Student(
-                    "Child",
-                    "Student" + ( i + 1),
-                    "555-555-555" + i,
-                    "Cell",
-                    "555-555-55" + i + "5",
-                    "Cell",
-                    "child-student" + i + "@mail.net",
-                    "White Belt",
-                    "Persilat Kids",
-                    "Parent1",
-                    "Student" + ( i + 1),
-                    "Mother",
-                    "Parent2",
-                    "Student" + ( i + 1),
-                    "Father");
-
-            final Instructor instructor = new Instructor(
-                    "Obi-wan",
-                    "Kenobi",
-                    "Jedi Master", "Mas", "0855378008", "sithsuckass@jediorder.org");
-
-            realm.executeTransaction(new Realm.Transaction() {
-                @Override
-                public void execute(Realm realm) {
-                    realm.insert(adult);
-                    realm.insert(child);
-                    realm.insert(instructor);
-                }
-            });
-
-
-            Calendar firstOfMonth = Calendar.getInstance();
-            firstOfMonth.set(Calendar.DAY_OF_MONTH, 1);
-            firstOfMonth.set(Calendar.HOUR_OF_DAY, 0);
-            firstOfMonth.set(Calendar.MINUTE, 0);
-            final TimeCard timeCard = new TimeCard(firstOfMonth.getTime());
-
-            final RealmResults<Student> students = realm.where(Student.class).findAll();
-
-            for (final Student student : students) {
-                final Lesson lesson = new Lesson(
-                        student.getId(),
-                        student.getFirstName() + " " + student.getLastName(),
-                        new Date(),
-                        5,
-                        "Good Job",
-                        true,true,false);
-
-                realm.executeTransaction(new Realm.Transaction() {
-                    @Override
-                    public void execute(Realm realm) {
-
-                        student.addLesson(lesson);
-                        timeCard.addLesson(lesson);
-                        realm.insert(timeCard);
-                    }
-                });
-            }
-        }
-
-        realm.close();
-    }
 //=========================================End Class Methods========================================
 }
