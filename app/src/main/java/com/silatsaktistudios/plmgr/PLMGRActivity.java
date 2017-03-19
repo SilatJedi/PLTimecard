@@ -29,7 +29,7 @@ import io.realm.RealmConfiguration;
 import io.realm.RealmResults;
 import io.realm.Sort;
 
-public class MainActivity extends AppCompatActivity {
+public class PLMGRActivity extends AppCompatActivity {
 
     //constants
     private final int TIMECARD = 0, STUDENT = 1;
@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_plmgr);
 
         RealmConfiguration realmConfiguration =
                 new RealmConfiguration.Builder(getApplicationContext())
@@ -74,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
                         @SuppressLint("ApplySharedPref")
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            Intent i = new Intent(MainActivity.this, ViewInstructorActivity.class);
+                            Intent i = new Intent(PLMGRActivity.this, ViewInstructorActivity.class);
                             startActivity(i);
                             finish();
                         }
@@ -189,7 +189,7 @@ public class MainActivity extends AppCompatActivity {
             Realm realm = Realm.getDefaultInstance();
 
             if(realm.where(Student.class).findAll().size() != 0) {
-                Intent addLessonIntent = new Intent(MainActivity.this, AddLessonActivity.class);
+                Intent addLessonIntent = new Intent(PLMGRActivity.this, AddLessonActivity.class);
                 startActivity(addLessonIntent);
             } else {
                 Toast.makeText(this, "You need to add students first.", Toast.LENGTH_SHORT).show();
@@ -197,7 +197,7 @@ public class MainActivity extends AppCompatActivity {
 
             realm.close();
         } else {
-            Intent addStudentIntent = new Intent(MainActivity.this, AddStudentActivity.class);
+            Intent addStudentIntent = new Intent(PLMGRActivity.this, AddStudentActivity.class);
             startActivity(addStudentIntent);
         }
     }
@@ -289,7 +289,7 @@ public class MainActivity extends AppCompatActivity {
                 makeUps[i] = lesson.isMakeUp();
             }
             TimeCardListViewArrayAdapter timeCardListViewArrayAdapter = new TimeCardListViewArrayAdapter(
-                    MainActivity.this,
+                    PLMGRActivity.this,
                     names,
                     dates,
                     showedUps,
@@ -322,7 +322,7 @@ public class MainActivity extends AppCompatActivity {
             }
 
             StudentListViewArrayAdapter studentListViewArrayAdapter = new StudentListViewArrayAdapter(
-                    MainActivity.this,
+                    PLMGRActivity.this,
                     names,
                     enrollmentTypes,
                     ranks);
@@ -385,7 +385,7 @@ public class MainActivity extends AppCompatActivity {
 //                        }
 //
 //                        TimeCardListViewArrayAdapter timeCardListViewArrayAdapter = new TimeCardListViewArrayAdapter(
-//                                MainActivity.this,
+//                                PLMGRActivity.this,
 //                                names,
 //                                dates,
 //                                showedUps,
@@ -438,7 +438,7 @@ public class MainActivity extends AppCompatActivity {
 //                                }
 //
 //                                TimeCardListViewArrayAdapter timeCardListViewArrayAdapter = new TimeCardListViewArrayAdapter(
-//                                        MainActivity.this,
+//                                        PLMGRActivity.this,
 //                                        names,
 //                                        dates,
 //                                        showedUps,

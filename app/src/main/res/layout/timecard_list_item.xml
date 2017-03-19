@@ -16,7 +16,7 @@
             android:layout_weight="1"
             android:textColor="#000000"
             android:textSize="18sp"
-            android:text="John Doe"
+            android:text="Yoda"
             android:id="@+id/timecardItemStudentName"/>
 
         <TextView

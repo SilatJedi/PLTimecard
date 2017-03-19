@@ -2,7 +2,6 @@ package com.silatsaktistudios.plmgr;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Build;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
@@ -116,7 +115,7 @@ public class ViewInstructorActivity extends AppCompatActivity {
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        startActivity(new Intent(ViewInstructorActivity.this, MainActivity.class));
+                        startActivity(new Intent(ViewInstructorActivity.this, PLMGRActivity.class));
                         finish();
                     }
                 })
