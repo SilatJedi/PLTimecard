@@ -64,7 +64,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="25dp"
-        android:background="@drawable/rounded_corners"
+        android:background="@drawable/gray_rounded_corners"
         android:textSize="17sp"
         android:paddingLeft="5dp"
         android:gravity="center_vertical"
@@ -110,7 +110,7 @@
             android:layout_width="0dp"
             android:layout_height="25dp"
             android:layout_weight="1"
-            android:background="@drawable/rounded_corners"
+            android:background="@drawable/gray_rounded_corners"
             android:maxLines="1"
             android:hint="@string/first_name"
             android:paddingLeft="5dp"
@@ -124,7 +124,7 @@
             android:layout_width="0dp"
             android:layout_height="25dp"
             android:layout_weight="1"
-            android:background="@drawable/rounded_corners"
+            android:background="@drawable/gray_rounded_corners"
             android:hint="@string/last_name"
             android:layout_marginLeft="5dp"
             android:maxLines="1"
@@ -149,7 +149,7 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="25dp"
-        android:background="@drawable/rounded_corners"
+        android:background="@drawable/gray_rounded_corners"
         android:maxLines="1"
         android:inputType="textNoSuggestions|textWebEmailAddress"
         android:hint="@string/no_mail"
@@ -174,7 +174,7 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="25dp"
-        android:background="@drawable/rounded_corners"
+        android:background="@drawable/gray_rounded_corners"
         android:hint="@string/fake_phone_number"
         android:maxLines="1"
         android:layout_marginLeft="10dp"
@@ -182,7 +182,8 @@
         android:paddingLeft="5dp"
         android:id="@+id/instructorPhoneNumEditText"
         android:inputType="number"
-        android:imeOptions="actionDone"
+        android:imeOptions="actionNext"
+        android:nextFocusForward="@+id/instructorRankField"
         tools:ignore="TextFields" />
 
     <!--rank-->
@@ -199,7 +200,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="25dp"
-        android:background="@drawable/rounded_corners"
+        android:background="@drawable/gray_rounded_corners"
         android:textSize="17sp"
         android:paddingLeft="5dp"
         android:gravity="center_vertical"

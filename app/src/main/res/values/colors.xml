@@ -7,4 +7,6 @@
     <color name="white">#ffffff</color>
     <color name="gray">#dddddd</color>
     <color name="black">#000000</color>
+    <color name="red">#FF0000</color>
+    <color name="yellow">#FFFF00</color>
 </resources>

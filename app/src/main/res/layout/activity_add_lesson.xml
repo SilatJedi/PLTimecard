@@ -71,7 +71,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="25dp"
-                android:background="@drawable/rounded_corners"
+                android:background="@drawable/gray_rounded_corners"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:paddingLeft="5dp"
@@ -97,7 +97,7 @@
                 android:layout_gravity="center_horizontal"
                 android:calendarViewShown="false"
                 android:datePickerMode="spinner"
-                android:background="@drawable/rounded_corners"
+                android:background="@drawable/gray_rounded_corners"
                 tools:ignore="UnusedAttribute" />
 
             <TextView
@@ -114,7 +114,7 @@
                 android:id="@+id/lessonTimePicker"
                 android:layout_gravity="center_horizontal"
                 android:timePickerMode="spinner"
-                android:background="@drawable/rounded_corners"
+                android:background="@drawable/gray_rounded_corners"
                 tools:ignore="UnusedAttribute" />
 
             <LinearLayout
@@ -163,7 +163,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="25dp"
-                android:background="@drawable/rounded_corners"
+                android:background="@drawable/gray_rounded_corners"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:paddingLeft="5dp"
@@ -192,7 +192,7 @@
                 android:paddingLeft="5dp"
                 android:paddingRight="5dp"
                 android:hint="@string/lesson_notes_go_here"
-                android:background="@drawable/rounded_corners"
+                android:background="@drawable/gray_rounded_corners"
                 android:id="@+id/lessonNotesEditText"/>
 
         </LinearLayout>

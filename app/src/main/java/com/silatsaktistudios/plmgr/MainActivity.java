@@ -145,6 +145,7 @@ public class MainActivity extends AppCompatActivity {
                     case 1 : //Todo: create timecard history stuff
                         break;
                     case 2 : //Todo: create edit user info stuff
+
                         break;
                     default :
                         break;
@@ -502,12 +503,14 @@ public class MainActivity extends AppCompatActivity {
                     "Student" + ( i + 1),
                     "Father");
 
+            final Instructor instructor = new Instructor("Obi-wan", "Kenobi", "Jedi Master", "Mas", "0855378008", "sithsuckass@jediorder.org");
 
             realm.executeTransaction(new Realm.Transaction() {
                 @Override
                 public void execute(Realm realm) {
                     realm.insert(adult);
                     realm.insert(child);
+                    realm.insert(instructor);
                 }
             });
 
