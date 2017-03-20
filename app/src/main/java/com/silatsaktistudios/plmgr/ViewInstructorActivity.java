@@ -1,12 +1,12 @@
 package com.silatsaktistudios.plmgr;
 
 import android.content.DialogInterface;
-import android.graphics.Color;
+import android.content.Intent;
+import android.os.Build;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -40,13 +40,26 @@ public class ViewInstructorActivity extends AppCompatActivity {
 
     private void setUpUI() {
 
+        View.OnFocusChangeListener onFocusChangeListener = new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus) {
+                    validateForBlank((EditText) v);
+                }
+            }
+        };
+
         firstNameEditText = (EditText) findViewById(R.id.instructorFirstNameEditText);
+        firstNameEditText.setOnFocusChangeListener(onFocusChangeListener);
 
         lastNameEditText = (EditText) findViewById(R.id.instructorLastNameEditText);
+        lastNameEditText.setOnFocusChangeListener(onFocusChangeListener);
 
         emailEditText = (EditText) findViewById(R.id.instructorEmailEditText);
+        emailEditText.setOnFocusChangeListener(onFocusChangeListener);
 
         phoneEditText = (EditText) findViewById(R.id.instructorPhoneNumEditText);
+        phoneEditText.setOnFocusChangeListener(onFocusChangeListener);
 
         titleTextView = (TextView) findViewById(R.id.instructorTitleField);
         rankTextView = (TextView) findViewById(R.id.instructorRankField);
@@ -95,29 +108,47 @@ public class ViewInstructorActivity extends AppCompatActivity {
     }
 
     public void cancel(View view) {
-        if (instructors.size() ==0) {
-            finish();
-        }
-
+        new AlertDialog.Builder(this, R.style.Theme_AppCompat_Light_Dialog_Alert)
+                .setTitle("Cancel")
+                .setMessage("Are you sure?")
+                .setCancelable(false)
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        startActivity(new Intent(ViewInstructorActivity.this, PLMGRActivity.class));
+                        finish();
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                })
+                .show();
     }
 
     public void submit(View view) {
 
         if (validateFields()) {
             Realm realm = Realm.getDefaultInstance();
-            realm.executeTransaction(new Realm.Transaction() {
-                @Override
-                public void execute(Realm realm) {
-                    realm.insertOrUpdate(
-                            new Instructor(
-                                firstNameEditText.getText().toString(),
-                                lastNameEditText.getText().toString(),
-                                rankTextView.getText().toString(),
-                                titleTextView.getText().toString()
-                            )
-                    );
+            realm.executeTransaction(
+                new Realm.Transaction() {
+                    @Override
+                    public void execute(Realm realm) {
+                        realm.insertOrUpdate(
+                                new Instructor(
+                                       firstNameEditText.getText().toString(),
+                                       lastNameEditText.getText().toString(),
+                                       rankTextView.getText().toString(),
+                                       titleTextView.getText().toString(),
+                                        phoneEditText.getText().toString(),
+                                        emailEditText.getText().toString()
+                                )
+                        );
+                    }
                 }
-            });
+            );
         }
         else {
             new AlertDialog.Builder(this, R.style.Theme_AppCompat_Light_Dialog_Alert)
@@ -133,52 +164,101 @@ public class ViewInstructorActivity extends AppCompatActivity {
 
         boolean isValid = true;
 
-        if (!validateforBlank(titleTextView)) {
+        if (!validateForBlank(titleTextView)) {
             isValid = false;
         }
 
-        if (!validateforBlank(firstNameEditText)) {
+        if (!validateForBlank(firstNameEditText)) {
             isValid = false;
         }
 
-        if (!validateforBlank(lastNameEditText)) {
+        if (!validateForBlank(lastNameEditText)) {
             isValid = false;
         }
 
-        if (!validateforBlank(emailEditText)) {
+        if (!validateForBlank(emailEditText)) {
             isValid = false;
         }
 
-        if (!validateforBlank(phoneEditText)) {
+        if (!validateForBlank(phoneEditText)) {
             isValid = false;
         }
 
-        if (!validateforBlank(rankTextView)) {
+        if (!validateForBlank(rankTextView)) {
             isValid = false;
         }
 
         return isValid;
     }
 
-    private boolean validateforBlank(EditText editText) {
+    @SuppressWarnings("deprecation")
+    private boolean validateForBlank(EditText editText) {
 
         if (editText.getText().toString().isEmpty()) {
-            editText.setBackgroundColor(Color.RED);
+
+
+
+            if (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP){
+                // do something for phones running an SDK before lollipop
+                editText.setHintTextColor(getResources().getColor(R.color.yellow));
+                editText.setBackground(getResources().getDrawable(R.drawable.red_rounded_corners));
+            }
+            else if (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.M){
+                // do something for below SDK marshmallow
+                editText.setHintTextColor(getResources().getColor(R.color.yellow));
+                editText.setBackground(getResources().getDrawable(R.drawable.red_rounded_corners));
+            }
+            else {
+                // Do something for lollipop and above versions
+                editText.setHintTextColor(getResources().getColor(R.color.yellow, null));
+                editText.setBackground(getResources().getDrawable(R.drawable.red_rounded_corners, null));
+            }
             return false;
         }
         else{
-            editText.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.gray));
+            if (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP){
+                // do something for phones running an SDK before lollipop
+                editText.setBackground(getResources().getDrawable(R.drawable.gray_rounded_corners));
+            }
+            else{
+                // Do something for lollipop and above
+                editText.setBackground(getResources().getDrawable(R.drawable.gray_rounded_corners, null));
+            }
+
             return true;
         }
     }
 
-    private boolean validateforBlank(TextView textView) {
+    @SuppressWarnings("deprecation")
+    private boolean validateForBlank(TextView textView) {
 
         if (textView.getText().toString().isEmpty()) {
-            textView.setBackgroundColor(Color.RED);
+            if (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP){
+                // do something for phones running an SDK before lollipop
+                textView.setBackground(getResources().getDrawable(R.drawable.red_rounded_corners));
+                textView.setHintTextColor(getResources().getColor(R.color.yellow));
+            }
+            else if (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.M){
+                // do something for below SDK marshmallow
+                textView.setHintTextColor(getResources().getColor(R.color.yellow));
+                textView.setBackground(getResources().getDrawable(R.drawable.red_rounded_corners));
+            }
+            else {
+                // Do something for lollipop and above versions
+                textView.setHintTextColor(getResources().getColor(R.color.yellow, null));
+                textView.setBackground(getResources().getDrawable(R.drawable.red_rounded_corners, null));
+            }
             return false;
-        } else {
-            textView.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.gray));
+        }
+        else{
+            if (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP){
+                // do something for phones running an SDK before lollipop
+                textView.setBackground(getResources().getDrawable(R.drawable.gray_rounded_corners));
+            } else{
+                // Do something for lollipop and above
+                textView.setBackground(getResources().getDrawable(R.drawable.gray_rounded_corners, null));
+            }
+
             return true;
         }
     }

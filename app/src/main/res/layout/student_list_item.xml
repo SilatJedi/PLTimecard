@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:textColor="#000000"
         android:textSize="18sp"
-        android:text="John Doe"
+        android:text="Luke Skywalker"
         android:id="@+id/studentListName"/>
 
     <LinearLayout
@@ -21,7 +21,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:textColor="#888888"
+            android:textColor="#000000"
             android:text="Athletic Adventure Program"
             android:layout_marginRight="20dp"
             android:id="@+id/studentListEnrollmentType"/>
@@ -30,7 +30,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
-            android:textColor="#888888"
+            android:textColor="#000000"
             android:text="Balik 3"
             android:layout_marginRight="10dp"
             android:id="@+id/studentListRank"/>
