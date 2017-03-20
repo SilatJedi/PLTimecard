@@ -51,4 +51,14 @@
     <string name="timecard">Timecard</string>
     <string name="students">Students</string>
     <string name="add_new">Add New</string>
+    <string name="cell_phone_number">Cell Phone Number</string>
+    <string name="email_address">Email Address</string>
+    <string name="edit_your_info">Edit Your Info</string>
+    <string name="add_new_instructor">Add New Instructor</string>
+    <string name="view_student">View Student</string>
+    <string name="back">Back</string>
+    <string name="edit">Edit</string>
+    <string name="current_timecard">Current Timecard</string>
+    <string name="private_lesson_manager">Private Lesson Manager</string>
+    <string name="edit_student">Edit Student</string>
 </resources>
