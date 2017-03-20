@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:descendantFocusability="beforeDescendants"
+    android:focusableInTouchMode="true"
+    tools:context="com.silatsaktistudios.plmgr.PLMGRActivity"
+    android:id="@+id/mainActivityLayout">
+
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@color/blue">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/private_lesson_manager"
+            android:textColor="#ffffff"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:layout_marginLeft="15dp"
+            android:layout_gravity="center_vertical"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center_vertical">
+
+        <Button
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/gray_rounded_corners"
+            android:text="Current Timecard"
+            android:textAllCaps="false"
+            android:textColor="@color/blue"
+            android:onClick="gotoLessonList"/>
+
+        <Button
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/gray_rounded_corners"
+            android:layout_marginTop="20dp"
+            android:text="Timecard History"
+            android:textAllCaps="false"
+            android:textColor="@color/blue"
+            android:onClick="gotoTimeCardList"
+            android:visibility="gone"/>
+
+        <Button
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/gray_rounded_corners"
+            android:layout_marginTop="20dp"
+            android:text="Student Roster"
+            android:textAllCaps="false"
+            android:textColor="@color/blue"
+            android:onClick="gotoStudentList"/>
+
+        <Button
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/gray_rounded_corners"
+            android:layout_marginTop="20dp"
+            android:text="Lesson Scheduler"
+            android:textAllCaps="false"
+            android:textColor="@color/blue"
+            android:onClick="gotoScheduler"
+            android:visibility="gone"/>
+
+        <Button
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/gray_rounded_corners"
+            android:layout_marginTop="20dp"
+            android:text="Lesson Reminders"
+            android:textAllCaps="false"
+            android:textColor="@color/blue"
+            android:onClick="gotoReminders"
+            android:visibility="gone"/>
+
+        <Button
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/gray_rounded_corners"
+            android:layout_marginTop="20dp"
+            android:text="Options"
+            android:textAllCaps="false"
+            android:textColor="@color/blue"
+            android:onClick="gotoOptions"/>
+
+        <Button
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/gray_rounded_corners"
+            android:layout_marginTop="20dp"
+            android:textAllCaps="false"
+            android:textColor="@color/blue"
+            android:text="Create Debug Database"
+            android:onClick="createDemoData"
+            android:id="@+id/debugDbButton"
+            android:visibility="invisible"/>
+    </LinearLayout>
+
+</LinearLayout>
