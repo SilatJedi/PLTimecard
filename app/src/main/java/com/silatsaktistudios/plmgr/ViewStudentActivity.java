@@ -51,24 +51,28 @@ public class ViewStudentActivity extends AppCompatActivity {
         }
 
         if (studentID == -1) {
-            goBack(null);
+            onBackPressed();
         } else {
             displayStudentInfo();
         }
     }
 
-
-    //=======================On Click Methods=============================
-    public void goBack(View view) {
-
-        Intent i = new Intent(ViewStudentActivity.this, PLMGRActivity.class);
-        i.putExtra("listView", PLMGRActivity.STUDENT);
-        startActivity(i);
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(ViewStudentActivity.this, StudentListActivity.class));
         finish();
     }
 
-    public void edit(View view) {
+    //=======================On Click Methods=============================
+    public void goBack(View view) {
+        onBackPressed();
+    }
 
+    public void edit(View view) {
+        Intent i = new Intent(ViewStudentActivity.this, EditStudentActivity.class);
+        i.putExtra("studentID", studentID);
+        startActivity(i);
+        finish();
     }
 
 
@@ -158,25 +162,38 @@ public class ViewStudentActivity extends AppCompatActivity {
     }
 
     private String formatPhoneNumber(String number) {
-
-        return "(" + number.substring(0, 3) + ")" +
-                number.substring(3, 6) + "-" +
-                number.substring(6, number.length());
+        if (number.length() >= 7) {
+            return "(" + number.substring(0, 3) + ")" +
+                    number.substring(3, 6) + "-" +
+                    number.substring(6, number.length());
+        }
+        else {
+            return "";
+        }
     }
 
     public void callDialog(View view) {
         final TextView textView = (TextView) view;
+        final String number = textView.getText().toString().replace("(", "").replace(")", "").replace("-", "");
+        String[] dialogItems = {"Call", "Send Text"};
 
         new AlertDialog.Builder(ViewStudentActivity.this, R.style.Theme_AppCompat_Light_Dialog_Alert)
-                .setTitle("Call " + student.getFullName() + "?")
+                .setTitle("Call or Send Text to " + student.getFullName() + "?")
                 .setCancelable(false)
-                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                .setSingleChoiceItems(dialogItems, -1, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        call(textView.getText().toString());
+
+                        switch (which) {
+                            case 0: call(number);
+                                break;
+                            case 1: textMessage(number);
+                                break;
+                            default: break;
+                        }
                     }
                 })
-                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.cancel();
@@ -186,8 +203,12 @@ public class ViewStudentActivity extends AppCompatActivity {
 
     }
 
+    private void textMessage(String number) {
+        startActivity(new Intent(Intent.ACTION_VIEW, Uri.fromParts("sms", number, null)));
+    }
+
     private void call(String number) {
-        Uri call = Uri.parse("tel:" + number.replace("(", "").replace(")", "").replace("-", ""));
+        Uri call = Uri.parse("tel:" + number);
         Intent callIntent = new Intent(Intent.ACTION_CALL);
         callIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_NO_USER_ACTION);
         callIntent.setData(call);

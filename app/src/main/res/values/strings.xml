@@ -58,4 +58,7 @@
     <string name="view_student">View Student</string>
     <string name="back">Back</string>
     <string name="edit">Edit</string>
+    <string name="current_timecard">Current Timecard</string>
+    <string name="private_lesson_manager">Private Lesson Manager</string>
+    <string name="edit_student">Edit Student</string>
 </resources>

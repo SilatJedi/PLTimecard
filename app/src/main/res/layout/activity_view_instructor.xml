@@ -11,7 +11,7 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:background="#010db1">
+        android:background="@color/primaryDark">
 
         <TextView
             android:layout_width="0dp"
@@ -30,7 +30,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text="@string/cancel"
-            android:textColor="#ffea00"
+            android:textColor="@color/primaryLight"
             android:textStyle="bold"
             android:textSize="18sp"
             android:gravity="center_vertical"
@@ -41,7 +41,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text="@string/submit"
-            android:textColor="#ffea00"
+            android:textColor="@color/primaryLight"
             android:textStyle="bold"
             android:textSize="18sp"
             android:gravity="center_vertical"

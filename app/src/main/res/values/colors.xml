@@ -7,6 +7,14 @@
     <color name="white">#ffffff</color>
     <color name="gray">#dddddd</color>
     <color name="black">#000000</color>
+    <color name="second_blue">#1D2DF4</color>
     <color name="red">#FF0000</color>
     <color name="yellow">#FFFF00</color>
+    <color name="dark_blue">#010B8F</color>
+
+    <color name="primary">#1D2DF4</color>
+    <color name="primaryDark">#0612A5</color>
+    <color name="primaryLight">#4350F4</color>
+    <color name="primaryBright">#6C76F3</color>
 </resources>
+
