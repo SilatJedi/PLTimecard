@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.silatsaktistudios.plmgr">
+          package="com.silatsaktistudios.plmgr">
 
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_CALENDAR" />
-    <uses-permission android:name="android.permission.WRITE_CALENDAR" />
-    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_CALENDAR"/>
+    <uses-permission android:name="android.permission.WRITE_CALENDAR"/>
+    <uses-permission android:name="android.permission.CALL_PHONE"/>
 
     <application
         android:allowBackup="true"
@@ -16,19 +16,21 @@
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         <activity android:name=".PLMGRActivity">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".AddStudentActivity" />
-        <activity android:name=".AddLessonActivity" />
-        <activity android:name=".ViewInstructorActivity" />
-        <activity android:name=".ViewStudentActivity" />
-        <activity android:name=".StudentListActivity" />
-        <activity android:name=".LessonListActivity" />
-        <activity android:name=".OptionsActivity" />
-        <activity android:name=".EditStudentActivity"></activity>
+        <activity android:name=".AddStudentActivity"/>
+        <activity android:name=".AddLessonActivity"/>
+        <activity android:name=".ViewInstructorActivity"/>
+        <activity android:name=".ViewStudentActivity"/>
+        <activity android:name=".StudentListActivity"/>
+        <activity android:name=".LessonListActivity"/>
+        <activity android:name=".OptionsActivity"/>
+        <activity android:name=".EditStudentActivity"/>
+        <activity android:name=".ViewLessonActivity">
+        </activity>
     </application>
 
 </manifest>
