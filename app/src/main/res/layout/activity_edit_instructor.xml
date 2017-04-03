@@ -5,7 +5,7 @@
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              tools:context="com.silatsaktistudios.plmgr.ViewInstructorActivity">
+              tools:context="com.silatsaktistudios.plmgr.EditInstructorActivity">
 
     <LinearLayout
         android:orientation="horizontal"
@@ -58,7 +58,7 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:paddingLeft="5dp"
-        android:text="Title"
+        android:text="@string/title"
         android:textColor="@color/black"/>
 
     <TextView
@@ -209,4 +209,28 @@
         android:hint="@string/tap_for_list"
         android:onClick="selectRank"
         android:id="@+id/instructorRankField"/>
+
+    <!--email-->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:paddingLeft="5dp"
+        android:textColor="#000000"
+        android:text="@string/email_to_send_timecards_to"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="25dp"
+        android:background="@drawable/gray_rounded_corners"
+        android:maxLines="1"
+        android:inputType="textNoSuggestions|textWebEmailAddress"
+        android:hint="@string/no_mail"
+        android:paddingLeft="5dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:id="@+id/reportingEmailEditText"
+        android:imeOptions="actionDone"/>
 </LinearLayout>

@@ -11,14 +11,15 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.silatsaktistudios.plmgr.Models.Configs;
 import com.silatsaktistudios.plmgr.Models.Instructor;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
 
-public class ViewInstructorActivity extends AppCompatActivity {
+public class EditInstructorActivity extends AppCompatActivity {
 
-    private EditText firstNameEditText, lastNameEditText, emailEditText, phoneEditText;
+    private EditText firstNameEditText, lastNameEditText, emailEditText, phoneEditText, reportingEmailEditText;
     private TextView rankTextView;
     private TextView titleTextView;
     private RealmResults<Instructor> instructors;
@@ -29,7 +30,7 @@ public class ViewInstructorActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_view_instructor);
+        setContentView(R.layout.activity_edit_instructor);
 
         Realm realm = Realm.getDefaultInstance();
         instructors = realm.where(Instructor.class).findAll();
@@ -60,6 +61,9 @@ public class ViewInstructorActivity extends AppCompatActivity {
 
         phoneEditText = (EditText) findViewById(R.id.instructorPhoneNumEditText);
         phoneEditText.setOnFocusChangeListener(onFocusChangeListener);
+
+        reportingEmailEditText = (EditText) findViewById(R.id.reportingEmailEditText);
+        reportingEmailEditText.setOnFocusChangeListener(onFocusChangeListener);
 
         titleTextView = (TextView) findViewById(R.id.instructorTitleField);
         rankTextView = (TextView) findViewById(R.id.instructorRankField);
@@ -115,7 +119,7 @@ public class ViewInstructorActivity extends AppCompatActivity {
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        startActivity(new Intent(ViewInstructorActivity.this, PLMGRActivity.class));
+                        startActivity(new Intent(EditInstructorActivity.this, PLMGRActivity.class));
                         finish();
                     }
                 })
@@ -138,17 +142,24 @@ public class ViewInstructorActivity extends AppCompatActivity {
                     public void execute(Realm realm) {
                         realm.insertOrUpdate(
                                 new Instructor(
-                                       firstNameEditText.getText().toString(),
-                                       lastNameEditText.getText().toString(),
-                                       rankTextView.getText().toString(),
-                                       titleTextView.getText().toString(),
+                                        firstNameEditText.getText().toString(),
+                                        lastNameEditText.getText().toString(),
+                                        rankTextView.getText().toString(),
+                                        titleTextView.getText().toString(),
                                         phoneEditText.getText().toString(),
                                         emailEditText.getText().toString()
                                 )
                         );
+
+                        realm.insertOrUpdate(
+                                new Configs(reportingEmailEditText.getText().toString())
+                        );
                     }
                 }
             );
+
+            startActivity(new Intent(EditInstructorActivity.this, PLMGRActivity.class));
+            finish();
         }
         else {
             new AlertDialog.Builder(this, R.style.Theme_AppCompat_Light_Dialog_Alert)

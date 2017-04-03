@@ -10,58 +10,51 @@
     tools:context="com.silatsaktistudios.plmgr.LessonListActivity">
 
     <LinearLayout
-        android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:background="@color/primaryDark">
+        android:background="@color/primaryDark"
+        android:orientation="horizontal">
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="15dp"
             android:layout_weight="1"
             android:text="@string/current_timecard"
             android:textColor="#ffffff"
-            android:textStyle="bold"
             android:textSize="18sp"
-            android:layout_marginLeft="15dp"
-            android:layout_gravity="center_vertical"/>
+            android:textStyle="bold"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="Sort"
-            android:textColor="@color/primaryLight"
-            android:textStyle="bold"
-            android:textSize="18sp"
-            android:gravity="center_vertical"
             android:layout_marginRight="15dp"
-            android:onClick="sortList"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:onClick="goBack"
             android:text="@string/back"
-            android:textColor="@color/primaryLight"
-            android:textStyle="bold"
+            android:textColor="@color/primaryBright"
             android:textSize="18sp"
-            android:gravity="center_vertical"
-            android:layout_marginRight="15dp"
-            android:onClick="goBack"/>
+            android:textStyle="bold"/>
 
     </LinearLayout>
 
     <EditText
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:hint="Search by Name"
         android:textColorHint="@color/primaryDark"
+        android:textColor="@color/primaryDark"
         android:background="@color/primaryBright"
-        android:gravity="center"/>
+        android:gravity="center"
+        android:inputType="textNoSuggestions"
+        android:hint="@string/search_by_name"
+        android:imeOptions="actionDone"
+        android:id="@+id/lessonSearchEditText"/>
 
 
     <ListView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_weight="1"
         android:id="@+id/timecardListView"/>
 

@@ -1,13 +1,17 @@
 package com.silatsaktistudios.plmgr;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.silatsaktistudios.plmgr.ListViewArrayAdapters.MainActivity.TimeCardListViewArrayAdapter;
@@ -19,6 +23,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 import io.realm.Realm;
+import io.realm.RealmList;
 import io.realm.RealmResults;
 import io.realm.Sort;
 
@@ -26,10 +31,10 @@ import io.realm.Sort;
 public class LessonListActivity extends AppCompatActivity {
 
 
-    private TextView timecardTextView;
     private ListView timecardListView;
     private RealmResults<Lesson> lessons;
-
+    private RealmList<Lesson> filteredLessons;
+    private boolean isFiltered = false;
 
     //==============Activity Methods========================
     @Override
@@ -63,7 +68,6 @@ public class LessonListActivity extends AppCompatActivity {
     }
 
 
-
     //===============On Click Methods==========================================
     public void goBack(View view) {
         onBackPressed();
@@ -73,7 +77,7 @@ public class LessonListActivity extends AppCompatActivity {
 
         Realm realm = Realm.getDefaultInstance();
 
-        if(realm.where(Student.class).findAll().size() != 0) {
+        if (realm.where(Student.class).findAll().size() != 0) {
             Intent addLessonIntent = new Intent(LessonListActivity.this, AddLessonActivity.class);
             startActivity(addLessonIntent);
         } else {
@@ -85,10 +89,8 @@ public class LessonListActivity extends AppCompatActivity {
     }
 
 
-
-
     //===========================================Helper Methods==========================================
-    private void setUpTimecardList(){
+    private void setUpTimecardList() {
 
         Realm realm = Realm.getDefaultInstance();
 
@@ -99,7 +101,7 @@ public class LessonListActivity extends AppCompatActivity {
 
         Calendar now = Calendar.getInstance();
 
-        if(realm.where(TimeCard.class).findAll().size() == 0) {
+        if (realm.where(TimeCard.class).findAll().size() == 0) {
             Log.d("timecard list", "is empty");
             final TimeCard newTimecard = new TimeCard(firstOfMonth.getTime());
 
@@ -124,9 +126,9 @@ public class LessonListActivity extends AppCompatActivity {
         Log.d("calendar.january", String.valueOf(Calendar.JANUARY));
         Log.d("calendar.december", String.valueOf(Calendar.DECEMBER));
 
-        if(currentMonth > timeCardMonth ||
+        if (currentMonth > timeCardMonth ||
                 (currentMonth == Calendar.JANUARY &&
-                        timeCardMonth == Calendar.DECEMBER) ) {
+                        timeCardMonth == Calendar.DECEMBER)) {
 
             final TimeCard newTimecard = new TimeCard(firstOfMonth.getTime());
 
@@ -146,7 +148,7 @@ public class LessonListActivity extends AppCompatActivity {
 
         lessons = timecard.getLessons().sort("date", Sort.ASCENDING);
 
-        if(lessons.size() > 0) {
+        if (lessons.size() > 0) {
 
             String[] names = new String[lessons.size()];
             Date[] dates = new Date[lessons.size()];
@@ -154,7 +156,7 @@ public class LessonListActivity extends AppCompatActivity {
             boolean[] eligibles = new boolean[lessons.size()];
             boolean[] makeUps = new boolean[lessons.size()];
 
-            for(int i = 0; i < timecard.getLessons().size(); i++) {
+            for (int i = 0; i < timecard.getLessons().size(); i++) {
                 Lesson lesson = lessons.get(i);
 
                 names[i] = lesson.getStudentName();
@@ -173,38 +175,151 @@ public class LessonListActivity extends AppCompatActivity {
 
             timecardListView.setAdapter(timeCardListViewArrayAdapter);
         }
+        else {
+            String[] names = {"No Lessons Found"};
+            Date[] dates = {new Date()};
+            boolean[] showedUps = {true};
+            boolean[] eligibles = {true};
+            boolean[] makeUps = {true};
+
+            TimeCardListViewArrayAdapter studentListViewArrayAdapter = new TimeCardListViewArrayAdapter(
+                    LessonListActivity.this,
+                    names,
+                    dates,
+                    showedUps,
+                    eligibles,
+                    makeUps);
+            timecardListView.setAdapter(studentListViewArrayAdapter);
+        }
 
         realm.close();
     }
 
+    private void setUpFilteredTimeCardList() {
 
+        if (filteredLessons.size() > 0) {
+            String[] names = new String[filteredLessons.size()];
+            Date[] dates = new Date[filteredLessons.size()];
+            boolean[] showedUps = new boolean[filteredLessons.size()];
+            boolean[] eligibles = new boolean[filteredLessons.size()];
+            boolean[] makeUps = new boolean[filteredLessons.size()];
 
+            for (int i = 0; i < filteredLessons.size(); i++) {
+                Lesson lesson = filteredLessons.get(i);
 
+                names[i] = lesson.getStudentName();
+                dates[i] = lesson.getDate();
+                showedUps[i] = lesson.didShowUp();
+                eligibles[i] = lesson.isEligible();
+                makeUps[i] = lesson.isMakeUp();
+            }
+            TimeCardListViewArrayAdapter timeCardListViewArrayAdapter = new TimeCardListViewArrayAdapter(
+                    LessonListActivity.this,
+                    names,
+                    dates,
+                    showedUps,
+                    eligibles,
+                    makeUps);
 
+            timecardListView.setAdapter(timeCardListViewArrayAdapter);
+        }
+        else {
+            String[] names = {"No Lessons Found"};
+            Date[] dates = {new Date()};
+            boolean[] showedUps = {true};
+            boolean[] eligibles = {true};
+            boolean[] makeUps = {true};
 
-
-
-
-
+            TimeCardListViewArrayAdapter studentListViewArrayAdapter = new TimeCardListViewArrayAdapter(
+                    LessonListActivity.this,
+                    names,
+                    dates,
+                    showedUps,
+                    eligibles,
+                    makeUps);
+            timecardListView.setAdapter(studentListViewArrayAdapter);
+        }
+    }
 
 //=========================================Class Methods========================================
 
     private void setUpUI() {
 
-        final Realm realm = Realm.getDefaultInstance();
-
-
-
-        timecardListView = (ListView)findViewById(R.id.timecardListView);
+        timecardListView = (ListView) findViewById(R.id.timecardListView);
         timecardListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent i = new Intent(LessonListActivity.this, ViewLessonActivity.class);
+                i.putExtra("lessonID", lessons.get(position).getId());
+                startActivity(i);
+                finish();
+            }
+        });
+        timecardListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long l) {
+                new AlertDialog.Builder(LessonListActivity.this, R.style.Theme_AppCompat_Light_Dialog_Alert)
+                        .setTitle("Delete Lesson?")
+                        .setMessage("Are you sure that you want to do this? Please note that this cannot be undone.")
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                Realm realm = Realm.getDefaultInstance();
+
+
+                                realm.executeTransaction(new Realm.Transaction() {
+                                    @Override
+                                    public void execute(Realm realm) {
+                                        lessons.get(position).deleteFromRealm();
+                                    }
+                                });
+
+                                realm.close();
+
+                                setUpTimecardList();
+                            }
+                        })
+                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.cancel();
+                            }
+                        })
+                        .show();
+                return false;
+            }
+        });
+
+        EditText searchEditText = (EditText) findViewById(R.id.lessonSearchEditText);
+        searchEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if(charSequence.length() > 0) {
+                    filteredLessons = new RealmList<>();
+
+                    for (Lesson lesson : lessons) {
+                        if (lesson.getStudentName().toLowerCase().contains(charSequence.toString().toLowerCase())) {
+                            filteredLessons.add(lesson);
+                        }
+                    }
+
+                    setUpFilteredTimeCardList();
+                }
+                else {
+                    setUpTimecardList();
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
 
             }
         });
 
-
-
-        realm.close();
     }
-    }
+}

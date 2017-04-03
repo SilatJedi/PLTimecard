@@ -1,7 +1,6 @@
 package com.silatsaktistudios.plmgr;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -67,7 +66,7 @@ public class PLMGRActivity extends AppCompatActivity {
                     .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            Intent i = new Intent(PLMGRActivity.this, ViewInstructorActivity.class);
+                            Intent i = new Intent(PLMGRActivity.this, EditInstructorActivity.class);
                             startActivity(i);
                             finish();
                         }

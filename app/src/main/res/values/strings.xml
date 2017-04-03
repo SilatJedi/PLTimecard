@@ -61,4 +61,7 @@
     <string name="current_timecard">Current Timecard</string>
     <string name="private_lesson_manager">Private Lesson Manager</string>
     <string name="edit_student">Edit Student</string>
+    <string name="email_to_send_timecards_to">Email to send timecards to</string>
+    <string name="title">Title</string>
+    <string name="search_by_name">Search by Name</string>
 </resources>

@@ -23,13 +23,15 @@
         </activity>
         <activity android:name=".AddStudentActivity"/>
         <activity android:name=".AddLessonActivity"/>
-        <activity android:name=".ViewInstructorActivity"/>
+        <activity android:name=".EditInstructorActivity"/>
         <activity android:name=".ViewStudentActivity"/>
         <activity android:name=".StudentListActivity"/>
         <activity android:name=".LessonListActivity"/>
         <activity android:name=".OptionsActivity"/>
         <activity android:name=".EditStudentActivity"/>
         <activity android:name=".ViewLessonActivity">
+        </activity>
+        <activity android:name=".EditLessonActivity">
         </activity>
     </application>
 

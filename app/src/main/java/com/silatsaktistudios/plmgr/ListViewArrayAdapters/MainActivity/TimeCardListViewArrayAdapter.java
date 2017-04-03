@@ -49,31 +49,38 @@ public class TimeCardListViewArrayAdapter extends ArrayAdapter<String> {
         studentName.setText(names[position]);
 
         TextView dateTime = (TextView) rowView.findViewById(R.id.timecardItemDateTime);
-        dateTime.setText(android.text.format.DateFormat.format("EEE d MMM, yyyy h:mm a", dates[position]));
-
         TextView showedUp = (TextView)rowView.findViewById(R.id.timecardShowedStatus);
         TextView eligible = (TextView)rowView.findViewById(R.id.timecardEligibleStatus);
         TextView makeUp = (TextView)rowView.findViewById(R.id.makeUpStatus);
 
-        if(showedUps[position]) {
-            showedUp.setText("Showed Up");
-            eligible.setText("");
-        } else {
-            showedUp.setText("No Show");
-            eligible.setVisibility(View.VISIBLE);
-
-            if(eligibles[position]) {
-                eligible.setText("Eligible");
+        if (!names[position].equals("No Lessons Found")) {
+            if (showedUps[position]) {
+                showedUp.setText("Showed Up");
+                eligible.setText("");
             } else {
-                eligible.setText("Not Eligible");
+                showedUp.setText("No Show");
+                eligible.setVisibility(View.VISIBLE);
+
+                if (eligibles[position]) {
+                    eligible.setText("Eligible");
+                } else {
+                    eligible.setText("Not Eligible");
+                }
             }
-        }
 
-        if(makeUps[position]) {
-            makeUp.setVisibility(View.VISIBLE);
-            makeUp.setText("Make Up Lesson");
-        }
+            if (makeUps[position]) {
+                makeUp.setVisibility(View.VISIBLE);
+                makeUp.setText("Make Up Lesson");
+            }
 
+            dateTime.setText(android.text.format.DateFormat.format("EEE d MMM, yyyy h:mm a", dates[position]));
+        }
+        else {
+            showedUp.setText("");
+            eligible.setText("");
+            makeUp.setText("");
+            dateTime.setText("");
+        }
         return rowView;
     }
 }
