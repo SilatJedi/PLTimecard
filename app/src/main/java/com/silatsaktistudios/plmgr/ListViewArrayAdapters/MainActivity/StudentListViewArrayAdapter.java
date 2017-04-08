@@ -8,7 +8,10 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import com.silatsaktistudios.plmgr.Models.Student;
 import com.silatsaktistudios.plmgr.R;
+
+import java.util.List;
 
 /**
  * Created by james on 12/18/16.
@@ -16,16 +19,16 @@ import com.silatsaktistudios.plmgr.R;
 
 public class StudentListViewArrayAdapter extends ArrayAdapter<String> {
     private final Context context;
-    private final String[] names, enrollmentTypes, ranks;
+//    private final String[] names, enrollmentTypes, ranks;
+    private List<Student> students;
 
-
-    public StudentListViewArrayAdapter(Context context, String[] names, String[] enrollmentTypes,
-                                       String[] ranks) {
-        super(context, R.layout.student_list_item, names);
+    public StudentListViewArrayAdapter(Context context, List<Student> students) {
+        super(context, R.layout.student_list_item, new String[students.size()]);//workaround, using the string array to define number of list items nothing shows up with out it
         this.context = context;
-        this.names = names;
-        this.enrollmentTypes = enrollmentTypes;
-        this.ranks = ranks;
+//        this.names = names;
+//        this.enrollmentTypes = enrollmentTypes;
+//        this.ranks = ranks;
+        this.students = students;
     }
 
     @Override
@@ -39,12 +42,19 @@ public class StudentListViewArrayAdapter extends ArrayAdapter<String> {
             rowView.setBackgroundColor(Color.LTGRAY);
         }
 
+        Student student = students.get(position);
+
         TextView studentName = (TextView) rowView.findViewById(R.id.studentListName);
-        studentName.setText(names[position]);
+//        studentName.setText(names[position]);
+        studentName.setText(student.getFullName());
+
         TextView enrollmentType = (TextView)rowView.findViewById(R.id.studentListEnrollmentType);
-        enrollmentType.setText(enrollmentTypes[position]);
+//        enrollmentType.setText(enrollmentTypes[position]);
+        enrollmentType.setText(student.getEnrollmentType());
+
         TextView rank = (TextView)rowView.findViewById(R.id.studentListRank);
-        rank.setText(ranks[position]);
+//        rank.setText(ranks[position]);
+        rank.setText(student.getRank());
 
         return rowView;
     }
