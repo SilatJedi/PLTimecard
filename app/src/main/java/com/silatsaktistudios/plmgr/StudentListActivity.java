@@ -16,6 +16,8 @@ import com.silatsaktistudios.plmgr.ListViewArrayAdapters.MainActivity.StudentLis
 import com.silatsaktistudios.plmgr.Models.Lesson;
 import com.silatsaktistudios.plmgr.Models.Student;
 
+import java.util.List;
+
 import io.realm.Realm;
 import io.realm.RealmList;
 import io.realm.RealmResults;
@@ -27,8 +29,6 @@ public class StudentListActivity extends AppCompatActivity {
     //variables
     private ListView studentsListView;
     EditText searchEditText;
-    private RealmResults<Student> students;
-    private RealmList<Student> filteredStudents;
     private boolean isFiltered = false;
 
 
@@ -56,7 +56,7 @@ public class StudentListActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-        setUpStudentList();
+        setUpStudentList(studentList());
     }
 
 
@@ -96,10 +96,10 @@ public class StudentListActivity extends AppCompatActivity {
                 int studentID;
 
                 if (isFiltered) {
-                    studentID = filteredStudents.get(position).getId();
+                    studentID = filteredStudentList(searchEditText.getText().toString()).get(position).getId();
                 }
                 else {
-                    studentID = students.get(position).getId();
+                    studentID = studentList().get(position).getId();
                 }
 
                 Intent i = new Intent(StudentListActivity.this, ViewStudentActivity.class);
@@ -122,10 +122,10 @@ public class StudentListActivity extends AppCompatActivity {
                                 Student student;
 
                                 if (isFiltered) {
-                                    student = filteredStudents.get(position);
+                                    student = filteredStudentList(searchEditText.getText().toString()).get(position);
                                 }
                                 else {
-                                    student = students.get(position);
+                                    student = studentList().get(position);
                                 }
 
                                 RealmResults<Lesson> lessons =
@@ -154,11 +154,11 @@ public class StudentListActivity extends AppCompatActivity {
                                 realm.close();
 
                                 if (isFiltered) {
-                                    filteredStudents.remove(position);
-                                    setUpFilteredStudentList();
+                                    filteredStudentList(searchEditText.getText().toString()).remove(position);
+                                    setUpStudentList(filteredStudentList(searchEditText.getText().toString()));
                                 }
                                 else {
-                                    setUpStudentList();
+                                    setUpStudentList(studentList());
                                 }
 
                              }
@@ -177,116 +177,52 @@ public class StudentListActivity extends AppCompatActivity {
         searchEditText = (EditText) findViewById(R.id.studentSearchEditText);
         searchEditText.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 if(charSequence.length() > 0) {
-                    filteredStudents = new RealmList<>();
-
-                    for (Student student : students) {
-                        if (student.getFullName().toLowerCase().contains(charSequence.toString().toLowerCase())) {
-                            filteredStudents.add(student);
-                        }
-                    }
-
                     isFiltered = true;
-                    setUpFilteredStudentList();
+                    setUpStudentList(filteredStudentList(charSequence.toString()));
                 }
                 else {
                     isFiltered = false;
-                    setUpStudentList();
+                    setUpStudentList(studentList());
                 }
             }
 
             @Override
-            public void afterTextChanged(Editable editable) {
-
-            }
+            public void afterTextChanged(Editable editable) {}
         });
     }
 
 
 
-    private void setUpStudentList() {
-
-        Realm realm = Realm.getDefaultInstance();
-        students = realm.where(Student.class).findAll().sort("lastName", Sort.ASCENDING, "firstName", Sort.ASCENDING);
-        realm.close();
-
-        if(students.size() > 0) {
-            String[] names = new String[students.size()];
-            String[] enrollmentTypes = new String[students.size()];
-            String[] ranks = new String[students.size()];
-
-            for (int i = 0; i < students.size(); i++) {
-                Student student = students.get(i);
-
-                names[i] = student.getFullName();
-                enrollmentTypes[i] = student.getEnrollmentType();
-                ranks[i] = student.getRank();
-            }
-
-            StudentListViewArrayAdapter studentListViewArrayAdapter = new StudentListViewArrayAdapter(
-                    StudentListActivity.this,
-                    names,
-                    enrollmentTypes,
-                    ranks);
-            studentsListView.setAdapter(studentListViewArrayAdapter);
-        }
-        else {
-            String[] names = {"No Students Found"};
-            String[] enrollmentTypes = {""};
-            String[] ranks = {""};
-
-            StudentListViewArrayAdapter studentListViewArrayAdapter = new StudentListViewArrayAdapter(
-                    StudentListActivity.this,
-                    names,
-                    enrollmentTypes,
-                    ranks);
-            studentsListView.setAdapter(studentListViewArrayAdapter);
-        }
-
+    private void setUpStudentList(List<Student> students) {
+        StudentListViewArrayAdapter studentListViewArrayAdapter = new StudentListViewArrayAdapter(
+                StudentListActivity.this,
+                students);
+        studentsListView.setAdapter(studentListViewArrayAdapter);
     }
 
-    private void setUpFilteredStudentList() {
-
+    private RealmResults<Student> studentList() {
         Realm realm = Realm.getDefaultInstance();
+        RealmResults<Student> students = realm.where(Student.class).findAll().sort("lastName", Sort.ASCENDING, "firstName", Sort.ASCENDING);
+        realm.close();
 
-        if(filteredStudents.size() > 0) {
-            String[] names = new String[filteredStudents.size()];
-            String[] enrollmentTypes = new String[filteredStudents.size()];
-            String[] ranks = new String[filteredStudents.size()];
+        return students;
+    }
 
-            for (int i = 0; i < filteredStudents.size(); i++) {
-                Student student = filteredStudents.get(i);
+    private RealmList<Student> filteredStudentList(String filter) {
+        RealmList<Student> students = new RealmList<>();
 
-                names[i] = student.getFullName();
-                enrollmentTypes[i] = student.getEnrollmentType();
-                ranks[i] = student.getRank();
+        for (Student student : studentList()) {
+            if (student.getFullName().toLowerCase().contains(filter.toLowerCase())) {
+                students.add(student);
             }
-
-            StudentListViewArrayAdapter studentListViewArrayAdapter = new StudentListViewArrayAdapter(
-                    StudentListActivity.this,
-                    names,
-                    enrollmentTypes,
-                    ranks);
-            studentsListView.setAdapter(studentListViewArrayAdapter);
-        } else {
-            String[] names = {"No Students Found"};
-            String[] enrollmentTypes = {""};
-            String[] ranks = {""};
-
-            StudentListViewArrayAdapter studentListViewArrayAdapter = new StudentListViewArrayAdapter(
-                    StudentListActivity.this,
-                    names,
-                    enrollmentTypes,
-                    ranks);
-            studentsListView.setAdapter(studentListViewArrayAdapter);
         }
 
-        realm.close();
+        return students;
     }
+
 }
