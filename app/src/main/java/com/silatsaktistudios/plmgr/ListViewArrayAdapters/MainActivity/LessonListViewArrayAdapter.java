@@ -16,15 +16,15 @@ import java.util.Date;
  * Created by james on 1/1/17.
  */
 
-public class TimeCardListViewArrayAdapter extends ArrayAdapter<String> {
+public class LessonListViewArrayAdapter extends ArrayAdapter<String> {
     private Context context;
     private String[] names;
     private Date[] dates;
     private boolean[] showedUps, eligibles, makeUps;
 
 
-    public TimeCardListViewArrayAdapter(Context context, String[] names, Date[] dates,
-                                        boolean[] showedUps, boolean[] eligibles, boolean[] makeUps) {
+    public LessonListViewArrayAdapter(Context context, String[] names, Date[] dates,
+                                      boolean[] showedUps, boolean[] eligibles, boolean[] makeUps) {
         super(context, R.layout.timecard_list_item, names);
         this.context = context;
         this.names = names;

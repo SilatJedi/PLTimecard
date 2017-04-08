@@ -14,7 +14,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.silatsaktistudios.plmgr.ListViewArrayAdapters.MainActivity.TimeCardListViewArrayAdapter;
+import com.silatsaktistudios.plmgr.ListViewArrayAdapters.MainActivity.LessonListViewArrayAdapter;
 import com.silatsaktistudios.plmgr.Models.Lesson;
 import com.silatsaktistudios.plmgr.Models.Student;
 import com.silatsaktistudios.plmgr.Models.TimeCard;
@@ -165,7 +165,7 @@ public class LessonListActivity extends AppCompatActivity {
                 eligibles[i] = lesson.isEligible();
                 makeUps[i] = lesson.isMakeUp();
             }
-            TimeCardListViewArrayAdapter timeCardListViewArrayAdapter = new TimeCardListViewArrayAdapter(
+            LessonListViewArrayAdapter lessonListViewArrayAdapter = new LessonListViewArrayAdapter(
                     LessonListActivity.this,
                     names,
                     dates,
@@ -173,7 +173,7 @@ public class LessonListActivity extends AppCompatActivity {
                     eligibles,
                     makeUps);
 
-            timecardListView.setAdapter(timeCardListViewArrayAdapter);
+            timecardListView.setAdapter(lessonListViewArrayAdapter);
         }
         else {
             String[] names = {"No Lessons Found"};
@@ -182,7 +182,7 @@ public class LessonListActivity extends AppCompatActivity {
             boolean[] eligibles = {true};
             boolean[] makeUps = {true};
 
-            TimeCardListViewArrayAdapter studentListViewArrayAdapter = new TimeCardListViewArrayAdapter(
+            LessonListViewArrayAdapter studentListViewArrayAdapter = new LessonListViewArrayAdapter(
                     LessonListActivity.this,
                     names,
                     dates,
@@ -213,7 +213,7 @@ public class LessonListActivity extends AppCompatActivity {
                 eligibles[i] = lesson.isEligible();
                 makeUps[i] = lesson.isMakeUp();
             }
-            TimeCardListViewArrayAdapter timeCardListViewArrayAdapter = new TimeCardListViewArrayAdapter(
+            LessonListViewArrayAdapter lessonListViewArrayAdapter = new LessonListViewArrayAdapter(
                     LessonListActivity.this,
                     names,
                     dates,
@@ -221,7 +221,7 @@ public class LessonListActivity extends AppCompatActivity {
                     eligibles,
                     makeUps);
 
-            timecardListView.setAdapter(timeCardListViewArrayAdapter);
+            timecardListView.setAdapter(lessonListViewArrayAdapter);
         }
         else {
             String[] names = {"No Lessons Found"};
@@ -230,7 +230,7 @@ public class LessonListActivity extends AppCompatActivity {
             boolean[] eligibles = {true};
             boolean[] makeUps = {true};
 
-            TimeCardListViewArrayAdapter studentListViewArrayAdapter = new TimeCardListViewArrayAdapter(
+            LessonListViewArrayAdapter studentListViewArrayAdapter = new LessonListViewArrayAdapter(
                     LessonListActivity.this,
                     names,
                     dates,
