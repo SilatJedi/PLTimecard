@@ -14,19 +14,17 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.silatsaktistudios.plmgr.ListViewArrayAdapters.MainActivity.LessonListViewArrayAdapter;
+import com.silatsaktistudios.plmgr.DataLogic.LessonLogic;
+import com.silatsaktistudios.plmgr.ListViewArrayAdapters.LessonListViewArrayAdapter;
 import com.silatsaktistudios.plmgr.Models.Lesson;
 import com.silatsaktistudios.plmgr.Models.Student;
-import com.silatsaktistudios.plmgr.Models.TimeCard;
 
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import io.realm.Realm;
 import io.realm.RealmList;
 import io.realm.RealmResults;
-import io.realm.Sort;
 
 
 public class LessonListActivity extends AppCompatActivity {
@@ -113,37 +111,18 @@ public class LessonListActivity extends AppCompatActivity {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long l) {
                 new AlertDialog.Builder(LessonListActivity.this, R.style.Theme_AppCompat_Light_Dialog_Alert)
-                        .setTitle("Delete Lesson?")
+                        .setTitle("Delete LessonLogic?")
                         .setMessage("Are you sure that you want to do this? Please note that this cannot be undone.")
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
-                                Realm realm = Realm.getDefaultInstance();
-
-                                Lesson lesson;
-
                                 if (isFiltered) {
-                                    lesson = filteredLessonList(searchEditText.getText().toString()).get(position);
+                                    String filter = searchEditText.getText().toString();
+                                    LessonLogic.delete(filteredLessonList(filter).get(position).getId());
+                                    setUpTimecardList(filteredLessonList(filter));
                                 }
                                 else {
-                                    lesson = lessonList().get(position);
-                                }
-
-                                final Lesson toDelete = lesson;
-
-                                realm.executeTransaction(new Realm.Transaction() {
-                                    @Override
-                                    public void execute(Realm realm) {
-                                        toDelete.deleteFromRealm();
-                                    }
-                                });
-
-                                realm.close();
-
-                                if(isFiltered) {
-                                    setUpTimecardList(filteredLessonList(searchEditText.getText().toString()));
-                                }
-                                else {
+                                    LessonLogic.delete(lessonList().get(position).getId());
                                     setUpTimecardList(lessonList());
                                 }
                             }
