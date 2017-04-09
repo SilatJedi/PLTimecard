@@ -83,7 +83,7 @@ public class StudentListActivity extends AppCompatActivity {
 
 
 
-//========================helper methods======================================
+
     private void setUpUI() {
         studentsListView = (ListView)findViewById(R.id.studentsListView);
         studentsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -154,7 +154,6 @@ public class StudentListActivity extends AppCompatActivity {
                                 realm.close();
 
                                 if (isFiltered) {
-                                    filteredStudentList(searchEditText.getText().toString()).remove(position);
                                     setUpStudentList(filteredStudentList(searchEditText.getText().toString()));
                                 }
                                 else {
