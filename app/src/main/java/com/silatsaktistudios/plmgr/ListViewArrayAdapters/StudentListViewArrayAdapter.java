@@ -1,4 +1,4 @@
-package com.silatsaktistudios.plmgr.ListViewArrayAdapters.MainActivity;
+package com.silatsaktistudios.plmgr.ListViewArrayAdapters;
 
 import android.content.Context;
 import android.graphics.Color;
