@@ -7,7 +7,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
@@ -19,12 +18,9 @@ import com.silatsaktistudios.plmgr.ListViewArrayAdapters.LessonListViewArrayAdap
 import com.silatsaktistudios.plmgr.Models.Lesson;
 import com.silatsaktistudios.plmgr.Models.Student;
 
-import java.util.Calendar;
 import java.util.List;
 
 import io.realm.Realm;
-import io.realm.RealmList;
-import io.realm.RealmResults;
 
 
 public class LessonListActivity extends AppCompatActivity {
@@ -55,7 +51,7 @@ public class LessonListActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        setUpTimecardList(lessonList());
+        setUpTimecardList(LessonLogic.lessonList());
     }
 
 
@@ -94,10 +90,12 @@ public class LessonListActivity extends AppCompatActivity {
                 int lessonID;
 
                 if(isFiltered) {
-                    lessonID = filteredLessonList(searchEditText.getText().toString()).get(position).getId();
+                    lessonID = LessonLogic.filteredLessonList(searchEditText.getText().toString())
+                            .get(position)
+                            .getId();
                 }
                 else {
-                    lessonID = lessonList().get(position).getId();
+                    lessonID = LessonLogic.lessonList().get(position).getId();
                 }
 
                 Intent i = new Intent(LessonListActivity.this, ViewLessonActivity.class);
@@ -111,19 +109,22 @@ public class LessonListActivity extends AppCompatActivity {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long l) {
                 new AlertDialog.Builder(LessonListActivity.this, R.style.Theme_AppCompat_Light_Dialog_Alert)
-                        .setTitle("Delete LessonLogic?")
+                        .setTitle("Delete Lesson?")
                         .setMessage("Are you sure that you want to do this? Please note that this cannot be undone.")
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 if (isFiltered) {
                                     String filter = searchEditText.getText().toString();
-                                    LessonLogic.delete(filteredLessonList(filter).get(position).getId());
-                                    setUpTimecardList(filteredLessonList(filter));
+                                    LessonLogic.delete(
+                                            LessonLogic.filteredLessonList(filter)
+                                                    .get(position)
+                                                    .getId());
+                                    setUpTimecardList(LessonLogic.filteredLessonList(filter));
                                 }
                                 else {
-                                    LessonLogic.delete(lessonList().get(position).getId());
-                                    setUpTimecardList(lessonList());
+                                    LessonLogic.delete(LessonLogic.lessonList().get(position).getId());
+                                    setUpTimecardList(LessonLogic.lessonList());
                                 }
                             }
                         })
@@ -147,11 +148,11 @@ public class LessonListActivity extends AppCompatActivity {
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 if(charSequence.length() > 0) {
                     isFiltered = true;
-                    setUpTimecardList(filteredLessonList(charSequence.toString()));
+                    setUpTimecardList(LessonLogic.filteredLessonList(charSequence.toString()));
                 }
                 else {
                     isFiltered = false;
-                    setUpTimecardList(lessonList());
+                    setUpTimecardList(LessonLogic.lessonList());
                 }
             }
 
@@ -166,35 +167,5 @@ public class LessonListActivity extends AppCompatActivity {
                 LessonListActivity.this,
                 lessons);
         timecardListView.setAdapter(lessonListViewArrayAdapter);
-    }
-
-    private RealmResults<Lesson> lessonList() {
-        Calendar firstOfMonth = Calendar.getInstance();
-        firstOfMonth.set(Calendar.DAY_OF_MONTH, 1);
-        firstOfMonth.set(Calendar.HOUR_OF_DAY, 0);
-        firstOfMonth.set(Calendar.MINUTE, 0);
-        firstOfMonth.set(Calendar.SECOND, 0);
-        firstOfMonth.set(Calendar.MILLISECOND, 0);
-
-
-        Realm realm = Realm.getDefaultInstance();
-        RealmResults<Lesson> lessons = realm.where(Lesson.class).greaterThan("date", firstOfMonth.getTime()).findAll();
-        realm.close();
-
-        Log.d("lesson list size", String.valueOf(lessons.size()));
-
-        return lessons;
-    }
-
-    private RealmList<Lesson> filteredLessonList(String filter) {
-        RealmList<Lesson> filteredLessons = new RealmList<>();
-
-        for(Lesson lesson : lessonList()) {
-            if(lesson.getStudentName().toLowerCase().contains(filter.toLowerCase())) {
-                filteredLessons.add(lesson);
-            }
-        }
-
-        return filteredLessons;
     }
 }

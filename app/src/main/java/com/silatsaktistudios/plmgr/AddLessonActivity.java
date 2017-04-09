@@ -13,6 +13,7 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.silatsaktistudios.plmgr.DataLogic.LessonLogic;
 import com.silatsaktistudios.plmgr.Models.Lesson;
 import com.silatsaktistudios.plmgr.Models.Student;
 import com.silatsaktistudios.plmgr.Models.TimeCard;
@@ -97,21 +98,7 @@ public class AddLessonActivity extends AppCompatActivity {
                     makeUpLessonCheckBox.isChecked()
             );
 
-            Log.d("final lesson date", lesson.getDate().toString());
-
-            final RealmResults<TimeCard> timecards = realm.where(TimeCard.class).findAll();
-
-
-
-            realm.executeTransaction(new Realm.Transaction() {
-                @Override
-                public void execute(Realm realm) {
-                    TimeCard timecard = timecards.last();
-                    timecard.addLesson(lesson);
-
-                    student.addLesson(lesson);
-                }
-            });
+            LessonLogic.add(student, lesson);
 
             finish();
         } else {
