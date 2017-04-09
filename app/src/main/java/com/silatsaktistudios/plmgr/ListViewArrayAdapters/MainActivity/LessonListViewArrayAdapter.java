@@ -11,7 +11,6 @@ import android.widget.TextView;
 import com.silatsaktistudios.plmgr.Models.Lesson;
 import com.silatsaktistudios.plmgr.R;
 
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -20,20 +19,12 @@ import java.util.List;
 
 public class LessonListViewArrayAdapter extends ArrayAdapter<String> {
     private Context context;
-//    private String[] names;
-//    private Date[] dates;
-//    private boolean[] showedUps, eligibles, makeUps;
     private List<Lesson> lessons;
 
 
     public LessonListViewArrayAdapter(Context context, List<Lesson> lessons) {
         super(context, R.layout.timecard_list_item, new String[lessons.size()]);//workaround, using the string array to define number of list items nothing shows up with out it
         this.context = context;
-//        this.names = names;
-//        this.dates = dates;
-//        this.showedUps = showedUps;
-//        this.eligibles = eligibles;
-//        this.makeUps = makeUps;
         this.lessons = lessons;
     }
 
@@ -51,7 +42,6 @@ public class LessonListViewArrayAdapter extends ArrayAdapter<String> {
         Lesson lesson = lessons.get(position);
 
         TextView studentName = (TextView) rowView.findViewById(R.id.timecardItemStudentName);
-//        studentName.setText(names[position]);
         studentName.setText(lesson.getStudentName());
 
         TextView dateTime = (TextView) rowView.findViewById(R.id.timecardItemDateTime);
@@ -59,8 +49,6 @@ public class LessonListViewArrayAdapter extends ArrayAdapter<String> {
         TextView eligible = (TextView)rowView.findViewById(R.id.timecardEligibleStatus);
         TextView makeUp = (TextView)rowView.findViewById(R.id.makeUpStatus);
 
-//        if (!names[position].equals("No Lessons Found")) {
-//            if (showedUps[position]) {
             if (lesson.didShowUp()) {
                 showedUp.setText("Showed Up");
                 eligible.setText("");
@@ -68,7 +56,6 @@ public class LessonListViewArrayAdapter extends ArrayAdapter<String> {
                 showedUp.setText("No Show");
                 eligible.setVisibility(View.VISIBLE);
 
-//                if (eligibles[position]) {
                 if(lesson.isEligible()) {
                     eligible.setText("Eligible");
                 } else {
@@ -76,20 +63,13 @@ public class LessonListViewArrayAdapter extends ArrayAdapter<String> {
                 }
             }
 
-//            if (makeUps[position]) {
             if(lesson.isMakeUp()) {
                 makeUp.setVisibility(View.VISIBLE);
                 makeUp.setText("Make Up Lesson");
             }
 
             dateTime.setText(android.text.format.DateFormat.format("EEE d MMM, yyyy h:mm a", /*dates[position]*/lesson.getDate()));
-//        }
-//        else {
-//            showedUp.setText("");
-//            eligible.setText("");
-//            makeUp.setText("");
-//            dateTime.setText("");
-//        }
+
         return rowView;
     }
 }
