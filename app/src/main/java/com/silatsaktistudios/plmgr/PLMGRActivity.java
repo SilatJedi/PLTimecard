@@ -16,9 +16,7 @@ import android.widget.LinearLayout;
 import com.silatsaktistudios.plmgr.Models.Instructor;
 import com.silatsaktistudios.plmgr.Models.Lesson;
 import com.silatsaktistudios.plmgr.Models.Student;
-import com.silatsaktistudios.plmgr.Models.TimeCard;
 
-import java.util.Calendar;
 import java.util.Date;
 
 import io.realm.Realm;
@@ -180,11 +178,7 @@ public class PLMGRActivity extends AppCompatActivity {
 
         }
 
-        Calendar firstOfMonth = Calendar.getInstance();
-        firstOfMonth.set(Calendar.DAY_OF_MONTH, 1);
-        firstOfMonth.set(Calendar.HOUR_OF_DAY, 0);
-        firstOfMonth.set(Calendar.MINUTE, 0);
-        final TimeCard timeCard = new TimeCard(firstOfMonth.getTime());
+
 
         final RealmResults<Student> students = realm.where(Student.class).findAll();
 
@@ -202,8 +196,6 @@ public class PLMGRActivity extends AppCompatActivity {
                 public void execute(Realm realm) {
 
                     student.addLesson(lesson);
-                    timeCard.addLesson(lesson);
-                    realm.insert(timeCard);
                 }
             });
         }
