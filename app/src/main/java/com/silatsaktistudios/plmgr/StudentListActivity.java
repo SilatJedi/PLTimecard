@@ -12,16 +12,11 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
 
+import com.silatsaktistudios.plmgr.DataLogic.StudentData;
 import com.silatsaktistudios.plmgr.ListViewArrayAdapters.StudentListViewArrayAdapter;
-import com.silatsaktistudios.plmgr.Models.Lesson;
 import com.silatsaktistudios.plmgr.Models.Student;
 
 import java.util.List;
-
-import io.realm.Realm;
-import io.realm.RealmList;
-import io.realm.RealmResults;
-import io.realm.Sort;
 
 
 public class StudentListActivity extends AppCompatActivity {
@@ -56,7 +51,7 @@ public class StudentListActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-        setUpStudentList(studentList());
+        setUpStudentList(StudentData.studentList());
     }
 
 
@@ -96,10 +91,10 @@ public class StudentListActivity extends AppCompatActivity {
                 int studentID;
 
                 if (isFiltered) {
-                    studentID = filteredStudentList(searchEditText.getText().toString()).get(position).getId();
+                    studentID = StudentData.filteredStudentList(searchEditText.getText().toString()).get(position).getId();
                 }
                 else {
-                    studentID = studentList().get(position).getId();
+                    studentID = StudentData.studentList().get(position).getId();
                 }
 
                 Intent i = new Intent(StudentListActivity.this, ViewStudentActivity.class);
@@ -117,47 +112,14 @@ public class StudentListActivity extends AppCompatActivity {
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
-                                Realm realm = Realm.getDefaultInstance();
-
-                                Student student;
-
                                 if (isFiltered) {
-                                    student = filteredStudentList(searchEditText.getText().toString()).get(position);
+                                    String filter = searchEditText.getText().toString();
+                                    StudentData.delete(StudentData.filteredStudentList(filter).get(position).getId());
+                                    setUpStudentList(StudentData.filteredStudentList(filter));
                                 }
                                 else {
-                                    student = studentList().get(position);
-                                }
-
-                                RealmResults<Lesson> lessons =
-                                        realm.where(Lesson.class)
-                                                .equalTo("studentID", student.getId())
-                                                .findAll();
-
-                                for (final Lesson lesson : lessons) {
-                                    realm.executeTransaction(new Realm.Transaction() {
-                                        @Override
-                                        public void execute(Realm realm) {
-                                            lesson.setStudentID(-1);
-                                        }
-                                    });
-                                }
-
-                                final Student toDelete = student;
-
-                                realm.executeTransaction(new Realm.Transaction() {
-                                    @Override
-                                    public void execute(Realm realm) {
-                                        toDelete.deleteFromRealm();
-                                    }
-                                });
-
-                                realm.close();
-
-                                if (isFiltered) {
-                                    setUpStudentList(filteredStudentList(searchEditText.getText().toString()));
-                                }
-                                else {
-                                    setUpStudentList(studentList());
+                                    StudentData.delete(StudentData.studentList().get(position).getId());
+                                    setUpStudentList(StudentData.studentList());
                                 }
 
                              }
@@ -182,11 +144,11 @@ public class StudentListActivity extends AppCompatActivity {
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 if(charSequence.length() > 0) {
                     isFiltered = true;
-                    setUpStudentList(filteredStudentList(charSequence.toString()));
+                    setUpStudentList(StudentData.filteredStudentList(charSequence.toString()));
                 }
                 else {
                     isFiltered = false;
-                    setUpStudentList(studentList());
+                    setUpStudentList(StudentData.studentList());
                 }
             }
 
@@ -203,25 +165,4 @@ public class StudentListActivity extends AppCompatActivity {
                 students);
         studentsListView.setAdapter(studentListViewArrayAdapter);
     }
-
-    private RealmResults<Student> studentList() {
-        Realm realm = Realm.getDefaultInstance();
-        RealmResults<Student> students = realm.where(Student.class).findAll().sort("lastName", Sort.ASCENDING, "firstName", Sort.ASCENDING);
-        realm.close();
-
-        return students;
-    }
-
-    private RealmList<Student> filteredStudentList(String filter) {
-        RealmList<Student> students = new RealmList<>();
-
-        for (Student student : studentList()) {
-            if (student.getFullName().toLowerCase().contains(filter.toLowerCase())) {
-                students.add(student);
-            }
-        }
-
-        return students;
-    }
-
 }

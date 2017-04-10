@@ -25,7 +25,19 @@ public class Lesson extends RealmObject {
     public Lesson() {}
 
     public Lesson(int studentID, String studentName, Date date, float grade, String note, boolean showedUp, boolean eligible, boolean isMakeUp) {
-        setId();
+        setStudentID(studentID);
+        setDate(date);
+        setGrade(grade);
+        setShowedUp(showedUp);
+        setEligible(eligible);
+        setNote(note);
+        setMakeUp(isMakeUp);
+        setStudentID(studentID);
+        setStudentName(studentName);
+    }
+
+    public Lesson(int id, int studentID, String studentName, Date date, float grade, String note, boolean showedUp, boolean eligible, boolean isMakeUp) {
+        setId(id);
         setDate(date);
         setGrade(grade);
         setShowedUp(showedUp);
@@ -40,7 +52,7 @@ public class Lesson extends RealmObject {
         return id;
     }
 
-    public void setId() {
+    private void setId() {
         int id;
         Realm realm = Realm.getDefaultInstance();
 
@@ -52,6 +64,10 @@ public class Lesson extends RealmObject {
 
         this.id = id;
         realm.close();
+    }
+
+    private void setId(int id) {
+        this.id = id;
     }
 
     public int getStudentID() {

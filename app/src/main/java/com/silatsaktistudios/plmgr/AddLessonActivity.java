@@ -13,26 +13,20 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-import com.silatsaktistudios.plmgr.DataLogic.LessonLogic;
+import com.silatsaktistudios.plmgr.DataLogic.LessonData;
+import com.silatsaktistudios.plmgr.DataLogic.StudentData;
 import com.silatsaktistudios.plmgr.Models.Lesson;
 import com.silatsaktistudios.plmgr.Models.Student;
-import com.silatsaktistudios.plmgr.Models.TimeCard;
 
 import java.util.Calendar;
 import java.util.Date;
 
 import io.realm.Realm;
+import io.realm.RealmList;
 import io.realm.RealmResults;
 
 public class AddLessonActivity extends AppCompatActivity {
 
-    //=======constants
-
-
-
-
-
-    //=======variables
     private TextView lessonStudentNameTextView, gradeTextView;
 
     private DatePicker datePicker;
@@ -43,21 +37,19 @@ public class AddLessonActivity extends AppCompatActivity {
 
     private EditText notesEditText;
 
-    private RealmResults<Student> students;
-
-    private Student student;
+    private int studentID;
 
 
-    //=================================activity methods===========================================
+
+
+
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_lesson);
-
-        Realm realm = Realm.getDefaultInstance();
-        students = realm.where(Student.class).findAll();
-        realm.close();
-
         setUpUI();
     }
 
@@ -73,7 +65,16 @@ public class AddLessonActivity extends AppCompatActivity {
 
 
 
-    //=====================================on click methods=========================================
+
+
+
+
+
+
+
+
+
+
     public void cancel(View view) {
         if(isValid()) {
             warnBeforeCanceling();
@@ -88,7 +89,7 @@ public class AddLessonActivity extends AppCompatActivity {
 
         if(isValid()) {
             final Lesson lesson = new Lesson(
-                    student.getId(),
+                    studentID,
                     lessonStudentNameTextView.getText().toString(),
                     getDateTime(),
                     getGradeFloat(gradeTextView.getText().toString()),
@@ -98,7 +99,7 @@ public class AddLessonActivity extends AppCompatActivity {
                     makeUpLessonCheckBox.isChecked()
             );
 
-            LessonLogic.add(student, lesson);
+            LessonData.add(studentID, lesson);
 
             finish();
         } else {
@@ -109,30 +110,28 @@ public class AddLessonActivity extends AppCompatActivity {
     }
 
     public void selectStudent(View view) {
-        
-            final String[] studentNames = new String[students.size()];
+        final RealmResults<Student> students = StudentData.studentList();
 
-            for (int i = 0; i < students.size(); i++) {
-                studentNames[i] = students.get(i).getFullName();
-            }
+        final String[] studentNames = new String[students.size()];
 
-            AlertDialog.Builder menu = new AlertDialog.Builder(this)
-                    .setTitle("Select Student")
-                    .setSingleChoiceItems(studentNames, -1, new DialogInterface.OnClickListener() {
+        for (int i = 0; i < students.size(); i++) {
+            studentNames[i] = students.get(i).getFullName();
+        }
 
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int selection) {
+        AlertDialog.Builder menu = new AlertDialog.Builder(this)
+                .setTitle("Select Student")
+                .setSingleChoiceItems(studentNames, -1, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int selection) {
+                        lessonStudentNameTextView.setText(studentNames[selection]);
+                        studentID = students.get(selection).getId();
+                        dialogInterface.dismiss();
+                    }
+                })
+                .setNegativeButton("Cancel", null);
 
-                            lessonStudentNameTextView.setText(studentNames[selection]);
-                            student = students.get(selection);
-                            dialogInterface.dismiss();
-                        }
-                    })
-                    .setNegativeButton("Cancel", null);
-
-            menu.show();
+        menu.show();
     }
-
 
     public void toggleShowedUp(View view) {
         if(showedUpCheckBox.isChecked()) {

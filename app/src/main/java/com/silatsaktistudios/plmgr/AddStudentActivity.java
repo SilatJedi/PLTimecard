@@ -10,16 +10,13 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.silatsaktistudios.plmgr.DataLogic.StudentData;
 import com.silatsaktistudios.plmgr.Models.Student;
-
-import io.realm.Realm;
 
 public class AddStudentActivity extends AppCompatActivity {
 
     //constants
     private final int ADULT_STUDENT = 1, CHILD_STUDENT = 0;
-
-
 
 
     //variables
@@ -143,7 +140,6 @@ public class AddStudentActivity extends AppCompatActivity {
     //===========================ON CLICK METHODS==================================
     @SuppressWarnings("deprecation")
     public void changeToChild(View view) {
-
         if(studentType == ADULT_STUDENT) {
             parent1HeadingTextView.setVisibility(View.VISIBLE);
             parent1FirstAndLastNameTextViewLayout.setVisibility(View.VISIBLE);
@@ -181,7 +177,6 @@ public class AddStudentActivity extends AppCompatActivity {
 
     @SuppressWarnings("deprecation")
     public void changeToAdult(View view) {
-
         if(studentType == CHILD_STUDENT) {
             parent1HeadingTextView.setVisibility(View.GONE);
             parent1FirstAndLastNameTextViewLayout.setVisibility(View.GONE);
@@ -225,12 +220,8 @@ public class AddStudentActivity extends AppCompatActivity {
 
 
     public void submit(View view) {
-
-        Realm realm = Realm.getDefaultInstance();
-
         if(studentType == CHILD_STUDENT){
-
-            final Student student = new Student(
+            StudentData.addOrEdit(new Student(
                     firstNameEditText.getText().toString(),
                     lastNameEditText.getText().toString(),
                     primaryPhoneEditText.getText().toString(),
@@ -245,17 +236,10 @@ public class AddStudentActivity extends AppCompatActivity {
                     parent1TypeValueTextView.getText().toString(),
                     parent2FirstNameEditText.getText().toString(),
                     parent2LastNameEditText.getText().toString(),
-                    parent2TypeValueTextView.getText().toString());
-
-            realm.executeTransaction(new Realm.Transaction() {
-                @Override
-                public void execute(Realm realm) {
-                    realm.insertOrUpdate(student);
-                }
-            });
+                    parent2TypeValueTextView.getText().toString()));
         }
         else {
-            final Student student = new Student(
+            StudentData.addOrEdit(new Student(
                     firstNameEditText.getText().toString(),
                     lastNameEditText.getText().toString(),
                     primaryPhoneEditText.getText().toString(),
@@ -264,17 +248,9 @@ public class AddStudentActivity extends AppCompatActivity {
                     secondaryPhoneTypeValueTextView.getText().toString(),
                     emailEditText.getText().toString(),
                     rankTextView.getText().toString(),
-                    enrollmentTypeTextView.getText().toString());
-
-            realm.executeTransaction(new Realm.Transaction() {
-                @Override
-                public void execute(Realm realm) {
-                    realm.insertOrUpdate(student);
-                }
-            });
+                    enrollmentTypeTextView.getText().toString()));
         }
 
-        realm.close();
         finish();
     }
 
@@ -299,42 +275,24 @@ public class AddStudentActivity extends AppCompatActivity {
     }
 
 
-    public void selectRank(View view) {
 
+
+
+
+
+    public void selectRank(View view) {
         if(enrollmentTypeTextView.getText().toString().isEmpty()) {
             Toast.makeText(this, "Choose an enrollment type first.", Toast.LENGTH_SHORT).show();
         }
         else {
-            String[] rankArray;
-
-            switch (enrollmentTypeTextView.getText().toString()) {
-                case "Persilat Kids":
-                    rankArray = getResources().getStringArray(R.array.childRanks);
-                    break;
-                case "Athletic Adventure Program":
-                    rankArray = getResources().getStringArray(R.array.AAPRanks);
-                    break;
-                case "Wealth of Health":
-                    rankArray = getResources().getStringArray(R.array.WOHRanks);
-                    break;
-                case "VibraVision":
-                    rankArray = getResources().getStringArray(R.array.VVRanks);
-                    break;
-                default:
-                    rankArray = new String[1];
-                    break;
-            }
-
-            final String[] forTheDialog = rankArray;
-
             AlertDialog.Builder menu = new AlertDialog.Builder(this)
                     .setTitle("Select Rank")
-                    .setSingleChoiceItems(rankArray, -1, new DialogInterface.OnClickListener() {
+                    .setSingleChoiceItems(rankArray(), -1, new DialogInterface.OnClickListener() {
 
                         @Override
                         public void onClick(DialogInterface dialogInterface, int selection) {
 
-                            rankTextView.setText(forTheDialog[selection]);
+                            rankTextView.setText(rankArray()[selection]);
                             dialogInterface.dismiss();
                         }
                     })
@@ -344,7 +302,38 @@ public class AddStudentActivity extends AppCompatActivity {
         }
     }
 
+    private String[] rankArray() {
+        switch (enrollmentTypeTextView.getText().toString()) {
+            case "Persilat Kids":
+                return getResources().getStringArray(R.array.childRanks);
+            case "Athletic Adventure Program":
+                return getResources().getStringArray(R.array.AAPRanks);
+            case "Wealth of Health":
+                return getResources().getStringArray(R.array.WOHRanks);
+            case "VibraVision":
+                return getResources().getStringArray(R.array.VVRanks);
+            default: return new String[1];
+        }
+    }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    //!@#$%^&*()(*&^%$#@!@#$%^* write method that can accomodate all this shit
     public void selectPrimaryPhoneType(View view) {
         AlertDialog.Builder menu = new AlertDialog.Builder(this)
                 .setTitle("Select Phone Type")
@@ -413,6 +402,17 @@ public class AddStudentActivity extends AppCompatActivity {
 
         menu.show();
     }
+
+
+
+
+
+
+
+
+
+
+
 
     //==========================HELPER METHODS====================================
     private void warnBeforeCanceling() {

@@ -1,7 +1,5 @@
 package com.silatsaktistudios.plmgr.DataLogic;
 
-import android.util.Log;
-
 import com.silatsaktistudios.plmgr.Models.Lesson;
 import com.silatsaktistudios.plmgr.Models.Student;
 
@@ -11,13 +9,13 @@ import java.util.Date;
 import io.realm.Realm;
 import io.realm.RealmList;
 import io.realm.RealmResults;
+import io.realm.Sort;
 
 /**
  * Created by SilatJedi on 4/9/17.
  */
 
-public class LessonLogic {
-
+public class LessonData {
 
     public static void delete(int id) {
         Realm realm = Realm.getDefaultInstance();
@@ -34,21 +32,33 @@ public class LessonLogic {
         realm.close();
     }
 
-    public static void add(final Student student, final Lesson lesson) {
+    public static void add(final int id, final Lesson lesson) {
         Realm realm = Realm.getDefaultInstance();
 
         realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
-                student.addLesson(lesson);
+                realm.where(Student.class)
+                        .equalTo("id", id)
+                        .findFirst()
+                        .addLesson(lesson);
             }
         });
 
         realm.close();
     }
 
-    public static void edit(){
+    public static void edit(final Lesson lesson){
+        Realm realm = Realm.getDefaultInstance();
 
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                realm.insertOrUpdate(lesson);
+            }
+        });
+
+        realm.close();
     }
 
     public static RealmResults<Lesson> lessonList() {
@@ -61,7 +71,7 @@ public class LessonLogic {
 
 
         Realm realm = Realm.getDefaultInstance();
-        RealmResults<Lesson> lessons = realm.where(Lesson.class).greaterThan("date", firstOfMonth.getTime()).findAll();
+        RealmResults<Lesson> lessons = realm.where(Lesson.class).greaterThan("date", firstOfMonth.getTime()).findAll().sort("date", Sort.ASCENDING);
         realm.close();
 
         return lessons;
@@ -81,7 +91,7 @@ public class LessonLogic {
 
     public static RealmResults<Lesson> lessonList(Date from, Date to) {
         Realm realm = Realm.getDefaultInstance();
-        RealmResults<Lesson> lessons = realm.where(Lesson.class).greaterThan("date", from).lessThan("date", to).findAll();
+        RealmResults<Lesson> lessons = realm.where(Lesson.class).greaterThan("date", from).lessThan("date", to).findAll().sort("date", Sort.ASCENDING);
         realm.close();
 
         return lessons;

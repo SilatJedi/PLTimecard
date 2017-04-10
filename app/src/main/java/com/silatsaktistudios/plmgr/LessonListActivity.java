@@ -13,7 +13,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.silatsaktistudios.plmgr.DataLogic.LessonLogic;
+import com.silatsaktistudios.plmgr.DataLogic.LessonData;
 import com.silatsaktistudios.plmgr.ListViewArrayAdapters.LessonListViewArrayAdapter;
 import com.silatsaktistudios.plmgr.Models.Lesson;
 import com.silatsaktistudios.plmgr.Models.Student;
@@ -51,7 +51,7 @@ public class LessonListActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        setUpTimecardList(LessonLogic.lessonList());
+        setUpTimecardList(LessonData.lessonList());
     }
 
 
@@ -90,12 +90,12 @@ public class LessonListActivity extends AppCompatActivity {
                 int lessonID;
 
                 if(isFiltered) {
-                    lessonID = LessonLogic.filteredLessonList(searchEditText.getText().toString())
+                    lessonID = LessonData.filteredLessonList(searchEditText.getText().toString())
                             .get(position)
                             .getId();
                 }
                 else {
-                    lessonID = LessonLogic.lessonList().get(position).getId();
+                    lessonID = LessonData.lessonList().get(position).getId();
                 }
 
                 Intent i = new Intent(LessonListActivity.this, ViewLessonActivity.class);
@@ -116,15 +116,15 @@ public class LessonListActivity extends AppCompatActivity {
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 if (isFiltered) {
                                     String filter = searchEditText.getText().toString();
-                                    LessonLogic.delete(
-                                            LessonLogic.filteredLessonList(filter)
+                                    LessonData.delete(
+                                            LessonData.filteredLessonList(filter)
                                                     .get(position)
                                                     .getId());
-                                    setUpTimecardList(LessonLogic.filteredLessonList(filter));
+                                    setUpTimecardList(LessonData.filteredLessonList(filter));
                                 }
                                 else {
-                                    LessonLogic.delete(LessonLogic.lessonList().get(position).getId());
-                                    setUpTimecardList(LessonLogic.lessonList());
+                                    LessonData.delete(LessonData.lessonList().get(position).getId());
+                                    setUpTimecardList(LessonData.lessonList());
                                 }
                             }
                         })
@@ -148,11 +148,11 @@ public class LessonListActivity extends AppCompatActivity {
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 if(charSequence.length() > 0) {
                     isFiltered = true;
-                    setUpTimecardList(LessonLogic.filteredLessonList(charSequence.toString()));
+                    setUpTimecardList(LessonData.filteredLessonList(charSequence.toString()));
                 }
                 else {
                     isFiltered = false;
-                    setUpTimecardList(LessonLogic.lessonList());
+                    setUpTimecardList(LessonData.lessonList());
                 }
             }
 
