@@ -64,4 +64,6 @@
     <string name="email_to_send_timecards_to">Email to send timecards to</string>
     <string name="title">Title</string>
     <string name="search_by_name">Search by Name</string>
+    <string name="submit_timecard">Submit Timecard</string>
+    <string name="options">Options</string>
 </resources>
