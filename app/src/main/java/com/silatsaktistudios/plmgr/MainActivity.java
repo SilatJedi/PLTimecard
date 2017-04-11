@@ -52,9 +52,6 @@ public class MainActivity extends AppCompatActivity {
             case R.id.options_menu_item:
                 Toast.makeText(getApplicationContext(),"need to write code to go to options",Toast.LENGTH_SHORT).show();
                 break;
-            case R.id.back_menu_item:
-
-                break;
             default: break;
         }
 
