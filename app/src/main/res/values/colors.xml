@@ -2,7 +2,7 @@
 <resources>
     <color name="colorPrimary">#2196F3</color>
     <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#F44336</color>
+    <color name="colorAccent">#FFC107</color>
     <color name="colorMenuPopupBackground">@color/white</color>
     <color name="colorMenuText">@color/colorPrimaryDark</color>
 
