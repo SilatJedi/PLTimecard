@@ -17,7 +17,6 @@ import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
 public class MainActivity extends AppCompatActivity {
 
     Toolbar toolBar;
-    FloatingActionButton addButton;
     FrameLayout fragmentContainer;
 
     @Override
@@ -30,7 +29,6 @@ public class MainActivity extends AppCompatActivity {
 //        toolBar.setFore
 
 
-        addButton = (FloatingActionButton) findViewById(R.id.addButton);
         fragmentContainer = (FrameLayout) findViewById(R.id.fragmentContainer);
         setUpNavBar();
 
@@ -71,9 +69,6 @@ public class MainActivity extends AppCompatActivity {
 
         //set background color
         bottomNavigation.setDefaultBackgroundColor(Color.parseColor("#FEFEFE"));
-
-        // Enable the translation of the FloatingActionButton
-        bottomNavigation.manageFloatingActionButtonBehavior(addButton);
 
         // Change colors
         bottomNavigation.setAccentColor(Color.parseColor("#F63D2B"));
