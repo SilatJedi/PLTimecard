@@ -2,14 +2,13 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
       xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:title="@string/submit_timecard"
-        android:id="@+id/submit_timecard_menu_item"/>
-    <item
-        android:title="@string/options"
-        android:id="@+id/options_menu_item"/>
+        android:title=""
+        android:id="@+id/submit_timecard_menu_item"
+        android:icon="@drawable/send"
+        app:showAsAction="always"/>
     <item
         android:title=""
-        android:id="@+id/back_menu_item"
-        android:icon="@drawable/back"
+        android:id="@+id/options_menu_item"
+        android:icon="@drawable/settings"
         app:showAsAction="always"/>
 </menu>
