@@ -7,6 +7,154 @@
     android:orientation="vertical"
     tools:context="com.silatsaktistudios.plmgr.AddLessonActivity">
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:text="@string/student"
+                android:textColor="#000000"/>
+
+            <TextView
+                android:id="@+id/lessonStudentNameTextView"
+                android:layout_width="match_parent"
+                android:layout_height="25dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/gray_rounded_corners"
+                android:gravity="center_vertical"
+                android:hint="@string/tap_for_list"
+                android:onClick="selectStudent"
+                android:paddingLeft="5dp"
+                android:textSize="17sp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:text="@string/date"
+                android:textColor="#000000"/>
+
+
+            <DatePicker
+                android:id="@+id/lessonDatePicker"
+                android:layout_width="wrap_content"
+                android:layout_height="100dp"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/gray_rounded_corners"
+                android:calendarViewShown="false"
+                android:datePickerMode="spinner"
+                tools:ignore="UnusedAttribute"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:text="@string/time"
+                android:textColor="#000000"/>
+
+            <TimePicker
+                android:id="@+id/lessonTimePicker"
+                android:layout_width="wrap_content"
+                android:layout_height="100dp"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/gray_rounded_corners"
+                android:timePickerMode="spinner"
+                tools:ignore="UnusedAttribute"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <CheckBox
+                    android:id="@+id/lessonShowedUpCheckBox"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="1"
+                    android:checked="true"
+                    android:onClick="toggleShowedUp"
+                    android:text="@string/student_showed_up"/>
+
+                <CheckBox
+                    android:id="@+id/lessonMakeUpCheckBox"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="1"
+                    android:checked="false"
+                    android:text="@string/make_up_lesson"/>
+
+            </LinearLayout>
+
+
+            <CheckBox
+                android:id="@+id/lessonEligibleCheckBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:checked="true"
+                android:text="@string/eligible_for_make_up"
+                android:visibility="gone"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:text="@string/grade"
+                android:textColor="#000000"/>
+
+            <TextView
+                android:id="@+id/lessonGradeTextView"
+                android:layout_width="match_parent"
+                android:layout_height="25dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/gray_rounded_corners"
+                android:gravity="center_vertical"
+                android:hint="@string/tap_for_list"
+                android:onClick="selectGrade"
+                android:paddingLeft="5dp"
+                android:textSize="17sp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:text="@string/notes"
+                android:textColor="#000000"/>
+
+            <EditText
+                android:id="@+id/lessonNotesEditText"
+                android:layout_width="match_parent"
+                android:layout_height="25dp"
+                android:layout_marginBottom="50dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/gray_rounded_corners"
+                android:hint="@string/lesson_notes_go_here"
+                android:inputType="text"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:textSize="17sp"/>
+
+        </LinearLayout>
+
+    </ScrollView>
+
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
@@ -49,155 +197,6 @@
             android:onClick="submit"/>
 
     </LinearLayout>
-
-
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="#000000"
-                android:text="@string/student"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="25dp"
-                android:background="@drawable/gray_rounded_corners"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:paddingLeft="5dp"
-                android:hint="@string/tap_for_list"
-                android:gravity="center_vertical"
-                android:onClick="selectStudent"
-                android:textSize="17sp"
-                android:id="@+id/lessonStudentNameTextView"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="#000000"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"
-                android:text="@string/date"/>
-
-
-            <DatePicker
-                android:layout_width="wrap_content"
-                android:layout_height="100dp"
-                android:id="@+id/lessonDatePicker"
-                android:layout_gravity="center_horizontal"
-                android:calendarViewShown="false"
-                android:datePickerMode="spinner"
-                android:background="@drawable/gray_rounded_corners"
-                tools:ignore="UnusedAttribute" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:textColor="#000000"
-                android:layout_marginTop="10dp"
-                android:text="@string/time"/>
-
-            <TimePicker
-                android:layout_width="wrap_content"
-                android:layout_height="100dp"
-                android:id="@+id/lessonTimePicker"
-                android:layout_gravity="center_horizontal"
-                android:timePickerMode="spinner"
-                android:background="@drawable/gray_rounded_corners"
-                tools:ignore="UnusedAttribute" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <CheckBox
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/student_showed_up"
-                    android:checked="true"
-                    android:onClick="toggleShowedUp"
-                    android:layout_marginTop="10dp"
-                    android:id="@+id/lessonShowedUpCheckBox"/>
-
-                <CheckBox
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/make_up_lesson"
-                    android:checked="false"
-                    android:layout_marginTop="10dp"
-                    android:id="@+id/lessonMakeUpCheckBox"/>
-
-            </LinearLayout>
-
-
-            <CheckBox
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/eligible_for_make_up"
-                android:checked="true"
-                android:layout_marginTop="10dp"
-                android:id="@+id/lessonEligibleCheckBox"
-                android:visibility="gone"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="#000000"
-                android:layout_marginLeft="10dp"
-                android:text="@string/grade"
-                android:layout_marginTop="10dp"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="25dp"
-                android:background="@drawable/gray_rounded_corners"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:paddingLeft="5dp"
-                android:gravity="center_vertical"
-                android:hint="@string/tap_for_list"
-                android:textSize="17sp"
-                android:onClick="selectGrade"
-                android:id="@+id/lessonGradeTextView"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="#000000"
-                android:layout_marginLeft="10dp"
-                android:text="@string/notes"
-                android:layout_marginTop="10dp"/>
-
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="25dp"
-                android:textSize="17sp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginBottom="50dp"
-                android:inputType="text"
-                android:paddingLeft="5dp"
-                android:paddingRight="5dp"
-                android:hint="@string/lesson_notes_go_here"
-                android:background="@drawable/gray_rounded_corners"
-                android:id="@+id/lessonNotesEditText"/>
-
-        </LinearLayout>
-
-    </ScrollView>
 
 
 </LinearLayout>

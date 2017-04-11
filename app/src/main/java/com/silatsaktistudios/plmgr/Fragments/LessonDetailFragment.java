@@ -3,32 +3,45 @@ package com.silatsaktistudios.plmgr.Fragments;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
-import android.widget.ListView;
 
+import com.silatsaktistudios.plmgr.Models.Lesson;
 import com.silatsaktistudios.plmgr.R;
 
 
-public class LessonListFragment extends Fragment {
+/**
+ * A simple {@link Fragment} subclass.
+ * Activities that contain this fragment must implement the
+ * {@link LessonDetailFragment.OnFragmentInteractionListener} interface
+ * to handle interaction events.
+ * Use the {@link LessonDetailFragment#newInstance} factory method to
+ * create an instance of this fragment.
+ */
+public class LessonDetailFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
-    private EditText searchEditText;
-    private ListView lessonListView;
-    private FloatingActionButton addLessonButton;
-    private boolean isFiltered;
+    private Lesson lesson;
 
-    public LessonListFragment() {
+    public LessonDetailFragment() {
         // Required empty public constructor
     }
 
-    public static LessonListFragment newInstance(String param1, String param2) {
-        LessonListFragment fragment = new LessonListFragment();
+    /**
+     * Use this factory method to create a new instance of
+     * this fragment using the provided parameters.
+     *
+     * @param param1 Parameter 1.
+     * @param param2 Parameter 2.
+     * @return A new instance of fragment LessonDetailFragment.
+     */
+    // TODO: Rename and change types and number of parameters
+    public static LessonDetailFragment newInstance(String param1, String param2) {
+        LessonDetailFragment fragment = new LessonDetailFragment();
         Bundle args = new Bundle();
+
         fragment.setArguments(args);
         return fragment;
     }
@@ -36,41 +49,23 @@ public class LessonListFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+        }
     }
-
-
-
-
-
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v = inflater.inflate(R.layout.fragment_lesson_list, container, false);
-        searchEditText = (EditText)v.findViewById(R.id.studentSearchEditText);
-        lessonListView = (ListView)v.findViewById(R.id.lessonListView);
-        addLessonButton = (FloatingActionButton)v.findViewById(R.id.addLessonButton);
-        return v;
+        return inflater.inflate(R.layout.fragment_lesson_detail, container, false);
     }
 
-
-
-
-
-
-
-
-
-
-
     // TODO: Rename method, update argument and hook method into UI event
-//    public void onButtonPressed(Uri uri) {
-//        if (mListener != null) {
-//            mListener.onFragmentInteraction(uri);
-//        }
-//    }
+    public void onButtonPressed(Uri uri) {
+        if (mListener != null) {
+            mListener.onFragmentInteraction(uri);
+        }
+    }
 
     @Override
     public void onAttach(Context context) {
