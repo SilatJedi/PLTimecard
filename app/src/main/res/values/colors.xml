@@ -5,7 +5,7 @@
     <color name="colorAccent">#FFC107</color>
     <color name="colorMenuPopupBackground">@color/white</color>
     <color name="colorMenuText">@color/colorPrimaryDark</color>
-
+    <color name="colorTextFieldBackground">#BBDEFB</color>
 
 
     <color name="blue">#010db1</color>

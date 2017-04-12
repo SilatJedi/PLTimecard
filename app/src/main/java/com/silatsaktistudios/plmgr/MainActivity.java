@@ -1,7 +1,10 @@
 package com.silatsaktistudios.plmgr;
 
 import android.graphics.Color;
+import android.net.Uri;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -12,9 +15,14 @@ import android.widget.Toast;
 
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
+import com.silatsaktistudios.plmgr.Fragments.LessonDetailFragment;
+import com.silatsaktistudios.plmgr.Fragments.LessonListFragment;
+import com.silatsaktistudios.plmgr.Models.Lesson;
+
+import java.util.Date;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements LessonDetailFragment.OnFragmentInteractionListener{
 
     Toolbar toolBar;
     FrameLayout fragmentContainer;
@@ -26,13 +34,22 @@ public class MainActivity extends AppCompatActivity {
 
         toolBar = (Toolbar) findViewById(R.id.plmgrToolbar);
         setSupportActionBar(toolBar);
-//        toolBar.setFore
 
 
         fragmentContainer = (FrameLayout) findViewById(R.id.fragmentContainer);
         setUpNavBar();
 
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        Fragment fragment = fragmentManager.findFragmentById(R.id.fragmentContainer);
 
+        Lesson testLesson = new Lesson(41, "Luke Skywalker", new Date(), 4f, "Best lesson ever!", true, false, false);
+
+        if(fragment == null) {
+            fragment = LessonDetailFragment.newInstance(testLesson);
+            fragmentManager.beginTransaction()
+                    .add(R.id.fragmentContainer, fragment)
+                    .commit();
+        }
     }
 
     @Override
@@ -99,5 +116,10 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });
+    }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
     }
 }
