@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.Space;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,9 +34,13 @@ import java.util.Date;
  */
 public class LessonDetailFragment extends Fragment {
 
+    private boolean viewLesson = true;
+
     private OnFragmentInteractionListener mListener;
+
     private Lesson lesson;
-    private Button editButton, saveButton;
+    private Button editButton, saveButton, deleteButton;
+    private Space space1,space2,space3;
     private TextView studentNameView, studentNameEdit, lessonDateView, lessonTimeView,
             lessonGradeView, lessonGradeEdit, lessonViewNotes;
     private EditText lessonEditNotes;
@@ -53,9 +58,10 @@ public class LessonDetailFragment extends Fragment {
      *
      * @return A new instance of fragment LessonDetailFragment.
      */
-    public static LessonDetailFragment newInstance(Lesson lesson) {
+    public static LessonDetailFragment newInstance(Lesson lesson, boolean viewLesson) {
         LessonDetailFragment fragment = new LessonDetailFragment();
         fragment.lesson = lesson;
+        fragment.viewLesson = viewLesson;
         return fragment;
     }
 
@@ -74,11 +80,17 @@ public class LessonDetailFragment extends Fragment {
         editButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                loadEditData();
                 showLessonEditViews();
             }
         });
 
         saveButton = (Button)v.findViewById(R.id.lessonSaveButton);
+        deleteButton = (Button)v.findViewById(R.id.lessonDeleteButton);
+
+        space1 = (Space)v.findViewById(R.id.buttonSpace1);
+        space2 = (Space)v.findViewById(R.id.buttonSpace2);
+        space3 = (Space)v.findViewById(R.id.buttonSpace3);
 
         studentNameView = (TextView)v.findViewById(R.id.lessonViewStudentName);
         studentNameEdit = (TextView)v.findViewById(R.id.lessonEditStudentName);
@@ -96,6 +108,13 @@ public class LessonDetailFragment extends Fragment {
         showedUpCheckBox = (CheckBox)v.findViewById(R.id.lessonViewShowedUpCheckBox);
         makeUpCheckBox = (CheckBox)v.findViewById(R.id.lessonViewMakeUpCheckBox);
         eligibleCheckBox = (CheckBox)v.findViewById(R.id.lessonViewEligibleCheckBox);
+
+        if(viewLesson) {
+            loadViewData();
+        }
+        else {
+            showLessonEditViews();
+        }
 
         return v;
     }
@@ -150,20 +169,24 @@ public class LessonDetailFragment extends Fragment {
 
 
 
-    private void showLessonEditViews() {
-        editButton.setVisibility(View.GONE);
-        saveButton.setVisibility(View.VISIBLE);
+    private void loadViewData() {
+        studentNameView.setText(lesson.getStudentName());
+        lessonDateView.setText(DateFormat.format("MMMM dd, yyyy",lesson.getDate()));
+        lessonTimeView.setText(DateFormat.format("hh:mm a",lesson.getDate()));
+        showedUpCheckBox.setChecked(lesson.didShowUp());
+        makeUpCheckBox.setChecked(lesson.isMakeUp());
+        eligibleCheckBox.setChecked(lesson.isEligible());
+        lessonGradeView.setText(convertGrade(lesson.getGrade()));
+        lessonViewNotes.setText(lesson.getNote());
+    }
 
+    private void loadEditData() {
         studentNameEdit.setText(lesson.getStudentName());
-        studentNameView.setVisibility(View.GONE);
-        studentNameEdit.setVisibility(View.VISIBLE);
 
         datePicker.updateDate(
                 getYearFrom(lesson.getDate()),
                 getMonthFrom(lesson.getDate()),
                 getDayFrom(lesson.getDate()));
-        lessonDateView.setVisibility(View.GONE);
-        datePicker.setVisibility(View.VISIBLE);
 
         if(Build.VERSION.SDK_INT < 23) {
             timePicker.setCurrentHour(getHourFrom(lesson.getDate()));
@@ -173,6 +196,28 @@ public class LessonDetailFragment extends Fragment {
             timePicker.setHour(getHourFrom(lesson.getDate()));
             timePicker.setMinute(getMinuteFrom(lesson.getDate()));
         }
+
+        lessonGradeEdit.setText(convertGrade(lesson.getGrade()));
+        lessonEditNotes.setText(lesson.getNote());
+    }
+
+    private void showLessonEditViews() {
+        editButton.setVisibility(View.GONE);
+        saveButton.setVisibility(View.VISIBLE);
+
+        if(!viewLesson) {
+            deleteButton.setVisibility(View.GONE);
+            space1.setVisibility(View.GONE);
+            space2.setVisibility(View.GONE);
+            space3.setVisibility(View.GONE);
+        }
+
+        studentNameView.setVisibility(View.GONE);
+        studentNameEdit.setVisibility(View.VISIBLE);
+
+        lessonDateView.setVisibility(View.GONE);
+        datePicker.setVisibility(View.VISIBLE);
+
         lessonTimeView.setVisibility(View.GONE);
         timePicker.setVisibility(View.VISIBLE);
 
@@ -180,11 +225,9 @@ public class LessonDetailFragment extends Fragment {
         makeUpCheckBox.setClickable(true);
         eligibleCheckBox.setClickable(true);
 
-        lessonGradeEdit.setText(convertGrade(lesson.getGrade()));
         lessonGradeView.setVisibility(View.GONE);
         lessonGradeEdit.setVisibility(View.VISIBLE);
 
-        lessonEditNotes.setText(lesson.getNote());
         lessonViewNotes.setVisibility(View.GONE);
         lessonEditNotes.setVisibility(View.VISIBLE);
     }

@@ -10,10 +10,11 @@
         android:layout_height="wrap_content"
         android:gravity="center">
 
-        <Space
+        <android.support.v4.widget.Space
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            android:id="@+id/buttonSpace1"/>
 
         <Button
             android:layout_width="48dp"
@@ -32,10 +33,11 @@
             tools:ignore="ButtonStyle"
             android:id="@+id/lessonSaveButton"/>
 
-        <Space
+        <android.support.v4.widget.Space
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            android:id="@+id/buttonSpace2"/>
 
         <Button
             android:layout_width="48dp"
@@ -43,10 +45,11 @@
             android:background="@drawable/delete"
             tools:ignore="ButtonStyle"
             android:id="@+id/lessonDeleteButton"/>
-        <Space
+        <android.support.v4.widget.Space
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            android:id="@+id/buttonSpace3"/>
 
     </LinearLayout>
 
@@ -282,7 +285,6 @@
                 android:inputType="text"
                 android:paddingLeft="5dp"
                 android:paddingRight="5dp"
-                android:maxLines="99"
                 android:textColorHint="@color/colorPrimary"
                 android:textColor="@color/colorPrimaryDark"
                 android:textSize="17sp"

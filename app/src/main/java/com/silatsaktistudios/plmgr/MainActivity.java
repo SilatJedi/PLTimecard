@@ -42,10 +42,10 @@ public class MainActivity extends AppCompatActivity implements LessonDetailFragm
         FragmentManager fragmentManager = getSupportFragmentManager();
         Fragment fragment = fragmentManager.findFragmentById(R.id.fragmentContainer);
 
-        Lesson testLesson = new Lesson(41, "Luke Skywalker", new Date(), 4f, "Best lesson ever!", true, false, false);
+        Lesson testLesson = new Lesson(41, "Luke Skywalker", new Date(), 2f, "Best lesson ever!", true, false, false);
 
         if(fragment == null) {
-            fragment = LessonDetailFragment.newInstance(testLesson);
+            fragment = LessonDetailFragment.newInstance(testLesson, true);
             fragmentManager.beginTransaction()
                     .add(R.id.fragmentContainer, fragment)
                     .commit();
