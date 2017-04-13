@@ -99,7 +99,7 @@ public class AddLessonActivity extends AppCompatActivity {
                     makeUpLessonCheckBox.isChecked()
             );
 
-            LessonData.add(studentID, lesson);
+            LessonData.add(lesson);
 
             finish();
         } else {

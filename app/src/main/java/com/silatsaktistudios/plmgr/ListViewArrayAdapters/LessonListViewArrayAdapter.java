@@ -2,6 +2,7 @@ package com.silatsaktistudios.plmgr.ListViewArrayAdapters;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,7 +24,7 @@ public class LessonListViewArrayAdapter extends ArrayAdapter<String> {
 
 
     public LessonListViewArrayAdapter(Context context, List<Lesson> lessons) {
-        super(context, R.layout.timecard_list_item, new String[lessons.size()]);//workaround, using the string array to define number of list items nothing shows up with out it
+        super(context, R.layout.lesson_list_item, new String[lessons.size()]);//workaround, using the string array to define number of list items nothing shows up with out it
         this.context = context;
         this.lessons = lessons;
     }
@@ -33,11 +34,16 @@ public class LessonListViewArrayAdapter extends ArrayAdapter<String> {
         LayoutInflater inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-        View rowView = inflater.inflate(R.layout.timecard_list_item, parent, false);
+        View rowView = inflater.inflate(R.layout.lesson_list_item, parent, false);
 
-        if (position % 2 == 1) {
-            rowView.setBackgroundColor(Color.LTGRAY);
-        }
+//        if (position % 2 == 1) {
+//            if(Build.VERSION.SDK_INT < 23){
+//                rowView.setBackgroundColor(context.getResources().getColor(R.color.colorPrimaryLight));
+//            }
+//            else {
+//                rowView.setBackgroundColor(context.getResources().getColor(R.color.colorPrimaryLight, null));
+//            }
+//        }
 
         Lesson lesson = lessons.get(position);
 
@@ -68,7 +74,8 @@ public class LessonListViewArrayAdapter extends ArrayAdapter<String> {
                 makeUp.setText("Make Up Lesson");
             }
 
-            dateTime.setText(android.text.format.DateFormat.format("EEE d MMM, yyyy h:mm a", /*dates[position]*/lesson.getDate()));
+            dateTime.setText(android.text.format.DateFormat
+                    .format("EEE MMM d, yyyy h:mm a", lesson.getDate()));
 
         return rowView;
     }

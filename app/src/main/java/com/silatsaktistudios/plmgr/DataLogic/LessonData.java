@@ -5,6 +5,7 @@ import com.silatsaktistudios.plmgr.Models.Student;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import io.realm.Realm;
 import io.realm.RealmList;
@@ -32,16 +33,21 @@ public class LessonData {
         realm.close();
     }
 
-    public static void add(final int id, final Lesson lesson) {
+    public static void add(final Lesson lesson) {
         Realm realm = Realm.getDefaultInstance();
 
+        final Student student = realm.where(Student.class)
+                .equalTo("id", lesson.getStudentID())
+                .findFirst();
         realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
-                realm.where(Student.class)
-                        .equalTo("id", id)
-                        .findFirst()
-                        .addLesson(lesson);
+                if(student != null) {
+                    student.addLesson(lesson);
+                }
+                else {
+                    realm.insertOrUpdate(lesson);
+                }
             }
         });
 
@@ -61,7 +67,7 @@ public class LessonData {
         realm.close();
     }
 
-    public static RealmResults<Lesson> lessonList() {
+    public static List<Lesson> lessonList() {
         Calendar firstOfMonth = Calendar.getInstance();
         firstOfMonth.set(Calendar.DAY_OF_MONTH, 1);
         firstOfMonth.set(Calendar.HOUR_OF_DAY, 0);
@@ -71,14 +77,18 @@ public class LessonData {
 
 
         Realm realm = Realm.getDefaultInstance();
-        RealmResults<Lesson> lessons = realm.where(Lesson.class).greaterThan("date", firstOfMonth.getTime()).findAll().sort("date", Sort.ASCENDING);
+        List<Lesson> lessons = realm.copyFromRealm(
+                realm.where(Lesson.class)
+                        .greaterThan("date", firstOfMonth.getTime())
+                        .findAll()
+                        .sort("date", Sort.ASCENDING));
         realm.close();
 
         return lessons;
     }
 
-    public static RealmList<Lesson> filteredLessonList(String filter) {
-        RealmList<Lesson> filteredLessons = new RealmList<>();
+    public static List<Lesson> filteredLessonList(String filter) {
+        List<Lesson> filteredLessons = new RealmList<>();
 
         for(Lesson lesson : lessonList()) {
             if(lesson.getStudentName().toLowerCase().contains(filter.toLowerCase())) {
@@ -107,5 +117,12 @@ public class LessonData {
         }
 
         return filteredLessons;
+    }
+
+    public static Lesson getLesson(int id) {
+        Realm realm = Realm.getDefaultInstance();
+        Lesson lesson = realm.where(Lesson.class).equalTo("id", id).findFirst();
+        realm.close();
+        return lesson;
     }
 }

@@ -8,6 +8,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/colorAccent"
         android:gravity="center">
 
         <android.support.v4.widget.Space
@@ -19,15 +20,13 @@
         <Button
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:layout_marginRight="10dp"
-            android:background="@drawable/pencil"
+            android:background="@drawable/lead_pencil"
             tools:ignore="ButtonStyle"
             android:id="@+id/lessonEditButton"/>
 
         <Button
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:layout_marginRight="10dp"
             android:visibility="gone"
             android:background="@drawable/floppy"
             tools:ignore="ButtonStyle"
@@ -45,11 +44,25 @@
             android:background="@drawable/delete"
             tools:ignore="ButtonStyle"
             android:id="@+id/lessonDeleteButton"/>
+
         <android.support.v4.widget.Space
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:id="@+id/buttonSpace3"/>
+
+        <Button
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="@drawable/cancel"
+            tools:ignore="ButtonStyle"
+            android:id="@+id/lessonCancelButton"/>
+
+        <android.support.v4.widget.Space
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:id="@+id/buttonSpace4"/>
 
     </LinearLayout>
 
@@ -83,7 +96,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
-                    android:text="Luke Skywalker"
                     android:textColor="@color/colorPrimary"
                     android:textSize="17sp"/>
 
@@ -125,7 +137,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
-                    android:text="December 31, 1969"
                     android:textColor="@color/colorPrimary"
                     android:textSize="17sp"/>
 
@@ -166,7 +177,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
-                    android:text="12:00 pm"
                     android:textColor="@color/colorPrimary"
                     android:textSize="17sp"/>
 
@@ -232,7 +242,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
-                    android:text="A+"
                     android:textColor="@color/colorPrimary"
                     android:textSize="17sp"/>
 
@@ -271,7 +280,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:text="Best lesson ever!"
                 android:textColor="@color/colorPrimary"
                 android:textSize="17sp"/>
 

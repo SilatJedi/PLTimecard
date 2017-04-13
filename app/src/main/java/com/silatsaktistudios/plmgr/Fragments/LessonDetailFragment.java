@@ -17,11 +17,17 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
+import com.silatsaktistudios.plmgr.DataLogic.LessonData;
+import com.silatsaktistudios.plmgr.DataLogic.StudentData;
 import com.silatsaktistudios.plmgr.Models.Lesson;
 import com.silatsaktistudios.plmgr.R;
 
 import android.text.format.DateFormat;
+
+import java.util.Calendar;
 import java.util.Date;
+
+import io.realm.Realm;
 
 
 /**
@@ -34,13 +40,16 @@ import java.util.Date;
  */
 public class LessonDetailFragment extends Fragment {
 
-    private boolean viewLesson = true;
+
+    private boolean isViewingLesson = true;
+    private boolean isEditing = false;
+    private int lessonID = -1;
 
     private OnFragmentInteractionListener mListener;
 
     private Lesson lesson;
     private Button editButton, saveButton, deleteButton;
-    private Space space1,space2,space3;
+    private Space space1,space2,space3,space4;
     private TextView studentNameView, studentNameEdit, lessonDateView, lessonTimeView,
             lessonGradeView, lessonGradeEdit, lessonViewNotes;
     private EditText lessonEditNotes;
@@ -58,10 +67,12 @@ public class LessonDetailFragment extends Fragment {
      *
      * @return A new instance of fragment LessonDetailFragment.
      */
-    public static LessonDetailFragment newInstance(Lesson lesson, boolean viewLesson) {
+    public static LessonDetailFragment newInstance(int lessonID, boolean viewLesson) {
         LessonDetailFragment fragment = new LessonDetailFragment();
-        fragment.lesson = lesson;
-        fragment.viewLesson = viewLesson;
+        fragment.lessonID = lessonID;
+        Realm realm = Realm.getDefaultInstance();
+        fragment.lesson = realm.where(Lesson.class).equalTo("id", lessonID).findFirst();
+        fragment.isViewingLesson = viewLesson;
         return fragment;
     }
 
@@ -80,17 +91,29 @@ public class LessonDetailFragment extends Fragment {
         editButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                isEditing = true;
                 loadEditData();
-                showLessonEditViews();
+                showLessonEdit();
             }
         });
 
         saveButton = (Button)v.findViewById(R.id.lessonSaveButton);
+        saveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                saveLessonData();
+                loadViewData();
+                showLessonView();
+                isEditing = false;
+            }
+        });
+
         deleteButton = (Button)v.findViewById(R.id.lessonDeleteButton);
 
         space1 = (Space)v.findViewById(R.id.buttonSpace1);
         space2 = (Space)v.findViewById(R.id.buttonSpace2);
         space3 = (Space)v.findViewById(R.id.buttonSpace3);
+        space4 = (Space)v.findViewById(R.id.buttonSpace4);
 
         studentNameView = (TextView)v.findViewById(R.id.lessonViewStudentName);
         studentNameEdit = (TextView)v.findViewById(R.id.lessonEditStudentName);
@@ -109,11 +132,11 @@ public class LessonDetailFragment extends Fragment {
         makeUpCheckBox = (CheckBox)v.findViewById(R.id.lessonViewMakeUpCheckBox);
         eligibleCheckBox = (CheckBox)v.findViewById(R.id.lessonViewEligibleCheckBox);
 
-        if(viewLesson) {
+        if(isViewingLesson) {
             loadViewData();
         }
         else {
-            showLessonEditViews();
+            showLessonEdit();
         }
 
         return v;
@@ -162,6 +185,39 @@ public class LessonDetailFragment extends Fragment {
 
 
 
+    private void saveLessonData() {
+        String grade = lessonGradeEdit.getText().toString();
+        String notes = lessonEditNotes.getText().toString();
+
+        if(isEditing) {
+            lesson = new Lesson(
+                    lessonID,
+                    lesson.getStudentID(),
+                    lesson.getStudentName(),
+                    getDateTime(),
+                    convertGrade(grade),
+                    notes,
+                    showedUpCheckBox.isChecked(),
+                    eligibleCheckBox.isChecked(),
+                    makeUpCheckBox.isChecked()
+            );
+            LessonData.edit(lesson);
+        }
+        else {
+            String name = studentNameEdit.getText().toString();
+            lesson = new Lesson(
+                    StudentData.getIdForStudent(name),
+                    name,
+                    getDateTime(),
+                    convertGrade(grade),
+                    notes,
+                    showedUpCheckBox.isChecked(),
+                    eligibleCheckBox.isChecked(),
+                    makeUpCheckBox.isChecked());
+            LessonData.add(lesson);
+        }
+
+    }
 
 
 
@@ -201,15 +257,60 @@ public class LessonDetailFragment extends Fragment {
         lessonEditNotes.setText(lesson.getNote());
     }
 
-    private void showLessonEditViews() {
+
+
+
+
+
+
+
+
+
+
+
+
+    private void showLessonView() {
+        editButton.setVisibility(View.VISIBLE);
+        saveButton.setVisibility(View.GONE);
+
+        if(!isViewingLesson) {
+            deleteButton.setVisibility(View.VISIBLE);
+            space1.setVisibility(View.VISIBLE);
+            space2.setVisibility(View.VISIBLE);
+            space3.setVisibility(View.VISIBLE);
+            space4.setVisibility(View.VISIBLE);
+        }
+
+        studentNameView.setVisibility(View.VISIBLE);
+        studentNameEdit.setVisibility(View.GONE);
+
+        lessonDateView.setVisibility(View.VISIBLE);
+        datePicker.setVisibility(View.GONE);
+
+        lessonTimeView.setVisibility(View.VISIBLE);
+        timePicker.setVisibility(View.GONE);
+
+        showedUpCheckBox.setClickable(false);
+        makeUpCheckBox.setClickable(false);
+        eligibleCheckBox.setClickable(false);
+
+        lessonGradeView.setVisibility(View.VISIBLE);
+        lessonGradeEdit.setVisibility(View.GONE);
+
+        lessonViewNotes.setVisibility(View.VISIBLE);
+        lessonEditNotes.setVisibility(View.GONE);
+    }
+
+    private void showLessonEdit() {
         editButton.setVisibility(View.GONE);
         saveButton.setVisibility(View.VISIBLE);
 
-        if(!viewLesson) {
+        if(!isViewingLesson) {
             deleteButton.setVisibility(View.GONE);
             space1.setVisibility(View.GONE);
             space2.setVisibility(View.GONE);
             space3.setVisibility(View.GONE);
+            space4.setVisibility(View.GONE);
         }
 
         studentNameView.setVisibility(View.GONE);
@@ -232,20 +333,56 @@ public class LessonDetailFragment extends Fragment {
         lessonEditNotes.setVisibility(View.VISIBLE);
     }
 
+
+
+
+
+
+
+
+
+
+
+    private Date getDateTime() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.DAY_OF_MONTH, datePicker.getDayOfMonth());
+        calendar.set(Calendar.MONTH, datePicker.getMonth());
+        Log.d("datePicker.getYear()", String.valueOf(datePicker.getYear()));
+        calendar.set(Calendar.YEAR, datePicker.getYear());
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M){
+            Log.d("timePicker.getHour()", String.valueOf(timePicker.getHour()));
+            Log.d("timePicker.getMinute()", String.valueOf(timePicker.getMinute()));
+
+            calendar.set(Calendar.HOUR_OF_DAY, timePicker.getHour());
+            calendar.set(Calendar.MINUTE, timePicker.getMinute());
+        } else {
+            calendar.set(Calendar.HOUR_OF_DAY, timePicker.getCurrentHour());
+            calendar.set(Calendar.MINUTE, timePicker.getCurrentMinute());
+        }
+
+        calendar.set(Calendar.SECOND, 0);
+
+        Log.d("calendar.getTime()", calendar.getTime().toString());
+
+
+        return calendar.getTime();
+    }
+
     private int getYearFrom(Date date) {
         return Integer.parseInt(DateFormat.format("yyyy", date).toString());
     }
 
     private int getMonthFrom(Date date) {
-        return Integer.parseInt(DateFormat.format("MM", date).toString()) - 1;
+        return Integer.parseInt(DateFormat.format("M", date).toString()) - 1;
     }
 
     private int getDayFrom(Date date) {
-        return Integer.parseInt(DateFormat.format("dd", date).toString());
+        return Integer.parseInt(DateFormat.format("d", date).toString());
     }
 
     private int getHourFrom(Date date) {
-        return Integer.parseInt(DateFormat.format("HH", date).toString());
+        return Integer.parseInt(DateFormat.format("H", date).toString());
     }
 
     private int getMinuteFrom(Date date) {

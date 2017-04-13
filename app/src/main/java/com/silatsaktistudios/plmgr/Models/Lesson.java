@@ -25,6 +25,7 @@ public class Lesson extends RealmObject {
     public Lesson() {}
 
     public Lesson(int studentID, String studentName, Date date, float grade, String note, boolean showedUp, boolean eligible, boolean isMakeUp) {
+        setId();
         setStudentID(studentID);
         setDate(date);
         setGrade(grade);
@@ -36,7 +37,8 @@ public class Lesson extends RealmObject {
         setStudentName(studentName);
     }
 
-    public Lesson(int id, int studentID, String studentName, Date date, float grade, String note, boolean showedUp, boolean eligible, boolean isMakeUp) {
+    public Lesson(int id, int studentID, String studentName, Date date, float grade, String note,
+                  boolean showedUp, boolean eligible, boolean isMakeUp) {
         setId(id);
         setDate(date);
         setGrade(grade);

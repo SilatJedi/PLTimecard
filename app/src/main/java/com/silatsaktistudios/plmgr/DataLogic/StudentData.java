@@ -84,4 +84,22 @@ public class StudentData {
 
         return student;
     }
+
+    public static int getIdForStudent(String fullName) {
+        String[] names = fullName.split(" ");
+        Realm realm = Realm.getDefaultInstance();
+        Student student = realm
+                .where(Student.class)
+                .equalTo("firstName", names[0])
+                .equalTo("lastName", names[1])
+                .findFirst();
+        realm.close();
+
+        if(student != null) {
+            return student.getId();
+        }
+        else {
+            return -1;
+        }
+    }
 }

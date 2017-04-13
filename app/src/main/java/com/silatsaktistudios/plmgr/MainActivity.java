@@ -2,12 +2,12 @@ package com.silatsaktistudios.plmgr;
 
 import android.graphics.Color;
 import android.net.Uri;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
@@ -17,39 +17,55 @@ import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
 import com.silatsaktistudios.plmgr.Fragments.LessonDetailFragment;
 import com.silatsaktistudios.plmgr.Fragments.LessonListFragment;
+import com.silatsaktistudios.plmgr.Models.Instructor;
 import com.silatsaktistudios.plmgr.Models.Lesson;
+import com.silatsaktistudios.plmgr.Models.Student;
 
 import java.util.Date;
 
+import io.realm.Realm;
+import io.realm.RealmConfiguration;
+import io.realm.RealmResults;
 
-public class MainActivity extends AppCompatActivity implements LessonDetailFragment.OnFragmentInteractionListener{
 
-    Toolbar toolBar;
-    FrameLayout fragmentContainer;
+public class MainActivity extends AppCompatActivity implements
+        LessonDetailFragment.OnFragmentInteractionListener,
+        LessonListFragment.OnFragmentInteractionListener{
+
+    private Toolbar toolBar;
+    private FragmentManager fragmentManager;
+    private Fragment lessonListFragment, lessonDetailFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        RealmConfiguration realmConfiguration =
+                new RealmConfiguration.Builder(getApplicationContext())
+                        .name("MPPLDB.realm")
+                        .build();
+        Realm.setDefaultConfiguration(realmConfiguration);
+
+
         toolBar = (Toolbar) findViewById(R.id.plmgrToolbar);
         setSupportActionBar(toolBar);
 
 
-        fragmentContainer = (FrameLayout) findViewById(R.id.fragmentContainer);
         setUpNavBar();
 
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        Fragment fragment = fragmentManager.findFragmentById(R.id.fragmentContainer);
+        fragmentManager = getSupportFragmentManager();
 
-        Lesson testLesson = new Lesson(41, "Luke Skywalker", new Date(), 2f, "Best lesson ever!", true, false, false);
+        createDemoData();
 
-        if(fragment == null) {
-            fragment = LessonDetailFragment.newInstance(testLesson, true);
+        if(lessonListFragment == null) {
+
+            lessonListFragment = LessonListFragment.newInstance();
             fragmentManager.beginTransaction()
-                    .add(R.id.fragmentContainer, fragment)
+                    .add(R.id.fragmentContainer, lessonListFragment)
                     .commit();
         }
+
     }
 
     @Override
@@ -121,5 +137,114 @@ public class MainActivity extends AppCompatActivity implements LessonDetailFragm
     @Override
     public void onFragmentInteraction(Uri uri) {
 
+    }
+
+    public void createDemoData() {
+
+        Log.d("resetting DB", "blam!");
+
+        Realm realm = Realm.getDefaultInstance();
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                realm.deleteAll();
+            }
+        });
+
+        for (int i = 0; i < 10; i++) {
+
+            final Student adult = new Student(
+                    "Adult",
+                    "Student" + ( i + 1),
+                    "555555555" + i,
+                    "Cell",
+                    "55555555" + i + "5",
+                    "Home",
+                    "adult-student" + i + "@mail.net",
+                    "Dasar 1",
+                    "Athletic Adventure Program");
+
+            realm.executeTransaction(new Realm.Transaction() {
+                @Override
+                public void execute(Realm realm) {
+                    realm.insert(adult);
+                }
+            });
+
+            final Student child = new Student(
+                    "Child",
+                    "Student" + ( i + 1),
+                    "555555555" + i,
+                    "Cell",
+                    "55555555" + i + "5",
+                    "Cell",
+                    "child-student" + i + "@mail.net",
+                    "White Belt",
+                    "Persilat Kids",
+                    "Parent1",
+                    "Student" + ( i + 1),
+                    "Mother",
+                    "Parent2",
+                    "Student" + ( i + 1),
+                    "Father");
+
+            realm.executeTransaction(new Realm.Transaction() {
+                @Override
+                public void execute(Realm realm) {
+                    realm.insert(child);
+                }
+            });
+
+
+
+        }
+
+
+
+        final RealmResults<Student> students = realm.where(Student.class).findAll();
+
+        for (final Student student : students) {
+            final Lesson lesson = new Lesson(
+                    student.getId(),
+                    student.getFirstName() + " " + student.getLastName(),
+                    new Date(),
+                    4f,
+                    "Good Job",
+                    true,true,false);
+
+            realm.executeTransaction(new Realm.Transaction() {
+                @Override
+                public void execute(Realm realm) {
+
+                    student.addLesson(lesson);
+                }
+            });
+        }
+
+        final Instructor instructor = new Instructor(
+                "Obi-wan",
+                "Kenobi",
+                "Jedi Master", "Mas", "0855378008", "sithsuckass@jediorder.org");
+
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                realm.insert(instructor);
+            }
+        });
+
+        realm.close();
+    }
+
+    @Override
+    public void onLessonListItemClick(int lessonId) {
+        if(lessonDetailFragment == null) {
+            lessonDetailFragment = LessonDetailFragment.newInstance(lessonId, true);
+        }
+
+        fragmentManager.beginTransaction()
+                .remove(lessonListFragment)
+                .add(R.id.fragmentContainer, lessonDetailFragment)
+                .commit();
     }
 }
