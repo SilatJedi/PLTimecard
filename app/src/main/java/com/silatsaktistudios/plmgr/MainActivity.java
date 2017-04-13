@@ -48,13 +48,6 @@ public class MainActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
-
-            ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.CALL_PHONE},   //request specific permission from user
-                    10);
-        }
-
         RealmConfiguration realmConfiguration =
                 new RealmConfiguration.Builder(getApplicationContext())
                         .name("MPPLDB.realm")
