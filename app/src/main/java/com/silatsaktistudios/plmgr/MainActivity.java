@@ -18,6 +18,7 @@ import android.view.MenuItem;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
 import com.silatsaktistudios.plmgr.DataLogic.LessonData;
+import com.silatsaktistudios.plmgr.Fragments.FragmentHelper;
 import com.silatsaktistudios.plmgr.Fragments.LessonDetailFragment;
 import com.silatsaktistudios.plmgr.Fragments.LessonListFragment;
 import com.silatsaktistudios.plmgr.Fragments.StudentListFragment;
@@ -201,12 +202,17 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     public void onLessonListItemClick(int lessonId) {
         showToolBarButtons();
-        showLessonDetail(lessonId);
+//        showLessonDetail(lessonId);
+        bottomNavigation.hideBottomNavigation(true);
+        FragmentHelper.setFragment(MainActivity.this, LessonDetailFragment.newInstance(lessonId), R.id.fragmentContainer);
     }
 
     @Override
     public void onAddLessonButtonClick() {
-        showAddNewLesson();
+        bottomNavigation.hideBottomNavigation(true);
+        cancelMenuItem.setVisible(true);
+        FragmentHelper.setFragment(MainActivity.this, LessonDetailFragment.newInstance(), R.id.fragmentContainer);
+//        showAddNewLesson();
     }
 
     //student list fragment events
@@ -219,67 +225,6 @@ public class MainActivity extends AppCompatActivity implements
     public void onAddStudentButtonClick() {
 
     }
-
-    //fragment transactions
-    private void showTimecard() {
-        Fragment f = getSupportFragmentManager().findFragmentById(R.id.fragmentContainer);
-        lessonListFragment = LessonListFragment.newInstance();
-
-        bottomNavigation.restoreBottomNavigation(true);
-
-        fragmentManager.beginTransaction()
-                .remove(f)
-                .add(R.id.fragmentContainer, lessonListFragment)
-                .commit();
-    }
-
-    private void showLessonDetail(int lessonId) {
-        Fragment f = getSupportFragmentManager().findFragmentById(R.id.fragmentContainer);
-        lessonDetailFragment = LessonDetailFragment.newInstance(lessonId);
-
-        bottomNavigation.hideBottomNavigation(true);
-
-        fragmentManager.beginTransaction()
-                .remove(f)
-                .add(R.id.fragmentContainer, lessonDetailFragment)
-                .commit();
-    }
-
-    private void showAddNewLesson() {
-        Fragment f = getSupportFragmentManager().findFragmentById(R.id.fragmentContainer);
-        lessonDetailFragment = LessonDetailFragment.newInstance();
-
-        bottomNavigation.hideBottomNavigation(true);
-
-        fragmentManager.beginTransaction()
-                .remove(f)
-                .add(R.id.fragmentContainer, lessonDetailFragment)
-                .commit();
-
-        cancelMenuItem.setVisible(true);
-    }
-
-    private void showStudentList() {
-        Fragment f = getSupportFragmentManager().findFragmentById(R.id.fragmentContainer);
-        studentListFragment = StudentListFragment.newInstance();
-
-        bottomNavigation.restoreBottomNavigation(true);
-
-        fragmentManager.beginTransaction()
-                .remove(f)
-                .add(R.id.fragmentContainer, studentListFragment)
-                .commit();
-    }
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -334,13 +279,17 @@ public class MainActivity extends AppCompatActivity implements
                 switch(position) {
                     case 0:
                         hideAllToolBarButtons();
-                        showTimecard();
+                        bottomNavigation.restoreBottomNavigation(true);
+                        FragmentHelper.setFragment(MainActivity.this, lessonListFragment, R.id.fragmentContainer);
+//                        showTimecard();
                         break;
                     case 1:
                         break;
                     case 2:
                         hideAllToolBarButtons();
-                        showStudentList();
+                        bottomNavigation.restoreBottomNavigation(true);
+                        FragmentHelper.setFragment(MainActivity.this, StudentListFragment.newInstance(), R.id.fragmentContainer);
+//                        showStudentList();
                         break;
                     default: break;
                 }
