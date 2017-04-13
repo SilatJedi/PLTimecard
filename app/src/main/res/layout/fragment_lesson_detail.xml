@@ -3,68 +3,8 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:orientation="vertical"
+              android:id="@+id/lessonDetailFragment"
               tools:context="com.silatsaktistudios.plmgr.Fragments.LessonDetailFragment">
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorAccent"
-        android:gravity="center">
-
-        <android.support.v4.widget.Space
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:id="@+id/buttonSpace1"/>
-
-        <Button
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:background="@drawable/lead_pencil"
-            tools:ignore="ButtonStyle"
-            android:id="@+id/lessonEditButton"/>
-
-        <Button
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:visibility="gone"
-            android:background="@drawable/floppy"
-            tools:ignore="ButtonStyle"
-            android:id="@+id/lessonSaveButton"/>
-
-        <android.support.v4.widget.Space
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:id="@+id/buttonSpace2"/>
-
-        <Button
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:background="@drawable/delete"
-            tools:ignore="ButtonStyle"
-            android:id="@+id/lessonDeleteButton"/>
-
-        <android.support.v4.widget.Space
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:id="@+id/buttonSpace3"/>
-
-        <Button
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:background="@drawable/cancel"
-            tools:ignore="ButtonStyle"
-            android:id="@+id/lessonCancelButton"/>
-
-        <android.support.v4.widget.Space
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:id="@+id/buttonSpace4"/>
-
-    </LinearLayout>
 
     <ScrollView
         android:id="@+id/lessonDetailView"

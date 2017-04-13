@@ -10,7 +10,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -48,8 +47,8 @@ public class LessonDetailFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
 
     private Lesson lesson;
-    private Button editButton, saveButton, deleteButton;
-    private Space space1,space2,space3,space4;
+//    private Button editButton, saveButton, deleteButton;
+//    private Space space1,space2,space3,space4;
     private TextView studentNameView, studentNameEdit, lessonDateView, lessonTimeView,
             lessonGradeView, lessonGradeEdit, lessonViewNotes;
     private EditText lessonEditNotes;
@@ -87,33 +86,33 @@ public class LessonDetailFragment extends Fragment {
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_lesson_detail, container, false);
 
-        editButton = (Button)v.findViewById(R.id.lessonEditButton);
-        editButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                isEditing = true;
-                loadEditData();
-                showLessonEdit();
-            }
-        });
+//        editButton = (Button)v.findViewById(R.id.lessonEditButton);
+//        editButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                isEditing = true;
+//                loadEditData();
+//                showLessonEdit();
+//            }
+//        });
 
-        saveButton = (Button)v.findViewById(R.id.lessonSaveButton);
-        saveButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                saveLessonData();
-                loadViewData();
-                showLessonView();
-                isEditing = false;
-            }
-        });
+//        saveButton = (Button)v.findViewById(R.id.lessonSaveButton);
+//        saveButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                saveLessonData();
+//                loadViewData();
+//                showLessonView();
+//                isEditing = false;
+//            }
+//        });
 
-        deleteButton = (Button)v.findViewById(R.id.lessonDeleteButton);
+//        deleteButton = (Button)v.findViewById(R.id.lessonDeleteButton);
 
-        space1 = (Space)v.findViewById(R.id.buttonSpace1);
-        space2 = (Space)v.findViewById(R.id.buttonSpace2);
-        space3 = (Space)v.findViewById(R.id.buttonSpace3);
-        space4 = (Space)v.findViewById(R.id.buttonSpace4);
+//        space1 = (Space)v.findViewById(R.id.buttonSpace1);
+//        space2 = (Space)v.findViewById(R.id.buttonSpace2);
+//        space3 = (Space)v.findViewById(R.id.buttonSpace3);
+//        space4 = (Space)v.findViewById(R.id.buttonSpace4);
 
         studentNameView = (TextView)v.findViewById(R.id.lessonViewStudentName);
         studentNameEdit = (TextView)v.findViewById(R.id.lessonEditStudentName);
@@ -142,12 +141,7 @@ public class LessonDetailFragment extends Fragment {
         return v;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
+
 
     @Override
     public void onAttach(Context context) {
@@ -178,10 +172,22 @@ public class LessonDetailFragment extends Fragment {
      */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
+
     }
 
 
+    public void editLesson() {
+        isEditing = true;
+        loadEditData();
+        showLessonEdit();
+    }
+
+    public void saveLesson() {
+        saveLessonData();
+        loadViewData();
+        showLessonView();
+        isEditing = false;
+    }
 
 
 
@@ -270,16 +276,16 @@ public class LessonDetailFragment extends Fragment {
 
 
     private void showLessonView() {
-        editButton.setVisibility(View.VISIBLE);
-        saveButton.setVisibility(View.GONE);
+//        editButton.setVisibility(View.VISIBLE);
+//        saveButton.setVisibility(View.GONE);
 
-        if(!isViewingLesson) {
-            deleteButton.setVisibility(View.VISIBLE);
-            space1.setVisibility(View.VISIBLE);
-            space2.setVisibility(View.VISIBLE);
-            space3.setVisibility(View.VISIBLE);
-            space4.setVisibility(View.VISIBLE);
-        }
+//        if(!isViewingLesson) {
+//            deleteButton.setVisibility(View.VISIBLE);
+//            space1.setVisibility(View.VISIBLE);
+//            space2.setVisibility(View.VISIBLE);
+//            space3.setVisibility(View.VISIBLE);
+//            space4.setVisibility(View.VISIBLE);
+//        }
 
         studentNameView.setVisibility(View.VISIBLE);
         studentNameEdit.setVisibility(View.GONE);
@@ -302,16 +308,16 @@ public class LessonDetailFragment extends Fragment {
     }
 
     private void showLessonEdit() {
-        editButton.setVisibility(View.GONE);
-        saveButton.setVisibility(View.VISIBLE);
+//        editButton.setVisibility(View.GONE);
+//        saveButton.setVisibility(View.VISIBLE);
 
-        if(!isViewingLesson) {
-            deleteButton.setVisibility(View.GONE);
-            space1.setVisibility(View.GONE);
-            space2.setVisibility(View.GONE);
-            space3.setVisibility(View.GONE);
-            space4.setVisibility(View.GONE);
-        }
+//        if(!isViewingLesson) {
+//            deleteButton.setVisibility(View.GONE);
+//            space1.setVisibility(View.GONE);
+//            space2.setVisibility(View.GONE);
+//            space3.setVisibility(View.GONE);
+//            space4.setVisibility(View.GONE);
+//        }
 
         studentNameView.setVisibility(View.GONE);
         studentNameEdit.setVisibility(View.VISIBLE);

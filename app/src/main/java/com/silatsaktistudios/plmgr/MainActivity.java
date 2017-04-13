@@ -10,7 +10,6 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
@@ -32,9 +31,10 @@ public class MainActivity extends AppCompatActivity implements
         LessonDetailFragment.OnFragmentInteractionListener,
         LessonListFragment.OnFragmentInteractionListener{
 
-    private Toolbar toolBar;
     private FragmentManager fragmentManager;
-    private Fragment lessonListFragment, lessonDetailFragment;
+    private Fragment lessonListFragment;
+    private LessonDetailFragment lessonDetailFragment;
+    MenuItem editMenuItem, saveMenuItem, deleteMenuItem, cancelMenuItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,13 +48,15 @@ public class MainActivity extends AppCompatActivity implements
         Realm.setDefaultConfiguration(realmConfiguration);
 
 
-        toolBar = (Toolbar) findViewById(R.id.plmgrToolbar);
+        Toolbar toolBar = (Toolbar) findViewById(R.id.plmgrToolbar);
         setSupportActionBar(toolBar);
 
 
         setUpNavBar();
 
         fragmentManager = getSupportFragmentManager();
+
+
 
         createDemoData();
 
@@ -71,6 +73,10 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
+        editMenuItem = menu.findItem(R.id.edit_menu_item);
+        saveMenuItem = menu.findItem(R.id.save_menu_item);
+        deleteMenuItem = menu.findItem(R.id.delete_menu_item);
+        cancelMenuItem = menu.findItem(R.id.cancel_menu_item);
         return true;
     }
 
@@ -82,6 +88,18 @@ public class MainActivity extends AppCompatActivity implements
                 break;
             case R.id.options_menu_item:
                 Toast.makeText(getApplicationContext(),"need to write code to go to options",Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.edit_menu_item:
+                editMenuItemFunctions();
+                break;
+            case R.id.save_menu_item:
+                saveMenuItemFunctions();
+                break;
+            case R.id.delete_menu_item:
+                Toast.makeText(getApplicationContext(),"need to write code to delete",Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.cancel_menu_item:
+                Toast.makeText(getApplicationContext(),"need to write code to cancel",Toast.LENGTH_SHORT).show();
                 break;
             default: break;
         }
@@ -134,10 +152,78 @@ public class MainActivity extends AppCompatActivity implements
         });
     }
 
+
+
     @Override
-    public void onFragmentInteraction(Uri uri) {
+    public void onLessonListItemClick(int lessonId) {
+        lessonDetailFragment = LessonDetailFragment.newInstance(lessonId, true);
+
+        fragmentManager.beginTransaction()
+                .remove(lessonListFragment)
+                .add(R.id.fragmentContainer, lessonDetailFragment)
+                .commit();
+
+        editMenuItem.setVisible(true);
+        deleteMenuItem.setVisible(true);
+        cancelMenuItem.setVisible(true);
+    }
+
+
+
+    private void editMenuItemFunctions(){
+        Fragment f = getSupportFragmentManager().findFragmentById(R.id.fragmentContainer);
+
+        editMenuItem.setVisible(false);
+        saveMenuItem.setVisible(true);
+
+        if(f instanceof LessonDetailFragment) {
+            lessonDetailFragment.editLesson();
+        }
 
     }
+
+    private void saveMenuItemFunctions() {
+        Fragment f = getSupportFragmentManager().findFragmentById(R.id.fragmentContainer);
+
+        editMenuItem.setVisible(true);
+        saveMenuItem.setVisible(false);
+
+        if(f instanceof LessonDetailFragment) {
+            lessonDetailFragment.saveLesson();
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     public void createDemoData() {
 
@@ -234,17 +320,5 @@ public class MainActivity extends AppCompatActivity implements
         });
 
         realm.close();
-    }
-
-    @Override
-    public void onLessonListItemClick(int lessonId) {
-        if(lessonDetailFragment == null) {
-            lessonDetailFragment = LessonDetailFragment.newInstance(lessonId, true);
-        }
-
-        fragmentManager.beginTransaction()
-                .remove(lessonListFragment)
-                .add(R.id.fragmentContainer, lessonDetailFragment)
-                .commit();
     }
 }

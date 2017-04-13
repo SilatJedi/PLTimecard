@@ -1,7 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
       xmlns:app="http://schemas.android.com/apk/res-auto">
-
+    <item
+        android:title="Edit"
+        android:id="@+id/edit_menu_item"
+        android:icon="@drawable/lead_pencil"
+        android:visible="false"
+        app:showAsAction="always"/>
+    <item
+        android:title="Save"
+        android:id="@+id/save_menu_item"
+        android:icon="@drawable/floppy"
+        android:visible="false"
+        app:showAsAction="always"/>
+    <item
+        android:title="@string/submit_timecard"
+        android:id="@+id/delete_menu_item"
+        android:icon="@drawable/delete"
+        android:visible="false"
+        app:showAsAction="always"/>
+    <item
+        android:title="Cancel"
+        android:id="@+id/cancel_menu_item"
+        android:icon="@drawable/cancel"
+        android:visible="false"
+        app:showAsAction="always"/>
     <item
         android:title="@string/submit_timecard"
         android:id="@+id/submit_timecard_menu_item"
