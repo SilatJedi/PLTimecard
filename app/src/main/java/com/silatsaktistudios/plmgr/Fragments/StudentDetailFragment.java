@@ -3,7 +3,6 @@ package com.silatsaktistudios.plmgr.Fragments;
 import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
@@ -14,17 +13,17 @@ import android.view.ViewGroup;
 import com.silatsaktistudios.plmgr.R;
 
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link StudentDetailFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link StudentDetailFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+///**
+// * A simple {@link Fragment} subclass.
+// * Activities that contain this fragment must implement the
+// * {@link StudentDetailFragment.OnFragmentInteractionListener} interface
+// * to handle interaction events.
+// * Use the {@link StudentDetailFragment#newInstance} factory method to
+// * create an instance of this fragment.
+// */
 public class StudentDetailFragment extends Fragment {
 
-    private OnFragmentInteractionListener mListener;
+//    private OnFragmentInteractionListener mListener;
 
     public StudentDetailFragment() {
         // Required empty public constructor
@@ -32,7 +31,7 @@ public class StudentDetailFragment extends Fragment {
 
 
     // TODO: Rename and change types and number of parameters
-    public static StudentDetailFragment newInstance() {
+    public static StudentDetailFragment newInstance(int studentId) {
         StudentDetailFragment fragment = new StudentDetailFragment();
         return fragment;
     }
@@ -59,28 +58,23 @@ public class StudentDetailFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_student_detail, container, false);
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
+
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
+//        if (context instanceof OnFragmentInteractionListener) {
+//            mListener = (OnFragmentInteractionListener) context;
+//        } else {
+//            throw new RuntimeException(context.toString()
+//                    + " must implement OnFragmentInteractionListener");
+//        }
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-        mListener = null;
+//        mListener = null;
     }
 
     /**
@@ -93,8 +87,7 @@ public class StudentDetailFragment extends Fragment {
      * "http://developer.android.com/training/basics/fragments/communicating.html"
      * >Communicating with Other Fragments</a> for more information.
      */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
-    }
+//    public interface OnFragmentInteractionListener {
+//        // TODO: Update argument type and name
+//    }
 }

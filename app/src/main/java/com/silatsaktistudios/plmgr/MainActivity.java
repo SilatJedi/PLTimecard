@@ -1,12 +1,8 @@
 package com.silatsaktistudios.plmgr;
 
-import android.Manifest;
 import android.content.DialogInterface;
-import android.content.pm.PackageManager;
 import android.os.Build;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -21,6 +17,7 @@ import com.silatsaktistudios.plmgr.DataLogic.LessonData;
 import com.silatsaktistudios.plmgr.Fragments.FragmentHelper;
 import com.silatsaktistudios.plmgr.Fragments.LessonDetailFragment;
 import com.silatsaktistudios.plmgr.Fragments.LessonListFragment;
+import com.silatsaktistudios.plmgr.Fragments.StudentDetailFragment;
 import com.silatsaktistudios.plmgr.Fragments.StudentListFragment;
 import com.silatsaktistudios.plmgr.Models.Instructor;
 import com.silatsaktistudios.plmgr.Models.Lesson;
@@ -38,10 +35,6 @@ public class MainActivity extends AppCompatActivity implements
         StudentListFragment.OnFragmentInteractionListener{
 
     private AHBottomNavigation bottomNavigation;
-    private FragmentManager fragmentManager;
-    private LessonListFragment lessonListFragment;
-    private LessonDetailFragment lessonDetailFragment;
-    private StudentListFragment studentListFragment;
     MenuItem editMenuItem, saveMenuItem, deleteMenuItem, cancelMenuItem;
 
     @Override
@@ -55,8 +48,6 @@ public class MainActivity extends AppCompatActivity implements
                         .build();
         Realm.setDefaultConfiguration(realmConfiguration);
 
-        fragmentManager = getSupportFragmentManager();
-
         Toolbar toolBar = (Toolbar) findViewById(R.id.plmgrToolbar);
         setSupportActionBar(toolBar);
 
@@ -64,11 +55,7 @@ public class MainActivity extends AppCompatActivity implements
         createDemoData();
 
         if(savedInstanceState == null) {
-            lessonListFragment = LessonListFragment.newInstance();
-
-            fragmentManager.beginTransaction()
-                    .add(R.id.fragmentContainer, lessonListFragment)
-                    .commit();
+            FragmentHelper.setFragment(MainActivity.this, LessonListFragment.newInstance(), R.id.fragmentContainer);
         }
     }
 
@@ -138,7 +125,7 @@ public class MainActivity extends AppCompatActivity implements
         saveMenuItem.setVisible(true);
 
         if(f instanceof LessonDetailFragment) {
-            lessonDetailFragment.editLesson();
+            ((LessonDetailFragment)f).editLesson();
         }
 
     }
@@ -150,7 +137,7 @@ public class MainActivity extends AppCompatActivity implements
         saveMenuItem.setVisible(false);
 
         if(f instanceof LessonDetailFragment) {
-            lessonDetailFragment.saveLesson();
+            ((LessonDetailFragment)f).saveLesson();
         }
     }
 
@@ -168,7 +155,7 @@ public class MainActivity extends AppCompatActivity implements
                         Fragment f = getSupportFragmentManager().findFragmentById(R.id.fragmentContainer);
 
                         if(f instanceof LessonDetailFragment) {
-                            LessonData.delete(lessonDetailFragment.lessonID);
+                            LessonData.delete(((LessonDetailFragment)f).lessonID);
                         }
 
                         cancelMenuItemFunction();
@@ -202,7 +189,6 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     public void onLessonListItemClick(int lessonId) {
         showToolBarButtons();
-//        showLessonDetail(lessonId);
         bottomNavigation.hideBottomNavigation(true);
         FragmentHelper.setFragment(MainActivity.this, LessonDetailFragment.newInstance(lessonId), R.id.fragmentContainer);
     }
@@ -212,13 +198,14 @@ public class MainActivity extends AppCompatActivity implements
         bottomNavigation.hideBottomNavigation(true);
         cancelMenuItem.setVisible(true);
         FragmentHelper.setFragment(MainActivity.this, LessonDetailFragment.newInstance(), R.id.fragmentContainer);
-//        showAddNewLesson();
     }
 
     //student list fragment events
     @Override
     public void onStudentListItemClick(int studentId) {
-
+        showToolBarButtons();
+        bottomNavigation.hideBottomNavigation(true);
+        FragmentHelper.setFragment(MainActivity.this, StudentDetailFragment.newInstance(studentId), R.id.fragmentContainer);
     }
 
     @Override
@@ -280,8 +267,7 @@ public class MainActivity extends AppCompatActivity implements
                     case 0:
                         hideAllToolBarButtons();
                         bottomNavigation.restoreBottomNavigation(true);
-                        FragmentHelper.setFragment(MainActivity.this, lessonListFragment, R.id.fragmentContainer);
-//                        showTimecard();
+                        FragmentHelper.setFragment(MainActivity.this, LessonListFragment.newInstance(), R.id.fragmentContainer);
                         break;
                     case 1:
                         break;
@@ -289,7 +275,10 @@ public class MainActivity extends AppCompatActivity implements
                         hideAllToolBarButtons();
                         bottomNavigation.restoreBottomNavigation(true);
                         FragmentHelper.setFragment(MainActivity.this, StudentListFragment.newInstance(), R.id.fragmentContainer);
-//                        showStudentList();
+                        break;
+                    case 3:
+                        break;
+                    case 4:
                         break;
                     default: break;
                 }
