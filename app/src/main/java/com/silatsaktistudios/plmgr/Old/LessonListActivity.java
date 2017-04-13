@@ -1,4 +1,4 @@
-package com.silatsaktistudios.plmgr;
+package com.silatsaktistudios.plmgr.Old;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -17,6 +17,8 @@ import com.silatsaktistudios.plmgr.DataLogic.LessonData;
 import com.silatsaktistudios.plmgr.ListViewArrayAdapters.LessonListViewArrayAdapter;
 import com.silatsaktistudios.plmgr.Models.Lesson;
 import com.silatsaktistudios.plmgr.Models.Student;
+import com.silatsaktistudios.plmgr.R;
+import com.silatsaktistudios.plmgr.ViewLessonActivity;
 
 import java.util.List;
 

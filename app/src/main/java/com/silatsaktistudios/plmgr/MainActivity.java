@@ -1,19 +1,23 @@
 package com.silatsaktistudios.plmgr;
 
-import android.graphics.Color;
-import android.net.Uri;
+import android.Manifest;
+import android.content.DialogInterface;
+import android.content.pm.PackageManager;
+import android.os.Build;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
+import com.silatsaktistudios.plmgr.DataLogic.LessonData;
 import com.silatsaktistudios.plmgr.Fragments.LessonDetailFragment;
 import com.silatsaktistudios.plmgr.Fragments.LessonListFragment;
 import com.silatsaktistudios.plmgr.Models.Instructor;
@@ -28,11 +32,11 @@ import io.realm.RealmResults;
 
 
 public class MainActivity extends AppCompatActivity implements
-        LessonDetailFragment.OnFragmentInteractionListener,
         LessonListFragment.OnFragmentInteractionListener{
 
+    private AHBottomNavigation bottomNavigation;
     private FragmentManager fragmentManager;
-    private Fragment lessonListFragment;
+    private LessonListFragment lessonListFragment;
     private LessonDetailFragment lessonDetailFragment;
     MenuItem editMenuItem, saveMenuItem, deleteMenuItem, cancelMenuItem;
 
@@ -41,33 +45,32 @@ public class MainActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.CALL_PHONE},   //request specific permission from user
+                    10);
+        }
+
         RealmConfiguration realmConfiguration =
                 new RealmConfiguration.Builder(getApplicationContext())
                         .name("MPPLDB.realm")
                         .build();
         Realm.setDefaultConfiguration(realmConfiguration);
 
+        fragmentManager = getSupportFragmentManager();
 
         Toolbar toolBar = (Toolbar) findViewById(R.id.plmgrToolbar);
         setSupportActionBar(toolBar);
 
-
         setUpNavBar();
-
-        fragmentManager = getSupportFragmentManager();
-
-
-
         createDemoData();
 
-        if(lessonListFragment == null) {
+        lessonListFragment = LessonListFragment.newInstance();
 
-            lessonListFragment = LessonListFragment.newInstance();
-            fragmentManager.beginTransaction()
-                    .add(R.id.fragmentContainer, lessonListFragment)
-                    .commit();
-        }
-
+        fragmentManager.beginTransaction()
+                .add(R.id.fragmentContainer, lessonListFragment)
+                .commit();
     }
 
     @Override
@@ -83,12 +86,6 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()){
-            case R.id.submit_timecard_menu_item:
-                Toast.makeText(getApplicationContext(),"need to write code to submit timecard",Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.options_menu_item:
-                Toast.makeText(getApplicationContext(),"need to write code to go to options",Toast.LENGTH_SHORT).show();
-                break;
             case R.id.edit_menu_item:
                 editMenuItemFunctions();
                 break;
@@ -96,10 +93,10 @@ public class MainActivity extends AppCompatActivity implements
                 saveMenuItemFunctions();
                 break;
             case R.id.delete_menu_item:
-                Toast.makeText(getApplicationContext(),"need to write code to delete",Toast.LENGTH_SHORT).show();
+                deleteMenuItemFunction();
                 break;
             case R.id.cancel_menu_item:
-                Toast.makeText(getApplicationContext(),"need to write code to cancel",Toast.LENGTH_SHORT).show();
+                cancelMenuItemFunction();
                 break;
             default: break;
         }
@@ -107,69 +104,34 @@ public class MainActivity extends AppCompatActivity implements
         return super.onOptionsItemSelected(item);
     }
 
-    private void setUpNavBar() {
-        AHBottomNavigation bottomNavigation = (AHBottomNavigation) findViewById(R.id.bottom_navigation);
-        AHBottomNavigationItem timeCardItem = new AHBottomNavigationItem("Timecard", R.drawable.cash);
-        AHBottomNavigationItem lessonNavItem = new AHBottomNavigationItem("Lessons", R.drawable.note_multiple);
-        AHBottomNavigationItem studentNavItem = new AHBottomNavigationItem("Students", R.drawable.student_icon);
-
-        //add items
-        bottomNavigation.addItem(timeCardItem);
-        bottomNavigation.addItem(lessonNavItem);
-        bottomNavigation.addItem(studentNavItem);
-
-        //set background color
-        bottomNavigation.setDefaultBackgroundColor(Color.parseColor("#FEFEFE"));
-
-        // Change colors
-        bottomNavigation.setAccentColor(Color.parseColor("#F63D2B"));
-        bottomNavigation.setInactiveColor(Color.parseColor("#747474"));
-
-        // Force to tint the drawable (useful for font with icon for example)
-        bottomNavigation.setForceTint(true);
-
-
-
-        // Manage titles
-        bottomNavigation.setTitleState(AHBottomNavigation.TitleState.ALWAYS_SHOW);
-
-        // Use colored navigation with circle reveal effect
-        bottomNavigation.setColored(true);
-
-        // Set listeners
-        bottomNavigation.setOnTabSelectedListener(new AHBottomNavigation.OnTabSelectedListener() {
-            @Override
-            public boolean onTabSelected(int position, boolean wasSelected) {
-                switch(position) {
-                    case 0:
-                        Toast.makeText(getApplicationContext(), "tapped", Toast.LENGTH_SHORT).show();
-                        break;
-                    default: break;
-                }
-
-                return true;
-            }
-        });
-    }
-
-
-
     @Override
-    public void onLessonListItemClick(int lessonId) {
-        lessonDetailFragment = LessonDetailFragment.newInstance(lessonId, true);
-
-        fragmentManager.beginTransaction()
-                .remove(lessonListFragment)
-                .add(R.id.fragmentContainer, lessonDetailFragment)
-                .commit();
-
-        editMenuItem.setVisible(true);
-        deleteMenuItem.setVisible(true);
-        cancelMenuItem.setVisible(true);
+    public void onBackPressed() {
+        cancelMenuItemFunction();
     }
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    //toolbar menu item functions
     private void editMenuItemFunctions(){
         Fragment f = getSupportFragmentManager().findFragmentById(R.id.fragmentContainer);
 
@@ -193,6 +155,106 @@ public class MainActivity extends AppCompatActivity implements
         }
     }
 
+    private void cancelMenuItemFunction() {
+        bottomNavigation.setCurrentItem(bottomNavigation.getCurrentItem());
+    }
+
+    private void deleteMenuItemFunction() {
+        new AlertDialog.Builder(MainActivity.this, R.style.Theme_AppCompat_Light_Dialog_Alert)
+                .setTitle("Delete Item?")
+                .setMessage("Are you sure that you want to do this? Please note that this cannot be undone.")
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Fragment f = getSupportFragmentManager().findFragmentById(R.id.fragmentContainer);
+
+                        if(f instanceof LessonDetailFragment) {
+                            LessonData.delete(lessonDetailFragment.lessonID);
+                        }
+
+                        cancelMenuItemFunction();
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.cancel();
+                    }
+                })
+                .show();
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    //FRAGMENT LISTENER EVENTS
+    //lesson list fragment events
+    @Override
+    public void onLessonListItemClick(int lessonId) {
+        showToolBarButtons();
+        showLessonDetail(lessonId);
+    }
+
+    @Override
+    public void onAddLessonButtonClick() {
+        showAddNewLesson();
+    }
+
+
+
+
+
+
+
+    //fragment transactions
+    private void showTimecard() {
+        Fragment f = getSupportFragmentManager().findFragmentById(R.id.fragmentContainer);
+        lessonListFragment = LessonListFragment.newInstance();
+
+        bottomNavigation.restoreBottomNavigation(true);
+
+        fragmentManager.beginTransaction()
+                .remove(f)
+                .add(R.id.fragmentContainer, lessonListFragment)
+                .commit();
+    }
+
+    private void showLessonDetail(int lessonId) {
+        Fragment f = getSupportFragmentManager().findFragmentById(R.id.fragmentContainer);
+        lessonDetailFragment = LessonDetailFragment.newInstance(lessonId);
+
+        bottomNavigation.hideBottomNavigation(true);
+
+        fragmentManager.beginTransaction()
+                .remove(f)
+                .add(R.id.fragmentContainer, lessonDetailFragment)
+                .commit();
+    }
+
+    private void showAddNewLesson() {
+        Fragment f = getSupportFragmentManager().findFragmentById(R.id.fragmentContainer);
+        lessonDetailFragment = LessonDetailFragment.newInstance();
+
+        bottomNavigation.hideBottomNavigation(true);
+
+        fragmentManager.beginTransaction()
+                .remove(f)
+                .add(R.id.fragmentContainer, lessonDetailFragment)
+                .commit();
+
+        cancelMenuItem.setVisible(true);
+    }
 
 
 
@@ -213,17 +275,74 @@ public class MainActivity extends AppCompatActivity implements
 
 
 
+    private void setUpNavBar() {
+        bottomNavigation = (AHBottomNavigation) findViewById(R.id.bottom_navigation);
+        AHBottomNavigationItem timeCardItem = new AHBottomNavigationItem("Timecard", R.drawable.cash);
+        AHBottomNavigationItem lessonNavItem = new AHBottomNavigationItem("Lessons", R.drawable.note_multiple);
+        AHBottomNavigationItem studentNavItem = new AHBottomNavigationItem("Students", R.drawable.student_icon);
+        AHBottomNavigationItem submitItem = new AHBottomNavigationItem("Send Timecard", R.drawable.send);
+        AHBottomNavigationItem settingsItem = new AHBottomNavigationItem("Settings", R.drawable.settings);
 
+        //add items
+        bottomNavigation.addItem(timeCardItem);
+        bottomNavigation.addItem(lessonNavItem);
+        bottomNavigation.addItem(studentNavItem);
+        bottomNavigation.addItem(submitItem);
+        bottomNavigation.addItem(settingsItem);
 
+        if(Build.VERSION.SDK_INT < 23) {
+            //set background color
+            bottomNavigation.setDefaultBackgroundColor(getResources().getColor(R.color.colorPrimary));
+            // Change colors
+            bottomNavigation.setAccentColor(getResources().getColor(R.color.white));
+            bottomNavigation.setInactiveColor(getResources().getColor(R.color.colorPrimaryMediumLight));
+        }
+        else {
+            //set background color
+            bottomNavigation.setDefaultBackgroundColor(getResources().getColor(R.color.colorPrimary, null));
+            // Change colors
+            bottomNavigation.setAccentColor(getResources().getColor(R.color.white, null));
+            bottomNavigation.setInactiveColor(getResources().getColor(R.color.colorPrimaryMediumLight, null));
+        }
 
+        // Force to tint the drawable (useful for font with icon for example)
+        bottomNavigation.setForceTint(true);
 
+        // Manage titles
+        bottomNavigation.setTitleState(AHBottomNavigation.TitleState.ALWAYS_SHOW);
 
+        // Use colored navigation with circle reveal effect
+        bottomNavigation.setColored(false);
 
+        // Set listeners
+        bottomNavigation.setOnTabSelectedListener(new AHBottomNavigation.OnTabSelectedListener() {
+            @Override
+            public boolean onTabSelected(int position, boolean wasSelected) {
+                switch(position) {
+                    case 0:
+                        hideAllToolBarButtons();
+                        showTimecard();
+                        break;
+                    default: break;
+                }
 
+                return true;
+            }
+        });
+    }
 
+    private void hideAllToolBarButtons() {
+        editMenuItem.setVisible(false);
+        saveMenuItem.setVisible(false);
+        deleteMenuItem.setVisible(false);
+        cancelMenuItem.setVisible(false);
+    }
 
-
-
+    private void showToolBarButtons() {
+        editMenuItem.setVisible(true);
+        deleteMenuItem.setVisible(true);
+        cancelMenuItem.setVisible(true);
+    }
 
     public void createDemoData() {
 

@@ -7,7 +7,7 @@
     android:orientation="vertical"
     android:descendantFocusability="beforeDescendants"
     android:focusableInTouchMode="true"
-    tools:context="com.silatsaktistudios.plmgr.PLMGRActivity"
+    tools:context="com.silatsaktistudios.plmgr.Old.PLMGRActivity"
     android:id="@+id/mainActivityLayout">
 
 

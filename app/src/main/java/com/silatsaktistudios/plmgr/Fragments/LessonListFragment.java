@@ -2,7 +2,6 @@ package com.silatsaktistudios.plmgr.Fragments;
 
 import android.content.Context;
 import android.content.DialogInterface;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -15,7 +14,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.silatsaktistudios.plmgr.DataLogic.LessonData;
 import com.silatsaktistudios.plmgr.ListViewArrayAdapters.LessonListViewArrayAdapter;
@@ -30,7 +28,6 @@ public class LessonListFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
     private EditText searchEditText;
     private ListView lessonListView;
-    private FloatingActionButton addLessonButton;
     private boolean isFiltered;
 
     public LessonListFragment() {
@@ -132,11 +129,11 @@ public class LessonListFragment extends Fragment {
             }
         });
 
-        addLessonButton = (FloatingActionButton)v.findViewById(R.id.addLessonButton);
+        FloatingActionButton addLessonButton = (FloatingActionButton) v.findViewById(R.id.addLessonButton);
         addLessonButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getActivity(), "need to code add lesson stuff.", Toast.LENGTH_SHORT).show();
+                mListener.onAddLessonButtonClick();
             }
         });
 
@@ -156,12 +153,6 @@ public class LessonListFragment extends Fragment {
 
 
 
-    // TODO: Rename method, update argument and hook method into UI event
-//    public void onButtonPressed(Uri uri) {
-//        if (mListener != null) {
-//            mListener.onFragmentInteraction(uri);
-//        }
-//    }
 
     @Override
     public void onAttach(Context context) {
@@ -191,8 +182,8 @@ public class LessonListFragment extends Fragment {
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
         void onLessonListItemClick(int lessonId);
+        void onAddLessonButtonClick();
     }
 
 

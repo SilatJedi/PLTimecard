@@ -121,8 +121,9 @@ public class LessonData {
 
     public static Lesson getLesson(int id) {
         Realm realm = Realm.getDefaultInstance();
-        Lesson lesson = realm.where(Lesson.class).equalTo("id", id).findFirst();
+        Lesson lesson = realm.copyFromRealm(realm.where(Lesson.class).equalTo("id", id).findFirst());
         realm.close();
+
         return lesson;
     }
 }

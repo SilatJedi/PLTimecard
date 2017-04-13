@@ -1,4 +1,4 @@
-package com.silatsaktistudios.plmgr;
+package com.silatsaktistudios.plmgr.Old;
 
 import android.Manifest;
 import android.content.DialogInterface;
@@ -13,9 +13,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
+import com.silatsaktistudios.plmgr.EditInstructorActivity;
 import com.silatsaktistudios.plmgr.Models.Instructor;
 import com.silatsaktistudios.plmgr.Models.Lesson;
 import com.silatsaktistudios.plmgr.Models.Student;
+import com.silatsaktistudios.plmgr.OptionsActivity;
+import com.silatsaktistudios.plmgr.R;
+import com.silatsaktistudios.plmgr.StudentListActivity;
 
 import java.util.Date;
 

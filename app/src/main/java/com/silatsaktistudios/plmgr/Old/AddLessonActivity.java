@@ -1,4 +1,4 @@
-package com.silatsaktistudios.plmgr;
+package com.silatsaktistudios.plmgr.Old;
 
 import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
@@ -17,6 +17,7 @@ import com.silatsaktistudios.plmgr.DataLogic.LessonData;
 import com.silatsaktistudios.plmgr.DataLogic.StudentData;
 import com.silatsaktistudios.plmgr.Models.Lesson;
 import com.silatsaktistudios.plmgr.Models.Student;
+import com.silatsaktistudios.plmgr.R;
 
 import java.util.Calendar;
 import java.util.Date;

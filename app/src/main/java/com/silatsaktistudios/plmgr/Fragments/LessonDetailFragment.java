@@ -1,11 +1,9 @@
 package com.silatsaktistudios.plmgr.Fragments;
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.Space;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,25 +24,16 @@ import android.text.format.DateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-import io.realm.Realm;
 
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link LessonDetailFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link LessonDetailFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+
 public class LessonDetailFragment extends Fragment {
 
 
-    private boolean isViewingLesson = true;
+    private boolean isNewLesson = false;
     private boolean isEditing = false;
-    private int lessonID = -1;
+    public int lessonID = -1;
 
-    private OnFragmentInteractionListener mListener;
 
     private Lesson lesson;
 //    private Button editButton, saveButton, deleteButton;
@@ -56,9 +45,17 @@ public class LessonDetailFragment extends Fragment {
     private TimePicker timePicker;
     private CheckBox showedUpCheckBox, makeUpCheckBox, eligibleCheckBox;
 
+
+
+
+
     public LessonDetailFragment() {
         // Required empty public constructor
     }
+
+
+
+
 
     /**
      * Use this factory method to create a new instance of
@@ -66,14 +63,25 @@ public class LessonDetailFragment extends Fragment {
      *
      * @return A new instance of fragment LessonDetailFragment.
      */
-    public static LessonDetailFragment newInstance(int lessonID, boolean viewLesson) {
+    public static LessonDetailFragment newInstance(int lessonID) {
         LessonDetailFragment fragment = new LessonDetailFragment();
         fragment.lessonID = lessonID;
-        Realm realm = Realm.getDefaultInstance();
-        fragment.lesson = realm.where(Lesson.class).equalTo("id", lessonID).findFirst();
-        fragment.isViewingLesson = viewLesson;
+        fragment.lesson = LessonData.getLesson(lessonID);
         return fragment;
     }
+
+    public static LessonDetailFragment newInstance() {
+        LessonDetailFragment fragment = new LessonDetailFragment();
+        fragment.isNewLesson = true;
+        return fragment;
+    }
+
+
+
+
+
+
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -85,34 +93,6 @@ public class LessonDetailFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_lesson_detail, container, false);
-
-//        editButton = (Button)v.findViewById(R.id.lessonEditButton);
-//        editButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                isEditing = true;
-//                loadEditData();
-//                showLessonEdit();
-//            }
-//        });
-
-//        saveButton = (Button)v.findViewById(R.id.lessonSaveButton);
-//        saveButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                saveLessonData();
-//                loadViewData();
-//                showLessonView();
-//                isEditing = false;
-//            }
-//        });
-
-//        deleteButton = (Button)v.findViewById(R.id.lessonDeleteButton);
-
-//        space1 = (Space)v.findViewById(R.id.buttonSpace1);
-//        space2 = (Space)v.findViewById(R.id.buttonSpace2);
-//        space3 = (Space)v.findViewById(R.id.buttonSpace3);
-//        space4 = (Space)v.findViewById(R.id.buttonSpace4);
 
         studentNameView = (TextView)v.findViewById(R.id.lessonViewStudentName);
         studentNameEdit = (TextView)v.findViewById(R.id.lessonEditStudentName);
@@ -128,10 +108,22 @@ public class LessonDetailFragment extends Fragment {
         timePicker = (TimePicker)v.findViewById(R.id.lessonTimePicker);
 
         showedUpCheckBox = (CheckBox)v.findViewById(R.id.lessonViewShowedUpCheckBox);
+        showedUpCheckBox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(showedUpCheckBox.isChecked()) {
+                    eligibleCheckBox.setVisibility(View.GONE);
+                } else {
+                    eligibleCheckBox.setVisibility(View.VISIBLE);
+                    eligibleCheckBox.setChecked(true);
+                }
+            }
+        });
+
         makeUpCheckBox = (CheckBox)v.findViewById(R.id.lessonViewMakeUpCheckBox);
         eligibleCheckBox = (CheckBox)v.findViewById(R.id.lessonViewEligibleCheckBox);
 
-        if(isViewingLesson) {
+        if(!isNewLesson) {
             loadViewData();
         }
         else {
@@ -146,34 +138,22 @@ public class LessonDetailFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-        mListener = null;
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
 
-    }
+
+
+
+
+
+
+
+
 
 
     public void editLesson() {
@@ -276,17 +256,6 @@ public class LessonDetailFragment extends Fragment {
 
 
     private void showLessonView() {
-//        editButton.setVisibility(View.VISIBLE);
-//        saveButton.setVisibility(View.GONE);
-
-//        if(!isViewingLesson) {
-//            deleteButton.setVisibility(View.VISIBLE);
-//            space1.setVisibility(View.VISIBLE);
-//            space2.setVisibility(View.VISIBLE);
-//            space3.setVisibility(View.VISIBLE);
-//            space4.setVisibility(View.VISIBLE);
-//        }
-
         studentNameView.setVisibility(View.VISIBLE);
         studentNameEdit.setVisibility(View.GONE);
 
@@ -308,17 +277,6 @@ public class LessonDetailFragment extends Fragment {
     }
 
     private void showLessonEdit() {
-//        editButton.setVisibility(View.GONE);
-//        saveButton.setVisibility(View.VISIBLE);
-
-//        if(!isViewingLesson) {
-//            deleteButton.setVisibility(View.GONE);
-//            space1.setVisibility(View.GONE);
-//            space2.setVisibility(View.GONE);
-//            space3.setVisibility(View.GONE);
-//            space4.setVisibility(View.GONE);
-//        }
-
         studentNameView.setVisibility(View.GONE);
         studentNameEdit.setVisibility(View.VISIBLE);
 

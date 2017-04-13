@@ -7,7 +7,7 @@
     android:orientation="vertical"
     android:descendantFocusability="beforeDescendants"
     android:focusableInTouchMode="true"
-    tools:context="com.silatsaktistudios.plmgr.LessonListActivity">
+    tools:context="com.silatsaktistudios.plmgr.Old.LessonListActivity">
 
     <LinearLayout
         android:layout_width="match_parent"

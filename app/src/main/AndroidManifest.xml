@@ -14,19 +14,19 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".PLMGRActivity">
+        <activity android:name=".Old.PLMGRActivity">
         </activity>
         <activity android:name=".AddStudentActivity"/>
-        <activity android:name=".AddLessonActivity"/>
+        <activity android:name=".Old.AddLessonActivity"/>
         <activity android:name=".EditInstructorActivity"/>
         <activity android:name=".ViewStudentActivity"/>
         <activity android:name=".StudentListActivity"/>
-        <activity android:name=".LessonListActivity"/>
+        <activity android:name=".Old.LessonListActivity"/>
         <activity android:name=".OptionsActivity"/>
         <activity android:name=".EditStudentActivity"/>
         <activity android:name=".ViewLessonActivity">
         </activity>
-        <activity android:name=".EditLessonActivity">
+        <activity android:name=".Old.EditLessonActivity">
         </activity>
         <activity android:name=".MainActivity"
                   android:windowSoftInputMode="stateHidden">

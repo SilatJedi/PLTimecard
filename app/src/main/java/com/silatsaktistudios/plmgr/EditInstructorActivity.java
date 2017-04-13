@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.silatsaktistudios.plmgr.Models.Configs;
 import com.silatsaktistudios.plmgr.Models.Instructor;
+import com.silatsaktistudios.plmgr.Old.PLMGRActivity;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
