@@ -1,12 +1,12 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-              tools:context="com.silatsaktistudios.plmgr.Fragments.LessonListFragment">
+             xmlns:tools="http://schemas.android.com/tools"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             xmlns:app="http://schemas.android.com/apk/res-auto"
+             tools:context="com.silatsaktistudios.plmgr.Fragments.StudentListFragment">
 
     <EditText
-        android:id="@+id/lessonSearchEditText"
+        android:id="@+id/studentSearchEditText"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:background="@color/colorAccent"
@@ -18,10 +18,10 @@
         android:textColor="@color/black"/>
 
     <ListView
-        android:id="@+id/lessonListView"
+        android:id="@+id/studentListView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/lessonSearchEditText"/>
+        android:layout_below="@+id/studentSearchEditText"/>
 
     <android.support.design.widget.FloatingActionButton
         android:layout_width="wrap_content"
@@ -32,6 +32,6 @@
         android:layout_marginRight="25dp"
         app:backgroundTint="@color/colorPrimaryDark"
         android:src="@drawable/plus"
-        android:id="@+id/addLessonButton"/>
+        android:id="@+id/addStudentButton"/>
 
 </RelativeLayout>

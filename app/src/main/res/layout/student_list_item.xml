@@ -8,9 +8,8 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="#000000"
         android:textSize="18sp"
-        android:text="Luke Skywalker"
+        android:textColor="@color/colorPrimaryDark"
         android:id="@+id/studentListName"/>
 
     <LinearLayout
@@ -21,18 +20,18 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:textColor="#000000"
+            android:textColor="@color/colorPrimary"
             android:text="Athletic Adventure Program"
-            android:layout_marginRight="20dp"
+            android:layout_marginRight="13dp"
             android:id="@+id/studentListEnrollmentType"/>
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
-            android:textColor="#000000"
+            android:textColor="@color/colorPrimary"
+            android:layout_marginRight="13dp"
             android:text="Balik 3"
-            android:layout_marginRight="10dp"
             android:id="@+id/studentListRank"/>
     </LinearLayout>
 

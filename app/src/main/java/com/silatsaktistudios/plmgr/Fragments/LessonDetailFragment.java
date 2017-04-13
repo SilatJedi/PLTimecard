@@ -1,9 +1,11 @@
 package com.silatsaktistudios.plmgr.Fragments;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,8 +38,6 @@ public class LessonDetailFragment extends Fragment {
 
 
     private Lesson lesson;
-//    private Button editButton, saveButton, deleteButton;
-//    private Space space1,space2,space3,space4;
     private TextView studentNameView, studentNameEdit, lessonDateView, lessonTimeView,
             lessonGradeView, lessonGradeEdit, lessonViewNotes;
     private EditText lessonEditNotes;
@@ -96,10 +96,52 @@ public class LessonDetailFragment extends Fragment {
 
         studentNameView = (TextView)v.findViewById(R.id.lessonViewStudentName);
         studentNameEdit = (TextView)v.findViewById(R.id.lessonEditStudentName);
+        studentNameEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final String[] names = StudentData.studentNameArray();
+
+                new AlertDialog.Builder(getActivity())
+                        .setTitle("Select Student")
+                        .setSingleChoiceItems(names, -1,
+                                new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int selection) {
+                                        studentNameEdit.setText(names[selection]);
+                                        dialogInterface.dismiss();
+                                    }
+                                }
+                        )
+                        .setNegativeButton("Cancel", null)
+                .show();
+            }
+        });
+
         lessonDateView = (TextView)v.findViewById(R.id.lessonViewDate);
         lessonTimeView = (TextView)v.findViewById(R.id.lessonViewTime);
         lessonGradeView = (TextView)v.findViewById(R.id.lessonViewGrade);
+
         lessonGradeEdit = (TextView)v.findViewById(R.id.lessonEditGrade);
+        lessonGradeEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final String[] grades = getResources().getStringArray(R.array.grades);
+
+                new AlertDialog.Builder(getActivity())
+                        .setTitle("Select Grade")
+                        .setSingleChoiceItems(grades, -1, new DialogInterface.OnClickListener() {
+
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int selection) {
+                                lessonGradeEdit.setText(grades[selection]);
+                                dialogInterface.dismiss();
+                            }
+                        })
+                        .setNegativeButton("Cancel", null)
+                .show();
+            }
+        });
+
         lessonViewNotes = (TextView)v.findViewById(R.id.lessonViewNotes);
 
         lessonEditNotes = (EditText)v.findViewById(R.id.lessonEditNotes);

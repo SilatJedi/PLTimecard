@@ -20,6 +20,7 @@ import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
 import com.silatsaktistudios.plmgr.DataLogic.LessonData;
 import com.silatsaktistudios.plmgr.Fragments.LessonDetailFragment;
 import com.silatsaktistudios.plmgr.Fragments.LessonListFragment;
+import com.silatsaktistudios.plmgr.Fragments.StudentListFragment;
 import com.silatsaktistudios.plmgr.Models.Instructor;
 import com.silatsaktistudios.plmgr.Models.Lesson;
 import com.silatsaktistudios.plmgr.Models.Student;
@@ -32,12 +33,14 @@ import io.realm.RealmResults;
 
 
 public class MainActivity extends AppCompatActivity implements
-        LessonListFragment.OnFragmentInteractionListener{
+        LessonListFragment.OnFragmentInteractionListener,
+        StudentListFragment.OnFragmentInteractionListener{
 
     private AHBottomNavigation bottomNavigation;
     private FragmentManager fragmentManager;
     private LessonListFragment lessonListFragment;
     private LessonDetailFragment lessonDetailFragment;
+    private StudentListFragment studentListFragment;
     MenuItem editMenuItem, saveMenuItem, deleteMenuItem, cancelMenuItem;
 
     @Override
@@ -66,11 +69,13 @@ public class MainActivity extends AppCompatActivity implements
         setUpNavBar();
         createDemoData();
 
-        lessonListFragment = LessonListFragment.newInstance();
+        if(savedInstanceState == null) {
+            lessonListFragment = LessonListFragment.newInstance();
 
-        fragmentManager.beginTransaction()
-                .add(R.id.fragmentContainer, lessonListFragment)
-                .commit();
+            fragmentManager.beginTransaction()
+                    .add(R.id.fragmentContainer, lessonListFragment)
+                    .commit();
+        }
     }
 
     @Override
@@ -211,11 +216,16 @@ public class MainActivity extends AppCompatActivity implements
         showAddNewLesson();
     }
 
+    //student list fragment events
+    @Override
+    public void onStudentListItemClick(int studentId) {
 
+    }
 
+    @Override
+    public void onAddStudentButtonClick() {
 
-
-
+    }
 
     //fragment transactions
     private void showTimecard() {
@@ -256,7 +266,17 @@ public class MainActivity extends AppCompatActivity implements
         cancelMenuItem.setVisible(true);
     }
 
+    private void showStudentList() {
+        Fragment f = getSupportFragmentManager().findFragmentById(R.id.fragmentContainer);
+        studentListFragment = StudentListFragment.newInstance();
 
+        bottomNavigation.restoreBottomNavigation(true);
+
+        fragmentManager.beginTransaction()
+                .remove(f)
+                .add(R.id.fragmentContainer, studentListFragment)
+                .commit();
+    }
 
 
 
@@ -322,6 +342,12 @@ public class MainActivity extends AppCompatActivity implements
                     case 0:
                         hideAllToolBarButtons();
                         showTimecard();
+                        break;
+                    case 1:
+                        break;
+                    case 2:
+                        hideAllToolBarButtons();
+                        showStudentList();
                         break;
                     default: break;
                 }

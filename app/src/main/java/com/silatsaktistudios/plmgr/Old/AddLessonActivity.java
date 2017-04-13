@@ -21,6 +21,7 @@ import com.silatsaktistudios.plmgr.R;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import io.realm.Realm;
 import io.realm.RealmList;
@@ -111,7 +112,7 @@ public class AddLessonActivity extends AppCompatActivity {
     }
 
     public void selectStudent(View view) {
-        final RealmResults<Student> students = StudentData.studentList();
+        final List<Student> students = StudentData.studentList();
 
         final String[] studentNames = new String[students.size()];
 
@@ -145,7 +146,7 @@ public class AddLessonActivity extends AppCompatActivity {
 
     public void selectGrade(View view) {
         AlertDialog.Builder menu = new AlertDialog.Builder(this)
-                .setTitle("Select Student")
+                .setTitle("Select Grade")
                 .setSingleChoiceItems(getResources().getStringArray(R.array.grades), -1, new DialogInterface.OnClickListener() {
 
                     @Override

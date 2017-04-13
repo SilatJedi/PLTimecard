@@ -18,7 +18,6 @@ import com.silatsaktistudios.plmgr.ListViewArrayAdapters.LessonListViewArrayAdap
 import com.silatsaktistudios.plmgr.Models.Lesson;
 import com.silatsaktistudios.plmgr.Models.Student;
 import com.silatsaktistudios.plmgr.R;
-import com.silatsaktistudios.plmgr.ViewLessonActivity;
 
 import java.util.List;
 

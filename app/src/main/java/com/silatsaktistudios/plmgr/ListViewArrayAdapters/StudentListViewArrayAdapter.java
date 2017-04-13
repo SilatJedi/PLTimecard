@@ -38,9 +38,9 @@ public class StudentListViewArrayAdapter extends ArrayAdapter<String> {
 
         View rowView = inflater.inflate(R.layout.student_list_item, parent, false);
 
-        if (position % 2 == 1) {
-            rowView.setBackgroundColor(Color.LTGRAY);
-        }
+//        if (position % 2 == 1) {
+//            rowView.setBackgroundColor(Color.LTGRAY);
+//        }
 
         Student student = students.get(position);
 

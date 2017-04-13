@@ -15,27 +15,28 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
 
-import com.silatsaktistudios.plmgr.DataLogic.LessonData;
-import com.silatsaktistudios.plmgr.ListViewArrayAdapters.LessonListViewArrayAdapter;
-import com.silatsaktistudios.plmgr.Models.Lesson;
+import com.silatsaktistudios.plmgr.DataLogic.StudentData;
+import com.silatsaktistudios.plmgr.ListViewArrayAdapters.StudentListViewArrayAdapter;
+import com.silatsaktistudios.plmgr.Models.Student;
 import com.silatsaktistudios.plmgr.R;
 
 import java.util.List;
 
 
-public class LessonListFragment extends Fragment {
+public class StudentListFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
     private EditText searchEditText;
-    private ListView lessonListView;
+    private ListView studentListView;
     private boolean isFiltered;
 
-    public LessonListFragment() {
+    public StudentListFragment() {
         // Required empty public constructor
     }
 
-    public static LessonListFragment newInstance() {
-        LessonListFragment fragment = new LessonListFragment();
+
+    public static StudentListFragment newInstance() {
+        StudentListFragment fragment = new StudentListFragment();
         return fragment;
     }
 
@@ -48,9 +49,9 @@ public class LessonListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v = inflater.inflate(R.layout.fragment_lesson_list, container, false);
+        View v = inflater.inflate(R.layout.fragment_student_list, container, false);
 
-        searchEditText = (EditText)v.findViewById(R.id.lessonSearchEditText);
+        searchEditText = (EditText)v.findViewById(R.id.studentSearchEditText);
         searchEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
@@ -59,11 +60,11 @@ public class LessonListFragment extends Fragment {
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 if(charSequence.length() > 0) {
                     isFiltered = true;
-                    setUpLessonList(LessonData.filteredLessonList(charSequence.toString()));
+                    setUpStudentList(StudentData.filteredStudentList(charSequence.toString()));
                 }
                 else {
                     isFiltered = false;
-                    setUpLessonList(LessonData.lessonList());
+                    setUpStudentList(StudentData.studentList());
                 }
             }
 
@@ -71,45 +72,43 @@ public class LessonListFragment extends Fragment {
             public void afterTextChanged(Editable editable) {}
         });
 
-        lessonListView = (ListView)v.findViewById(R.id.lessonListView);
-        lessonListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        studentListView = (ListView)v.findViewById(R.id.studentListView);
+        studentListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                int lessonID;
+                int studentId;
 
                 if(isFiltered) {
-                    lessonID = LessonData.filteredLessonList(searchEditText.getText().toString())
+                    studentId = StudentData.filteredStudentList(searchEditText.getText().toString())
                             .get(position)
                             .getId();
                 }
                 else {
-                    lessonID = LessonData.lessonList().get(position).getId();
+                    studentId = StudentData.studentList().get(position).getId();
                 }
 
-                mListener.onLessonListItemClick(lessonID);
+                mListener.onStudentListItemClick(studentId);
             }
         });
-        lessonListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+        studentListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long l) {
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, final int position, long l) {
                 new AlertDialog.Builder(getActivity(), R.style.Theme_AppCompat_Light_Dialog_Alert)
-                        .setTitle("Delete Lesson?")
+                        .setTitle("Delete Student?")
                         .setMessage("Are you sure that you want to do this? Please note that this cannot be undone.")
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 if (isFiltered) {
                                     String filter = searchEditText.getText().toString();
-                                    LessonData.delete(
-                                            LessonData.filteredLessonList(filter)
-                                                    .get(position)
-                                                    .getId());
-                                    setUpLessonList(LessonData.filteredLessonList(filter));
+                                    StudentData.delete(StudentData.filteredStudentList(filter).get(position).getId());
+                                    setUpStudentList(StudentData.filteredStudentList(filter));
                                 }
                                 else {
-                                    LessonData.delete(LessonData.lessonList().get(position).getId());
-                                    setUpLessonList(LessonData.lessonList());
+                                    StudentData.delete(StudentData.studentList().get(position).getId());
+                                    setUpStudentList(StudentData.studentList());
                                 }
+
                             }
                         })
                         .setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -123,16 +122,15 @@ public class LessonListFragment extends Fragment {
             }
         });
 
-        FloatingActionButton addLessonButton = (FloatingActionButton) v.findViewById(R.id.addLessonButton);
-        addLessonButton.setOnClickListener(new View.OnClickListener() {
+        FloatingActionButton addStudentButton = (FloatingActionButton)v.findViewById(R.id.addStudentButton);
+        addStudentButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mListener.onAddLessonButtonClick();
+                mListener.onAddStudentButtonClick();
             }
         });
 
-
-        setUpLessonList(LessonData.lessonList());
+        setUpStudentList(StudentData.studentList());
 
         return v;
     }
@@ -165,17 +163,14 @@ public class LessonListFragment extends Fragment {
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnFragmentInteractionListener {
-        void onLessonListItemClick(int lessonId);
-        void onAddLessonButtonClick();
+        void onStudentListItemClick(int studentId);
+        void onAddStudentButtonClick();
     }
 
-
-
-    private void setUpLessonList(List<Lesson> lessons) {
-        LessonListViewArrayAdapter lessonListViewArrayAdapter = new LessonListViewArrayAdapter(
+    private void setUpStudentList(List<Student> students) {
+        StudentListViewArrayAdapter studentListViewArrayAdapter = new StudentListViewArrayAdapter(
                 getActivity(),
-                lessons);
-        lessonListView.setAdapter(lessonListViewArrayAdapter);
+                students);
+        studentListView.setAdapter(studentListViewArrayAdapter);
     }
-
 }

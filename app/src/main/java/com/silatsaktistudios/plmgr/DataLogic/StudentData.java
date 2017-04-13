@@ -3,6 +3,8 @@ package com.silatsaktistudios.plmgr.DataLogic;
 import com.silatsaktistudios.plmgr.Models.Lesson;
 import com.silatsaktistudios.plmgr.Models.Student;
 
+import java.util.List;
+
 import io.realm.Realm;
 import io.realm.RealmList;
 import io.realm.RealmResults;
@@ -55,16 +57,16 @@ public class StudentData {
         realm.close();
     }
 
-    public static RealmResults<Student> studentList() {
+    public static List<Student> studentList() {
         Realm realm = Realm.getDefaultInstance();
-        RealmResults<Student> students = realm.where(Student.class).findAll().sort("lastName", Sort.ASCENDING, "firstName", Sort.ASCENDING);
+        List<Student> students = realm.copyFromRealm(realm.where(Student.class).findAll().sort("lastName", Sort.ASCENDING, "firstName", Sort.ASCENDING));
         realm.close();
 
         return students;
     }
 
-    public static RealmList<Student> filteredStudentList(String filter) {
-        RealmList<Student> students = new RealmList<>();
+    public static List<Student> filteredStudentList(String filter) {
+        List<Student> students = new RealmList<>();
 
         for (Student student : studentList()) {
             if (student.getFullName().toLowerCase().contains(filter.toLowerCase())) {
@@ -101,5 +103,16 @@ public class StudentData {
         else {
             return -1;
         }
+    }
+
+    public static String[] studentNameArray() {
+        List<Student> students = studentList();
+        String[] studentNames = new String[students.size()];
+
+        for (int i = 0; i < students.size(); i++) {
+            studentNames[i] = students.get(i).getFullName();
+        }
+
+        return studentNames;
     }
 }

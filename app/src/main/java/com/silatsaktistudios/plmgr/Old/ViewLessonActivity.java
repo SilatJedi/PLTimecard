@@ -1,7 +1,9 @@
-package com.silatsaktistudios.plmgr;
+package com.silatsaktistudios.plmgr.Old;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import com.silatsaktistudios.plmgr.R;
 
 
 public class ViewLessonActivity extends AppCompatActivity {
