@@ -1,8 +1,11 @@
 package com.silatsaktistudios.plmgr.Fragments;
 
+import android.Manifest;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -46,19 +49,21 @@ public class StudentDetailFragment extends Fragment {
     // TODO: Rename and change types and number of parameters
     public static StudentDetailFragment newInstance(String param1, String param2) {
         StudentDetailFragment fragment = new StudentDetailFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
         return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+
+
+        //  ROB AND NICK!!!!!!!!!!!!!!!!!!!!!!!!!
+        //how about here? this is where i will be using the phone access
+        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+
+            ActivityCompat.requestPermissions(getActivity(),
+                    new String[]{Manifest.permission.CALL_PHONE},   //request specific permission from user
+                    10);
         }
     }
 
