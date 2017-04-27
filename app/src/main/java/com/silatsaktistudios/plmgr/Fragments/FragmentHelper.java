@@ -10,9 +10,7 @@ import android.support.v4.app.Fragment;
 
 public class FragmentHelper {
 
-    /*
-    /Example: FragmentHelper.setFragment(MainActivity.this, DemoFragment.newInstance(), R.id.fragment_container);
-    */
+
     public static void setFragment(FragmentActivity activity, Fragment newFragment, int layoutId) {
         FragmentTransaction ft = activity.getSupportFragmentManager().beginTransaction();
           ft.replace(layoutId, newFragment)

@@ -44,7 +44,6 @@
                         android:layout_weight="1"
                         android:background="@color/colorAccent"
                         android:gravity="center"
-                        android:onClick="changeToChild"
                         android:text="@string/child"
                         android:textColor="@color/colorPrimaryDark"
                         android:textSize="15sp"
@@ -57,7 +56,6 @@
                         android:layout_weight="1"
                         android:background="@color/colorAccent"
                         android:gravity="center"
-                        android:onClick="changeToAdult"
                         android:text="@string/adult"
                         android:textColor="@color/white"
                         android:textSize="15sp"
@@ -169,7 +167,7 @@
                     android:textSize="17sp"/>
 
                 <TextView
-                    android:id="@+id/StudentEditRank"
+                    android:id="@+id/studentEditRank"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="10dp"
@@ -341,7 +339,7 @@
                         android:textSize="17sp"/>
 
                     <TextView
-                        android:id="@+id/StudentEditP1Type"
+                        android:id="@+id/studentEditP1Type"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_marginLeft="10dp"
@@ -369,6 +367,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Phone #:"
+                    android:id="@+id/primaryPhoneTitle"
                     android:textColor="@color/colorPrimaryDark"
                     android:textSize="17sp"/>
 
@@ -386,8 +385,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:background="@drawable/rounded_corners"
-                    android:hint="@string/last_name"
-                    android:inputType="text"
+                    android:hint="@string/fake_phone_number"
+                    android:inputType="phone"
                     android:paddingLeft="5dp"
                     android:paddingRight="5dp"
                     android:textColor="@color/colorPrimaryDark"
@@ -419,16 +418,15 @@
                     android:textColor="@color/colorPrimary"
                     android:textSize="17sp"/>
 
-                <EditText
+                <TextView
                     android:id="@+id/studentEditPrimaryPhoneType"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_marginLeft="10dp"
                     android:background="@drawable/rounded_corners"
-                    android:hint="@string/last_name"
-                    android:inputType="text"
+                    android:gravity="center_vertical"
+                    android:hint="@string/tap_for_list"
                     android:paddingLeft="5dp"
-                    android:paddingRight="5dp"
                     android:textColor="@color/colorPrimaryDark"
                     android:textColorHint="@color/colorPrimary"
                     android:textSize="17sp"
@@ -553,7 +551,7 @@
                         android:textSize="17sp"/>
 
                     <TextView
-                        android:id="@+id/StudentEditP2Type"
+                        android:id="@+id/studentEditP2Type"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_marginLeft="10dp"
@@ -579,6 +577,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Phone #:"
+                        android:id="@+id/secondaryPhoneTitle"
                         android:textColor="@color/colorPrimaryDark"
                         android:textSize="17sp"/>
 
@@ -596,8 +595,8 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
                         android:background="@drawable/rounded_corners"
-                        android:hint="@string/last_name"
-                        android:inputType="text"
+                        android:hint="@string/fake_phone_number"
+                        android:inputType="phone"
                         android:paddingLeft="5dp"
                         android:paddingRight="5dp"
                         android:textColor="@color/colorPrimaryDark"
@@ -629,16 +628,15 @@
                         android:textColor="@color/colorPrimary"
                         android:textSize="17sp"/>
 
-                    <EditText
+                    <TextView
                         android:id="@+id/studentEditSecondaryPhoneType"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:layout_marginLeft="10dp"
                         android:background="@drawable/rounded_corners"
-                        android:hint="@string/last_name"
-                        android:inputType="text"
+                        android:gravity="center_vertical"
+                        android:hint="@string/tap_for_list"
                         android:paddingLeft="5dp"
-                        android:paddingRight="5dp"
                         android:textColor="@color/colorPrimaryDark"
                         android:textColorHint="@color/colorPrimary"
                         android:textSize="17sp"
