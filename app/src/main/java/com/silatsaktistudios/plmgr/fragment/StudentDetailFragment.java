@@ -1,4 +1,4 @@
-package com.silatsaktistudios.plmgr.Fragments;
+package com.silatsaktistudios.plmgr.fragment;
 
 import android.Manifest;
 import android.content.Context;

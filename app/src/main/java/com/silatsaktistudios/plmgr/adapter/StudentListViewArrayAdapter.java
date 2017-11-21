@@ -1,14 +1,13 @@
-package com.silatsaktistudios.plmgr.ListViewArrayAdapters;
+package com.silatsaktistudios.plmgr.adapter;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import com.silatsaktistudios.plmgr.Models.Student;
+import com.silatsaktistudios.plmgr.model.Student;
 import com.silatsaktistudios.plmgr.R;
 
 import java.util.List;

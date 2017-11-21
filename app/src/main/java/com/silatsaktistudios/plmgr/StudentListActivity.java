@@ -12,10 +12,9 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
 
-import com.silatsaktistudios.plmgr.DataLogic.StudentData;
-import com.silatsaktistudios.plmgr.ListViewArrayAdapters.StudentListViewArrayAdapter;
-import com.silatsaktistudios.plmgr.Models.Student;
-import com.silatsaktistudios.plmgr.Old.PLMGRActivity;
+import com.silatsaktistudios.plmgr.data.StudentData;
+import com.silatsaktistudios.plmgr.adapter.StudentListViewArrayAdapter;
+import com.silatsaktistudios.plmgr.model.Student;
 
 import java.util.List;
 
@@ -58,7 +57,7 @@ public class StudentListActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        startActivity(new Intent(StudentListActivity.this, PLMGRActivity.class));
+        startActivity(new Intent(StudentListActivity.this, MainActivity.class));
         finish();
     }
 

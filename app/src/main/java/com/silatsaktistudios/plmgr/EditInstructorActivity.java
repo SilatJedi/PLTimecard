@@ -11,9 +11,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.silatsaktistudios.plmgr.Models.Configs;
-import com.silatsaktistudios.plmgr.Models.Instructor;
-import com.silatsaktistudios.plmgr.Old.PLMGRActivity;
+import com.silatsaktistudios.plmgr.model.Configs;
+import com.silatsaktistudios.plmgr.model.Instructor;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
@@ -120,7 +119,7 @@ public class EditInstructorActivity extends AppCompatActivity {
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        startActivity(new Intent(EditInstructorActivity.this, PLMGRActivity.class));
+                        startActivity(new Intent(EditInstructorActivity.this, MainActivity.class));
                         finish();
                     }
                 })
@@ -159,7 +158,7 @@ public class EditInstructorActivity extends AppCompatActivity {
                 }
             );
 
-            startActivity(new Intent(EditInstructorActivity.this, PLMGRActivity.class));
+            startActivity(new Intent(EditInstructorActivity.this, MainActivity.class));
             finish();
         }
         else {

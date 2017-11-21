@@ -1,4 +1,4 @@
-package com.silatsaktistudios.plmgr.Models;
+package com.silatsaktistudios.plmgr.model;
 
 import java.util.Date;
 
@@ -8,7 +8,9 @@ import io.realm.annotations.PrimaryKey;
 
 /**
  * Created by james on 8/8/16.
+ *
  */
+@SuppressWarnings("WeakerAccess")
 public class Lesson extends RealmObject {
     @PrimaryKey
     private int id;
@@ -54,6 +56,7 @@ public class Lesson extends RealmObject {
         return id;
     }
 
+    @SuppressWarnings("ConstantConditions")
     private void setId() {
         int id;
         Realm realm = Realm.getDefaultInstance();

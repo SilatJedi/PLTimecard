@@ -1,7 +1,9 @@
-package com.silatsaktistudios.plmgr.DataLogic;
+package com.silatsaktistudios.plmgr.data;
 
-import com.silatsaktistudios.plmgr.Models.Lesson;
-import com.silatsaktistudios.plmgr.Models.Student;
+import android.support.annotation.NonNull;
+
+import com.silatsaktistudios.plmgr.model.Lesson;
+import com.silatsaktistudios.plmgr.model.Student;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -14,6 +16,7 @@ import io.realm.Sort;
 
 /**
  * Created by SilatJedi on 4/9/17.
+ *
  */
 
 public class LessonData {
@@ -25,8 +28,10 @@ public class LessonData {
 
         realm.executeTransaction(new Realm.Transaction() {
             @Override
-            public void execute(Realm realm) {
-                lesson.deleteFromRealm();
+            public void execute(@NonNull Realm realm) {
+                if (lesson != null) {
+                    lesson.deleteFromRealm();
+                }
             }
         });
 
@@ -41,7 +46,7 @@ public class LessonData {
                 .findFirst();
         realm.executeTransaction(new Realm.Transaction() {
             @Override
-            public void execute(Realm realm) {
+            public void execute(@NonNull Realm realm) {
                 if(student != null) {
                     student.addLesson(lesson);
                 }
@@ -59,7 +64,7 @@ public class LessonData {
 
         realm.executeTransaction(new Realm.Transaction() {
             @Override
-            public void execute(Realm realm) {
+            public void execute(@NonNull Realm realm) {
                 realm.insertOrUpdate(lesson);
             }
         });
@@ -67,7 +72,7 @@ public class LessonData {
         realm.close();
     }
 
-    public static List<Lesson> lessonList() {
+    private static List<Lesson> lessonList() {
         Calendar firstOfMonth = Calendar.getInstance();
         firstOfMonth.set(Calendar.DAY_OF_MONTH, 1);
         firstOfMonth.set(Calendar.HOUR_OF_DAY, 0);
@@ -87,18 +92,24 @@ public class LessonData {
         return lessons;
     }
 
-    public static List<Lesson> filteredLessonList(String filter) {
-        List<Lesson> filteredLessons = new RealmList<>();
+    public static List<Lesson> lessonList(String filter) {
+        if (filter.length() > 0) {
+            List<Lesson> filteredLessons = new RealmList<>();
 
-        for(Lesson lesson : lessonList()) {
-            if(lesson.getStudentName().toLowerCase().contains(filter.toLowerCase())) {
-                filteredLessons.add(lesson);
+            for (Lesson lesson : lessonList()) {
+                if (lesson.getStudentName().toLowerCase().contains(filter.toLowerCase())) {
+                    filteredLessons.add(lesson);
+                }
             }
-        }
 
-        return filteredLessons;
+            return filteredLessons;
+        }
+        else {
+            return lessonList();
+        }
     }
 
+    @SuppressWarnings("WeakerAccess")
     public static RealmResults<Lesson> lessonList(Date from, Date to) {
         Realm realm = Realm.getDefaultInstance();
         RealmResults<Lesson> lessons = realm.where(Lesson.class).greaterThan("date", from).lessThan("date", to).findAll().sort("date", Sort.ASCENDING);
@@ -107,7 +118,8 @@ public class LessonData {
         return lessons;
     }
 
-    public static RealmList<Lesson> filteredLessonList(Date from, Date to, String filter) {
+    @SuppressWarnings("unused")
+    public static RealmList<Lesson> lessonList(Date from, Date to, String filter) {
         RealmList<Lesson> filteredLessons = new RealmList<>();
 
         for(Lesson lesson : lessonList(from, to)) {
@@ -121,7 +133,11 @@ public class LessonData {
 
     public static Lesson getLesson(int id) {
         Realm realm = Realm.getDefaultInstance();
-        Lesson lesson = realm.copyFromRealm(realm.where(Lesson.class).equalTo("id", id).findFirst());
+        Lesson temp = realm.where(Lesson.class).equalTo("id", id).findFirst();
+        Lesson lesson = new Lesson();
+        if (temp != null) {
+            lesson = realm.copyFromRealm(temp);
+        }
         realm.close();
 
         return lesson;

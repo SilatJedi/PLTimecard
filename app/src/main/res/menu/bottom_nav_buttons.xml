@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/timeCardItem"
+        android:icon="@drawable/cash"
+        android:title="@string/timecard"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/lessonNavItem"
+        android:icon="@drawable/note_multiple"
+        android:title="@string/lessons"
+        app:showAsAction="ifRoom"/>
+
+    <item
+        android:id="@+id/studentNavItem"
+        android:icon="@drawable/student_icon"
+        android:title="@string/students"
+        app:showAsAction="ifRoom"/>
+
+    <item
+        android:id="@+id/submitItem"
+        android:icon="@drawable/send"
+        android:title="@string/submit_timecard"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/settingsItem"
+        android:icon="@drawable/settings"
+        android:title="@string/settings"
+        app:showAsAction="ifRoom" />
+
+</menu>

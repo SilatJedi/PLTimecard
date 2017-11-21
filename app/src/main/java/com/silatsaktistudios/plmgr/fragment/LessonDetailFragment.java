@@ -1,4 +1,4 @@
-package com.silatsaktistudios.plmgr.Fragments;
+package com.silatsaktistudios.plmgr.fragment;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -16,9 +16,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
-import com.silatsaktistudios.plmgr.DataLogic.LessonData;
-import com.silatsaktistudios.plmgr.DataLogic.StudentData;
-import com.silatsaktistudios.plmgr.Models.Lesson;
+import com.silatsaktistudios.plmgr.data.LessonData;
+import com.silatsaktistudios.plmgr.data.StudentData;
+import com.silatsaktistudios.plmgr.model.Lesson;
 import com.silatsaktistudios.plmgr.R;
 
 import android.text.format.DateFormat;

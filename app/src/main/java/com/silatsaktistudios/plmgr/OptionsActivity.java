@@ -4,8 +4,6 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-import com.silatsaktistudios.plmgr.Old.PLMGRActivity;
-
 public class OptionsActivity extends AppCompatActivity {
 
     @Override
@@ -16,7 +14,7 @@ public class OptionsActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        startActivity(new Intent(OptionsActivity.this, PLMGRActivity.class));
+        startActivity(new Intent(OptionsActivity.this, MainActivity.class));
         finish();
     }
 }

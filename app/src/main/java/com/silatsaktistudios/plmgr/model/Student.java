@@ -1,4 +1,4 @@
-package com.silatsaktistudios.plmgr.Models;
+package com.silatsaktistudios.plmgr.model;
 
 import io.realm.Realm;
 import io.realm.RealmList;

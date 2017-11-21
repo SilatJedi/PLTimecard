@@ -1,40 +1,30 @@
 package com.silatsaktistudios.plmgr;
 
 import android.content.DialogInterface;
-import android.os.Build;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
-import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
-import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
-import com.silatsaktistudios.plmgr.DataLogic.LessonData;
-import com.silatsaktistudios.plmgr.Fragments.FragmentHelper;
-import com.silatsaktistudios.plmgr.Fragments.LessonDetailFragment;
-import com.silatsaktistudios.plmgr.Fragments.LessonListFragment;
-import com.silatsaktistudios.plmgr.Fragments.StudentDetailFragment;
-import com.silatsaktistudios.plmgr.Fragments.StudentListFragment;
-import com.silatsaktistudios.plmgr.Models.Instructor;
-import com.silatsaktistudios.plmgr.Models.Lesson;
-import com.silatsaktistudios.plmgr.Models.Student;
-
-import java.util.Date;
-
-import io.realm.Realm;
-import io.realm.RealmConfiguration;
-import io.realm.RealmResults;
-
+import com.silatsaktistudios.plmgr.data.Demo;
+import com.silatsaktistudios.plmgr.data.LessonData;
+import com.silatsaktistudios.plmgr.fragment.LessonListFragment;
+import com.silatsaktistudios.plmgr.fragment.Transaction;
+import com.silatsaktistudios.plmgr.fragment.LessonDetailFragment;
+import com.silatsaktistudios.plmgr.fragment.StudentDetailFragment;
+import com.silatsaktistudios.plmgr.fragment.StudentListFragment;
 
 public class MainActivity extends AppCompatActivity implements
         LessonListFragment.OnFragmentInteractionListener,
-        StudentListFragment.OnFragmentInteractionListener{
+        StudentListFragment.OnFragmentInteractionListener {
 
-    private AHBottomNavigation bottomNavigation;
+    private BottomNavigationView bottomNavigation;
     MenuItem editMenuItem, saveMenuItem, deleteMenuItem, cancelMenuItem;
 
     @Override
@@ -42,20 +32,14 @@ public class MainActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        RealmConfiguration realmConfiguration =
-                new RealmConfiguration.Builder(getApplicationContext())
-                        .name("MPPLDB.realm")
-                        .build();
-        Realm.setDefaultConfiguration(realmConfiguration);
-
-        Toolbar toolBar = (Toolbar) findViewById(R.id.plmgrToolbar);
+        Toolbar toolBar = findViewById(R.id.plmgrToolbar);
         setSupportActionBar(toolBar);
 
         setUpNavBar();
-        createDemoData();
+        Demo.createDemoData();
 
-        if(savedInstanceState == null) {
-            FragmentHelper.setFragment(MainActivity.this, LessonListFragment.newInstance(), R.id.fragmentContainer);
+        if (savedInstanceState == null) {
+            Transaction.setFragment(MainActivity.this, LessonListFragment.newInstance(), R.id.fragmentContainer);
         }
     }
 
@@ -71,7 +55,7 @@ public class MainActivity extends AppCompatActivity implements
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch(item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.edit_menu_item:
                 editMenuItemFunctions();
                 break;
@@ -84,9 +68,9 @@ public class MainActivity extends AppCompatActivity implements
             case R.id.cancel_menu_item:
                 cancelMenuItemFunction();
                 break;
-            default: break;
+            default:
+                break;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -96,36 +80,15 @@ public class MainActivity extends AppCompatActivity implements
     }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     //toolbar menu item functions
-    private void editMenuItemFunctions(){
+    private void editMenuItemFunctions() {
         Fragment f = getSupportFragmentManager().findFragmentById(R.id.fragmentContainer);
 
         editMenuItem.setVisible(false);
         saveMenuItem.setVisible(true);
 
-        if(f instanceof LessonDetailFragment) {
-            ((LessonDetailFragment)f).editLesson();
+        if (f instanceof LessonDetailFragment) {
+            ((LessonDetailFragment) f).editLesson();
         }
 
     }
@@ -136,13 +99,14 @@ public class MainActivity extends AppCompatActivity implements
         editMenuItem.setVisible(true);
         saveMenuItem.setVisible(false);
 
-        if(f instanceof LessonDetailFragment) {
-            ((LessonDetailFragment)f).saveLesson();
+        if (f instanceof LessonDetailFragment) {
+            ((LessonDetailFragment) f).saveLesson();
         }
     }
 
     private void cancelMenuItemFunction() {
-        bottomNavigation.setCurrentItem(bottomNavigation.getCurrentItem());
+        //bring up the most recently called fragment
+        bottomNavigation.setSelectedItemId(bottomNavigation.getSelectedItemId());
     }
 
     private void deleteMenuItemFunction() {
@@ -154,8 +118,8 @@ public class MainActivity extends AppCompatActivity implements
                     public void onClick(DialogInterface dialogInterface, int i) {
                         Fragment f = getSupportFragmentManager().findFragmentById(R.id.fragmentContainer);
 
-                        if(f instanceof LessonDetailFragment) {
-                            LessonData.delete(((LessonDetailFragment)f).lessonID);
+                        if (f instanceof LessonDetailFragment) {
+                            LessonData.delete(((LessonDetailFragment) f).lessonID);
                         }
 
                         cancelMenuItemFunction();
@@ -171,41 +135,28 @@ public class MainActivity extends AppCompatActivity implements
     }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
     //FRAGMENT LISTENER EVENTS
     //lesson list fragment events
     @Override
     public void onLessonListItemClick(int lessonId) {
         showToolBarButtons();
-        bottomNavigation.hideBottomNavigation(true);
-        FragmentHelper.setFragment(MainActivity.this, LessonDetailFragment.newInstance(lessonId), R.id.fragmentContainer);
+        bottomNavigation.setVisibility(View.GONE);
+        Transaction.setFragment(MainActivity.this, LessonDetailFragment.newInstance(lessonId), R.id.fragmentContainer);
     }
 
     @Override
     public void onAddLessonButtonClick() {
-        bottomNavigation.hideBottomNavigation(true);
+        bottomNavigation.setVisibility(View.GONE);
         cancelMenuItem.setVisible(true);
-        FragmentHelper.setFragment(MainActivity.this, LessonDetailFragment.newInstance(), R.id.fragmentContainer);
+        Transaction.setFragment(MainActivity.this, LessonDetailFragment.newInstance(), R.id.fragmentContainer);
     }
 
     //student list fragment events
     @Override
     public void onStudentListItemClick(int studentId) {
         showToolBarButtons();
-        bottomNavigation.hideBottomNavigation(true);
-        FragmentHelper.setFragment(MainActivity.this, StudentDetailFragment.newInstance(studentId), R.id.fragmentContainer);
+        bottomNavigation.setVisibility(View.GONE);
+        Transaction.setFragment(MainActivity.this, StudentDetailFragment.newInstance(studentId), R.id.fragmentContainer);
     }
 
     @Override
@@ -214,76 +165,34 @@ public class MainActivity extends AppCompatActivity implements
     }
 
 
-
-
-
-
-
-
     private void setUpNavBar() {
-        bottomNavigation = (AHBottomNavigation) findViewById(R.id.bottom_navigation);
-        AHBottomNavigationItem timeCardItem = new AHBottomNavigationItem("Timecard", R.drawable.cash);
-        AHBottomNavigationItem lessonNavItem = new AHBottomNavigationItem("Lessons", R.drawable.note_multiple);
-        AHBottomNavigationItem studentNavItem = new AHBottomNavigationItem("Students", R.drawable.student_icon);
-        AHBottomNavigationItem submitItem = new AHBottomNavigationItem("Send Timecard", R.drawable.send);
-        AHBottomNavigationItem settingsItem = new AHBottomNavigationItem("Settings", R.drawable.settings);
-
-        //add items
-        bottomNavigation.addItem(timeCardItem);
-        bottomNavigation.addItem(lessonNavItem);
-        bottomNavigation.addItem(studentNavItem);
-        bottomNavigation.addItem(submitItem);
-        bottomNavigation.addItem(settingsItem);
-
-        if(Build.VERSION.SDK_INT < 23) {
-            //set background color
-            bottomNavigation.setDefaultBackgroundColor(getResources().getColor(R.color.colorPrimary));
-            // Change colors
-            bottomNavigation.setAccentColor(getResources().getColor(R.color.white));
-            bottomNavigation.setInactiveColor(getResources().getColor(R.color.colorPrimaryMediumLight));
-        }
-        else {
-            //set background color
-            bottomNavigation.setDefaultBackgroundColor(getResources().getColor(R.color.colorPrimary, null));
-            // Change colors
-            bottomNavigation.setAccentColor(getResources().getColor(R.color.white, null));
-            bottomNavigation.setInactiveColor(getResources().getColor(R.color.colorPrimaryMediumLight, null));
-        }
-
-        // Force to tint the drawable (useful for font with icon for example)
-        bottomNavigation.setForceTint(true);
-
-        // Manage titles
-        bottomNavigation.setTitleState(AHBottomNavigation.TitleState.ALWAYS_SHOW);
-
-        // Use colored navigation with circle reveal effect
-        bottomNavigation.setColored(false);
-
-        // Set listeners
-        bottomNavigation.setOnTabSelectedListener(new AHBottomNavigation.OnTabSelectedListener() {
+        bottomNavigation = findViewById(R.id.bottom_navigation);
+        bottomNavigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
-            public boolean onTabSelected(int position, boolean wasSelected) {
-                switch(position) {
-                    case 0:
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.timeCardItem:
                         hideAllToolBarButtons();
-                        bottomNavigation.restoreBottomNavigation(true);
-                        FragmentHelper.setFragment(MainActivity.this, LessonListFragment.newInstance(), R.id.fragmentContainer);
-                        break;
-                    case 1:
-                        break;
-                    case 2:
+                        bottomNavigation.setVisibility(View.VISIBLE);
+                        Transaction.setFragment(MainActivity.this, LessonListFragment.newInstance(), R.id.fragmentContainer);
+                        return true;
+                    case R.id.lessonNavItem:
+                        Transaction.clearFragment(MainActivity.this, R.id.fragmentContainer);
+                        return true;
+                    case R.id.studentNavItem:
                         hideAllToolBarButtons();
-                        bottomNavigation.restoreBottomNavigation(true);
-                        FragmentHelper.setFragment(MainActivity.this, StudentListFragment.newInstance(), R.id.fragmentContainer);
-                        break;
-                    case 3:
-                        break;
-                    case 4:
-                        break;
-                    default: break;
+                        bottomNavigation.setVisibility(View.VISIBLE);
+                        Transaction.setFragment(MainActivity.this, StudentListFragment.newInstance(), R.id.fragmentContainer);
+                        return true;
+                    case R.id.submitItem:
+                        Transaction.clearFragment(MainActivity.this, R.id.fragmentContainer);
+                        return true;
+                    case R.id.settingsItem:
+                        Transaction.clearFragment(MainActivity.this, R.id.fragmentContainer);
+                        return true;
+                    default:
+                        return false;
                 }
-
-                return true;
             }
         });
     }
@@ -301,100 +210,4 @@ public class MainActivity extends AppCompatActivity implements
         cancelMenuItem.setVisible(true);
     }
 
-    public void createDemoData() {
-
-        Log.d("resetting DB", "blam!");
-
-        Realm realm = Realm.getDefaultInstance();
-        realm.executeTransaction(new Realm.Transaction() {
-            @Override
-            public void execute(Realm realm) {
-                realm.deleteAll();
-            }
-        });
-
-        for (int i = 0; i < 10; i++) {
-
-            final Student adult = new Student(
-                    "Adult",
-                    "Student" + ( i + 1),
-                    "555555555" + i,
-                    "Cell",
-                    "55555555" + i + "5",
-                    "Home",
-                    "adult-student" + i + "@mail.net",
-                    "Dasar 1",
-                    "Athletic Adventure Program");
-
-            realm.executeTransaction(new Realm.Transaction() {
-                @Override
-                public void execute(Realm realm) {
-                    realm.insert(adult);
-                }
-            });
-
-            final Student child = new Student(
-                    "Child",
-                    "Student" + ( i + 1),
-                    "555555555" + i,
-                    "Cell",
-                    "55555555" + i + "5",
-                    "Cell",
-                    "child-student" + i + "@mail.net",
-                    "White Belt",
-                    "Persilat Kids",
-                    "Parent1",
-                    "Student" + ( i + 1),
-                    "Mother",
-                    "Parent2",
-                    "Student" + ( i + 1),
-                    "Father");
-
-            realm.executeTransaction(new Realm.Transaction() {
-                @Override
-                public void execute(Realm realm) {
-                    realm.insert(child);
-                }
-            });
-
-
-
-        }
-
-
-
-        final RealmResults<Student> students = realm.where(Student.class).findAll();
-
-        for (final Student student : students) {
-            final Lesson lesson = new Lesson(
-                    student.getId(),
-                    student.getFirstName() + " " + student.getLastName(),
-                    new Date(),
-                    4f,
-                    "Good Job",
-                    true,true,false);
-
-            realm.executeTransaction(new Realm.Transaction() {
-                @Override
-                public void execute(Realm realm) {
-
-                    student.addLesson(lesson);
-                }
-            });
-        }
-
-        final Instructor instructor = new Instructor(
-                "Obi-wan",
-                "Kenobi",
-                "Jedi Master", "Mas", "0855378008", "sithsuckass@jediorder.org");
-
-        realm.executeTransaction(new Realm.Transaction() {
-            @Override
-            public void execute(Realm realm) {
-                realm.insert(instructor);
-            }
-        });
-
-        realm.close();
-    }
 }

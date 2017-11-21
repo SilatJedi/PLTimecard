@@ -1,7 +1,7 @@
-package com.silatsaktistudios.plmgr.DataLogic;
+package com.silatsaktistudios.plmgr.data;
 
-import com.silatsaktistudios.plmgr.Models.Lesson;
-import com.silatsaktistudios.plmgr.Models.Student;
+import com.silatsaktistudios.plmgr.model.Lesson;
+import com.silatsaktistudios.plmgr.model.Student;
 
 import java.util.List;
 

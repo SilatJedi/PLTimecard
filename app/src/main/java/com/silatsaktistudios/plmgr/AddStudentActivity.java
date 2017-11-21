@@ -10,8 +10,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.silatsaktistudios.plmgr.DataLogic.StudentData;
-import com.silatsaktistudios.plmgr.Models.Student;
+import com.silatsaktistudios.plmgr.data.StudentData;
+import com.silatsaktistudios.plmgr.model.Student;
 
 public class AddStudentActivity extends AppCompatActivity {
 

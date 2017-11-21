@@ -11,7 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.silatsaktistudios.plmgr.Models.Student;
+import com.silatsaktistudios.plmgr.model.Student;
 
 import io.realm.Realm;
 

@@ -4,7 +4,7 @@
               android:layout_height="match_parent"
               android:orientation="vertical"
               android:id="@+id/lessonDetailFragment"
-              tools:context="com.silatsaktistudios.plmgr.Fragments.LessonDetailFragment">
+              tools:context="com.silatsaktistudios.plmgr.fragment.LessonDetailFragment">
 
     <ScrollView
         android:id="@+id/lessonDetailView"

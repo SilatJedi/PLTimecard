@@ -9,6 +9,7 @@
         android:id="@+id/lessonSearchEditText"
         android:layout_width="match_parent"
         android:layout_height="40dp"
+        android:elevation="2dp"
         android:background="@color/windowBackground"
         android:gravity="center"
         android:inputType="textNoSuggestions"
@@ -28,11 +29,13 @@
     <android.support.design.widget.FloatingActionButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:elevation="2dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_marginBottom="25dp"
         android:layout_marginRight="25dp"
-        app:backgroundTint="@drawable/floating_action_button_bg"
+        app:backgroundTint="@color/colorAccent"
+        app:rippleColor="@color/translucentBlack"
         android:src="@drawable/plus"
         android:id="@+id/addLessonButton"/>
 
